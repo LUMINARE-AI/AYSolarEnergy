@@ -1,0 +1,161 @@
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, #003d82 100%);
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="1200" height="600" fill="url(%23grid)"/></svg>');
+  opacity: 0.5;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heroLayout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.heroLeft {
+  flex: 1;
+  text-align: left;
+}
+
+.heroRight {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.hero :global(h1) {
+  font-size: 1.8rem;
+  margin-bottom: 3px;
+  color: white !important;
+  text-align: left;
+}
+
+.hero :global(p) {
+  font-size: 0.8rem;
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-align: left;
+}
+
+.heroCta {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.btn {
+  font-size: 0.8rem;
+  padding: 8px 18px;
+  white-space: nowrap;
+}
+
+.btnPrimary {
+  background-color: var(--accent-gold);
+  color: var(--text-dark);
+}
+
+.btnPrimary:hover {
+  background-color: #ffb300;
+}
+
+.btnSecondary {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btnSecondary:hover {
+  background-color: white;
+  color: var(--primary-blue);
+}
+
+/* Page Hero (smaller) */
+.pageHero {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, #003d82 100%);
+  color: white;
+  padding: 30px 0;
+  text-align: center;
+}
+
+.pageHero :global(h1) {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #FFFFFF !important;
+}
+
+.pageHero :global(p) {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 30px 0;
+  }
+
+  .heroLayout {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .heroLeft {
+    width: 100%;
+  }
+
+  .heroRight {
+    text-align: center;
+    width: 100%;
+  }
+
+  .hero :global(h1) {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .hero :global(p) {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .heroCta {
+    justify-content: center;
+    flex-direction: row;
+  }
+
+  .btn {
+    width: auto;
+  }
+
+  .pageHero :global(h1) {
+    font-size: 1.8rem;
+  }
+}

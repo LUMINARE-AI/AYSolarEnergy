@@ -1,0 +1,134 @@
+/* Footer Styles */
+.footer {
+  background-color: var(--text-dark);
+  color: white;
+  padding: 40px 0 20px;
+  margin-top: 60px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footerContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.footerSection {
+  color: white;
+}
+
+.footerSection :global(h3) {
+  color: var(--accent-gold);
+  margin-bottom: 15px;
+}
+
+.footerSection :global(ul) {
+  list-style: none;
+}
+
+.footerSection :global(li) {
+  margin-bottom: 10px;
+}
+
+.footerSection :global(a) {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footerSection :global(a:hover) {
+  color: var(--accent-gold);
+}
+
+.footerContact {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footerContact :global(p) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.socialLinks :global(a) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary-blue);
+  border-radius: 50%;
+  color: white;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.socialLinks :global(a:hover) {
+  background-color: var(--accent-gold);
+  color: var(--text-dark);
+}
+
+.footerBottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  text-align: center;
+  color: #999;
+}
+
+.footerBottom :global(p) {
+  margin: 5px 0;
+}
+
+/* WhatsApp Button */
+.whatsappBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: var(--success-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+  z-index: 50;
+  text-decoration: none;
+}
+
+.whatsappBtn:hover {
+  transform: scale(1.1);
+  background-color: #1faa34;
+}
+
+@media (max-width: 768px) {
+  .footerContent {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .whatsappBtn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    bottom: 15px;
+    right: 15px;
+  }
+}
