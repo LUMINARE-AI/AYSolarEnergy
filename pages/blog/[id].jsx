@@ -15,7 +15,7 @@ export default function BlogPost({ post }) {
             <div style={{ textAlign: 'center', padding: '60px 0' }}>
               <h2>Sorry, this blog post could not be found.</h2>
               <p style={{ marginTop: '20px', marginBottom: '30px', color: '#666' }}>
-                The blog post you're looking for might have been removed or is temporarily unavailable.
+                The blog post you&apos;re looking for might have been removed or is temporarily unavailable.
               </p>
               <Link href="/blog" style={{
                 backgroundColor: '#0057B8',
@@ -91,7 +91,7 @@ export default function BlogPost({ post }) {
 
               <p>
                 This article provides detailed guidance on {post.title.toLowerCase()}. 
-                Whether you're a homeowner, business owner, or farmer, understanding these concepts 
+                Whether you&apos;re a homeowner, business owner, or farmer, understanding these concepts 
                 will help you make informed decisions about solar energy solutions.
               </p>
 
