@@ -1,4 +1,6 @@
 import Head from 'next/head';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Projects() {
   const projects = [
@@ -85,7 +87,7 @@ export default function Projects() {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
               }}>
-                <img src={project.image} alt={project.title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} onError={(e) => e.target.style.display = 'none'} />
+                <Image src={project.image} alt={project.title} width={300} height={200} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
                 <div style={{ padding: '20px' }}>
                   <h3 style={{ marginBottom: '15px', color: '#0057B8', fontSize: '1.2rem' }}>{project.title}</h3>
                   <div style={{ marginBottom: '10px', fontSize: '0.95rem' }}><strong>Customer:</strong> {project.customer}</div>
@@ -132,7 +134,7 @@ export default function Projects() {
           <p style={{ marginBottom: '30px', fontSize: '1.1rem', color: '#666' }}>
             Get a free consultation and quote for your solar installation
           </p>
-          <a href="/contact" style={{
+          <Link href="/contact" style={{
             backgroundColor: '#0057B8',
             color: 'white',
             padding: '14px 40px',
@@ -143,7 +145,7 @@ export default function Projects() {
             transition: 'all 0.3s ease'
           }} onMouseEnter={(e) => e.target.style.backgroundColor = '#003A8C'} onMouseLeave={(e) => e.target.style.backgroundColor = '#0057B8'}>
             Get Free Quote
-          </a>
+          </Link>
         </div>
       </section>
     </>

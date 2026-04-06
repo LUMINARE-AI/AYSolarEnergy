@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import Hero from '@/components/Hero';
 import HomeShowcase from '@/components/HomeShowcase';
 
@@ -242,27 +243,27 @@ export default function Home() {
           <h3 style={{ textAlign: 'center', margin: '2rem 0 1rem', color: '#0057B8', fontSize: '1.3rem' }}>Solar Panels</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '20px', marginBottom: '40px' }}>
             <div style={{ padding: '20px', backgroundColor: '#F4F7FB', borderRadius: '8px', textAlign: 'center', fontWeight: '600', color: '#333' }}>
-              <img src="/images/brands/adani-solar.PNG" alt="Adani Solar" style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} onError={(e) => e.target.style.display = 'none'} />
+              <Image src="/images/brands/adani-solar.PNG" alt="Adani Solar" width={150} height={60} style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} />
               <div style={{ marginTop: '10px' }}>Adani Solar</div>
             </div>
             <div style={{ padding: '20px', backgroundColor: '#F4F7FB', borderRadius: '8px', textAlign: 'center', fontWeight: '600', color: '#333' }}>
-              <img src="/images/brands/tata-power-solar.PNG" alt="Tata Power Solar" style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} onError={(e) => e.target.style.display = 'none'} />
+              <Image src="/images/brands/tata-power-solar.PNG" alt="Tata Power Solar" width={150} height={60} style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} />
               <div style={{ marginTop: '10px' }}>Tata Power Solar</div>
             </div>
             <div style={{ padding: '20px', backgroundColor: '#F4F7FB', borderRadius: '8px', textAlign: 'center', fontWeight: '600', color: '#333' }}>
-              <img src="/images/brands/vikram-solar.PNG" alt="Vikram Solar" style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} onError={(e) => e.target.style.display = 'none'} />
+              <Image src="/images/brands/vikram-solar.PNG" alt="Vikram Solar" width={150} height={60} style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} />
               <div style={{ marginTop: '10px' }}>Vikram Solar</div>
             </div>
             <div style={{ padding: '20px', backgroundColor: '#F4F7FB', borderRadius: '8px', textAlign: 'center', fontWeight: '600', color: '#333' }}>
-              <img src="/images/brands/rayzone-solar.PNG" alt="Rayzone Solar" style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} onError={(e) => e.target.style.display = 'none'} />
+              <Image src="/images/brands/rayzone-solar.PNG" alt="Rayzone Solar" width={150} height={60} style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} />
               <div style={{ marginTop: '10px' }}>Rayzone Solar</div>
             </div>
             <div style={{ padding: '20px', backgroundColor: '#F4F7FB', borderRadius: '8px', textAlign: 'center', fontWeight: '600', color: '#333' }}>
-              <img src="/images/brands/waree-solar.PNG" alt="Waree Solar" style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} onError={(e) => e.target.style.display = 'none'} />
+              <Image src="/images/brands/waree-solar.PNG" alt="Waree Solar" width={150} height={60} style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} />
               <div style={{ marginTop: '10px' }}>Waree Solar</div>
             </div>
             <div style={{ padding: '20px', backgroundColor: '#F4F7FB', borderRadius: '8px', textAlign: 'center', fontWeight: '600', color: '#333' }}>
-              <img src="/images/brands/luminous-solar.PNG" alt="Luminous Solar" style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} onError={(e) => e.target.style.display = 'none'} />
+              <Image src="/images/brands/luminous-solar.PNG" alt="Luminous Solar" width={150} height={60} style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} />
               <div style={{ marginTop: '10px' }}>Luminous Solar</div>
             </div>
           </div>
@@ -270,19 +271,19 @@ export default function Home() {
           <h3 style={{ textAlign: 'center', margin: '2rem 0 1rem', color: '#0057B8', fontSize: '1.3rem' }}>Inverters</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '20px' }}>
             <div style={{ padding: '20px', backgroundColor: '#F4F7FB', borderRadius: '8px', textAlign: 'center', fontWeight: '600', color: '#333' }}>
-              <img src="/images/brands/polycab.PNG" alt="Polycab" style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} onError={(e) => e.target.style.display = 'none'} />
+              <Image src="/images/brands/polycab.PNG" alt="Polycab" width={150} height={60} style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} />
               <div style={{ marginTop: '10px' }}>Polycab</div>
             </div>
             <div style={{ padding: '20px', backgroundColor: '#F4F7FB', borderRadius: '8px', textAlign: 'center', fontWeight: '600', color: '#333' }}>
-              <img src="/images/brands/genus.PNG" alt="Genus" style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} onError={(e) => e.target.style.display = 'none'} />
+              <Image src="/images/brands/genus.PNG" alt="Genus" width={150} height={60} style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} />
               <div style={{ marginTop: '10px' }}>Genus</div>
             </div>
             <div style={{ padding: '20px', backgroundColor: '#F4F7FB', borderRadius: '8px', textAlign: 'center', fontWeight: '600', color: '#333' }}>
-              <img src="/images/brands/sungrow.PNG" alt="SunGrow" style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} onError={(e) => e.target.style.display = 'none'} />
+              <Image src="/images/brands/sungrow.PNG" alt="SunGrow" width={150} height={60} style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} />
               <div style={{ marginTop: '10px' }}>SunGrow</div>
             </div>
             <div style={{ padding: '20px', backgroundColor: '#F4F7FB', borderRadius: '8px', textAlign: 'center', fontWeight: '600', color: '#333' }}>
-              <img src="/images/brands/k-solar.PNG" alt="K Solar" style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} onError={(e) => e.target.style.display = 'none'} />
+              <Image src="/images/brands/k-solar.PNG" alt="K Solar" width={150} height={60} style={{ maxWidth: '100%', height: '60px', objectFit: 'contain' }} />
               <div style={{ marginTop: '10px' }}>K Solar</div>
             </div>
           </div>
