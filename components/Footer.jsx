@@ -72,8 +72,8 @@ export default function Footer() {
           </div>
 
           <div className={styles.footerBottom}>
-            <p>&copy; 2024 AY Solar Energy. All rights reserved.</p>
-            <p>Powered by Next.js & Vercel</p>
+            <p>&copy; 2026 AY Solar Energy. All rights reserved.</p>
+            <p>Developed By LuminareAI</p>
           </div>
         </div>
       </footer>
