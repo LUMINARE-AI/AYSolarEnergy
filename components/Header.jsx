@@ -11,36 +11,19 @@ export default function Header() {
 
   return (
     <>
-      <div className={styles.topBar} style={!isHome ? { padding: '5px 0' } : {}}>
-        <div className={styles.container}>
-          <div className={styles.topBarContent} style={!isHome ? { fontSize: '0.8rem', gap: '15px' } : {}}>
-            <div className={styles.topBarLeft}>
-              <span>📞 {process.env.NEXT_PUBLIC_PHONE}</span>
-              <span>📧 {process.env.NEXT_PUBLIC_EMAIL}</span>
-            </div>
-            <div className={styles.topBarRight}>
-              <a href={process.env.NEXT_PUBLIC_WHATSAPP} target="_blank" rel="noopener noreferrer">
-                WhatsApp
-              </a>
-              <a href={`https://instagram.com/${process.env.NEXT_PUBLIC_INSTAGRAM}`} target="_blank" rel="noopener noreferrer">
-                Instagram
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <header className={styles.header} style={!isHome ? { padding: '8px 0' } : {}}>
+      <header className={styles.header}>
         <div className={styles.container}>
-          <div className={styles.headerContent} style={!isHome ? { padding: '8px 0' } : {}}>
+          <div className={styles.headerContent}>
             <Link href="/" className={styles.logo}>
-              <Image
-                src="/images/logo.PNG"
-                alt="AY Solar Energy Logo"
-                width={70}
-                height={70}
-                style={{ marginRight: '10px' }}
-              />
+              <span className={styles.logoImage}>
+                <Image
+                  src="/images/logo.PNG"
+                  alt="AY Solar Energy Logo"
+                  width={56}
+                  height={56}
+                />
+              </span>
               <span>AY Solar Energy</span>
             </Link>
 

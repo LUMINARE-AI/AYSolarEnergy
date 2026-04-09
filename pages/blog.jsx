@@ -1,74 +1,133 @@
 import Head from 'next/head';
+import { useState } from 'react';
+
+const initialBlogPosts = [
+  {
+    id: 1,
+    title: 'How to Maximize Your Solar Panel Efficiency',
+    excerpt: 'Learn the best practices to ensure your solar panels operate at peak efficiency throughout the year.',
+    date: 'March 15, 2024',
+    category: 'Solar Tips',
+    readTime: '5 min read',
+    image: ''
+  },
+  {
+    id: 2,
+    title: 'Understanding PM Suryaghar Yojana: Complete Guide',
+    excerpt: 'A comprehensive guide to India\'s biggest rooftop solar scheme and how to apply for maximum subsidy.',
+    date: 'March 10, 2024',
+    category: 'Government Schemes',
+    readTime: '8 min read',
+    image: ''
+  },
+  {
+    id: 3,
+    title: 'Solar vs Traditional Energy: Cost Comparison 2024',
+    excerpt: 'Detailed analysis of how solar energy compares to traditional electricity in terms of cost and efficiency.',
+    date: 'March 5, 2024',
+    category: 'Cost Analysis',
+    readTime: '6 min read',
+    image: ''
+  },
+  {
+    id: 4,
+    title: 'Net Metering Explained: Sell Your Excess Solar Power',
+    excerpt: 'Understand how net metering works and how you can earn money by selling surplus solar power to the grid.',
+    date: 'February 28, 2024',
+    category: 'Solar Technology',
+    readTime: '7 min read',
+    image: ''
+  },
+  {
+    id: 5,
+    title: 'PM KUSUM Yojana for Farmers: Everything You Need to Know',
+    excerpt: 'Complete guide to the PM KUSUM scheme for farmers in Rajasthan and how to get solar pumps with 90% subsidy.',
+    date: 'February 20, 2024',
+    category: 'Government Schemes',
+    readTime: '9 min read',
+    image: ''
+  },
+  {
+    id: 6,
+    title: 'Maintenance Tips for Your Solar Installation',
+    excerpt: 'Essential maintenance practices to keep your solar system running smoothly for 25+ years.',
+    date: 'February 15, 2024',
+    category: 'Maintenance',
+    readTime: '5 min read',
+    image: ''
+  },
+  {
+    id: 7,
+    title: 'Solar Panel Degradation: What You Should Know',
+    excerpt: 'Understanding how solar panels degrade over time and what you can do to minimize efficiency loss.',
+    date: 'February 10, 2024',
+    category: 'Solar Technology',
+    readTime: '6 min read',
+    image: ''
+  },
+  {
+    id: 8,
+    title: 'Financing Your Solar Installation: Loan Options in Rajasthan',
+    excerpt: 'Explore various financing options and loan schemes available for solar installations in Rajasthan.',
+    date: 'February 5, 2024',
+    category: 'Finance',
+    readTime: '7 min read',
+    image: ''
+  }
+];
+
+const initialCategories = ['All', 'Solar Tips', 'Government Schemes', 'Cost Analysis', 'Solar Technology', 'Maintenance', 'Finance'];
 
 export default function Blog() {
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'How to Maximize Your Solar Panel Efficiency',
-      excerpt: 'Learn the best practices to ensure your solar panels operate at peak efficiency throughout the year.',
-      date: 'March 15, 2024',
-      category: 'Solar Tips',
-      readTime: '5 min read'
-    },
-    {
-      id: 2,
-      title: 'Understanding PM Suryaghar Yojana: Complete Guide',
-      excerpt: 'A comprehensive guide to India\'s biggest rooftop solar scheme and how to apply for maximum subsidy.',
-      date: 'March 10, 2024',
-      category: 'Government Schemes',
-      readTime: '8 min read'
-    },
-    {
-      id: 3,
-      title: 'Solar vs Traditional Energy: Cost Comparison 2024',
-      excerpt: 'Detailed analysis of how solar energy compares to traditional electricity in terms of cost and efficiency.',
-      date: 'March 5, 2024',
-      category: 'Cost Analysis',
-      readTime: '6 min read'
-    },
-    {
-      id: 4,
-      title: 'Net Metering Explained: Sell Your Excess Solar Power',
-      excerpt: 'Understand how net metering works and how you can earn money by selling surplus solar power to the grid.',
-      date: 'February 28, 2024',
-      category: 'Solar Technology',
-      readTime: '7 min read'
-    },
-    {
-      id: 5,
-      title: 'PM KUSUM Yojana for Farmers: Everything You Need to Know',
-      excerpt: 'Complete guide to the PM KUSUM scheme for farmers in Rajasthan and how to get solar pumps with 90% subsidy.',
-      date: 'February 20, 2024',
-      category: 'Government Schemes',
-      readTime: '9 min read'
-    },
-    {
-      id: 6,
-      title: 'Maintenance Tips for Your Solar Installation',
-      excerpt: 'Essential maintenance practices to keep your solar system running smoothly for 25+ years.',
-      date: 'February 15, 2024',
-      category: 'Maintenance',
-      readTime: '5 min read'
-    },
-    {
-      id: 7,
-      title: 'Solar Panel Degradation: What You Should Know',
-      excerpt: 'Understanding how solar panels degrade over time and what you can do to minimize efficiency loss.',
-      date: 'February 10, 2024',
-      category: 'Solar Technology',
-      readTime: '6 min read'
-    },
-    {
-      id: 8,
-      title: 'Financing Your Solar Installation: Loan Options in Rajasthan',
-      excerpt: 'Explore various financing options and loan schemes available for solar installations in Rajasthan.',
-      date: 'February 5, 2024',
-      category: 'Finance',
-      readTime: '7 min read'
-    }
-  ];
+  const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
+  const [categories, setCategories] = useState(initialCategories);
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    title: '',
+    excerpt: '',
+    category: '',
+    image: '',
+    readTime: '5 min read'
+  });
 
-  const categories = ['All', 'Solar Tips', 'Government Schemes', 'Cost Analysis', 'Solar Technology', 'Maintenance', 'Finance'];
+  const filteredPosts = activeCategory === 'All'
+    ? blogPosts
+    : blogPosts.filter((post) => post.category === activeCategory);
+
+  const handleFormChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleAddBlog = (event) => {
+    event.preventDefault();
+    if (!formData.title.trim() || !formData.excerpt.trim()) {
+      return;
+    }
+
+    const category = formData.category.trim() || 'Uncategorized';
+    const newCategories = categories.includes(category) ? categories : [...categories, category];
+
+    const newPost = {
+      id: Date.now(),
+      title: formData.title,
+      excerpt: formData.excerpt,
+      date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+      category,
+      readTime: formData.readTime.trim() || '5 min read',
+      image: formData.image.trim()
+    };
+
+    setBlogPosts((prev) => [newPost, ...prev]);
+    setCategories(newCategories);
+    setFormData({ title: '', excerpt: '', category: '', image: '', readTime: '5 min read' });
+    setActiveCategory('All');
+    setShowForm(false);
+  };
+
+  const handleDeletePost = (postId) => {
+    setBlogPosts((prev) => prev.filter((post) => post.id !== postId));
+  };
 
   return (
     <>
@@ -78,52 +137,125 @@ export default function Blog() {
       </Head>
 
       {/* Page Header */}
-      <section style={{ padding: '40px 0', backgroundColor: '#0057B8', color: 'white', textAlign: 'center' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-          <h1 style={{ fontSize: '2.5rem', marginBottom: '10px', color: '#FFFFFF !important' }}>Solar Energy Blog</h1>
-          <p style={{ fontSize: '1.1rem', opacity: 0.9, color: '#FFFFFF !important' }}>Latest insights, tips, and guides about solar energy</p>
+      <section className="page-header">
+        <div className="container">
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>Solar Energy Blog</h1>
+          <p style={{ fontSize: '1.1rem', opacity: 0.9 }}>Latest insights, tips, and guides about solar energy</p>
         </div>
       </section>
 
       {/* Blog Content */}
       <section style={{ padding: '60px 0' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-          {/* Category Filter */}
-          <div style={{ marginBottom: '40px', display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                style={{
-                  padding: '8px 16px',
-                  borderRadius: '20px',
-                  border: cat === 'All' ? 'none' : '1px solid #ddd',
-                  backgroundColor: cat === 'All' ? '#0057B8' : 'white',
-                  color: cat === 'All' ? 'white' : '#333',
-                  cursor: 'pointer',
-                  fontWeight: '500',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  if (cat !== 'All') {
-                    e.target.style.backgroundColor = '#F4F7FB';
-                    e.target.style.borderColor = '#0057B8';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (cat !== 'All') {
-                    e.target.style.backgroundColor = 'white';
-                    e.target.style.borderColor = '#ddd';
-                  }
-                }}
-              >
-                {cat}
-              </button>
-            ))}
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px', marginBottom: '40px', alignItems: 'center' }}>
+            {/* Category Filter */}
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveCategory(cat)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '20px',
+                    border: cat === activeCategory ? 'none' : '1px solid #ddd',
+                    backgroundColor: cat === activeCategory ? '#0057B8' : 'white',
+                    color: cat === activeCategory ? 'white' : '#333',
+                    cursor: 'pointer',
+                    fontWeight: '500',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowForm((prev) => !prev)}
+              style={{
+                padding: '10px 20px',
+                borderRadius: '8px',
+                border: 'none',
+                backgroundColor: '#0057B8',
+                color: 'white',
+                cursor: 'pointer',
+                fontWeight: '600',
+                transition: 'background-color 0.3s ease'
+              }}
+              onMouseEnter={(e) => { e.target.style.backgroundColor = '#003A8C'; }}
+              onMouseLeave={(e) => { e.target.style.backgroundColor = '#0057B8'; }}
+            >
+              {showForm ? 'Cancel' : 'Add New Blog'}
+            </button>
           </div>
+
+          {showForm && (
+            <div style={{ marginBottom: '40px', padding: '30px', borderRadius: '12px', backgroundColor: 'white', boxShadow: '0 2px 16px rgba(0,0,0,0.08)' }}>
+              <h2 style={{ marginBottom: '20px', color: '#003A8C' }}>Add New Blog Post</h2>
+              <form onSubmit={handleAddBlog} style={{ display: 'grid', gap: '16px' }}>
+                <input
+                  type="text"
+                  placeholder="Heading"
+                  value={formData.title}
+                  onChange={(e) => handleFormChange('title', e.target.value)}
+                  style={{ padding: '12px 16px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem' }}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Category"
+                  value={formData.category}
+                  onChange={(e) => handleFormChange('category', e.target.value)}
+                  style={{ padding: '12px 16px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem' }}
+                />
+                <input
+                  type="text"
+                  placeholder="Image URL"
+                  value={formData.image}
+                  onChange={(e) => handleFormChange('image', e.target.value)}
+                  style={{ padding: '12px 16px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem' }}
+                />
+                <textarea
+                  rows="5"
+                  placeholder="Content / Excerpt"
+                  value={formData.excerpt}
+                  onChange={(e) => handleFormChange('excerpt', e.target.value)}
+                  style={{ padding: '12px 16px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem', resize: 'vertical' }}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Read time (e.g. 5 min read)"
+                  value={formData.readTime}
+                  onChange={(e) => handleFormChange('readTime', e.target.value)}
+                  style={{ padding: '12px 16px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem' }}
+                />
+                <button
+                  type="submit"
+                  style={{
+                    padding: '14px 20px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    backgroundColor: '#0057B8',
+                    color: 'white',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => { e.target.style.backgroundColor = '#003A8C'; }}
+                  onMouseLeave={(e) => { e.target.style.backgroundColor = '#0057B8'; }}
+                >
+                  Save Blog Post
+                </button>
+              </form>
+            </div>
+          )}
 
           {/* Blog Posts Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px', marginBottom: '60px' }}>
-            {blogPosts.map((post) => (
+            {filteredPosts.map((post) => (
               <article
                 key={post.id}
                 style={{
@@ -145,22 +277,29 @@ export default function Blog() {
                   e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
                 }}
               >
-                {/* Featured Image Placeholder */}
+                {/* Featured Image */}
                 <div style={{
                   height: '200px',
                   backgroundColor: '#F4F7FB',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '3rem',
-                  color: '#0057B8'
+                  overflow: 'hidden'
                 }}>
-                  📰
+                  {post.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <span style={{ fontSize: '3rem', color: '#0057B8' }}>📰</span>
+                  )}
                 </div>
 
                 {/* Content */}
                 <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  {/* Category Badge */}
                   <div style={{
                     display: 'inline-block',
                     backgroundColor: '#E3F2FD',
@@ -175,7 +314,6 @@ export default function Blog() {
                     {post.category}
                   </div>
 
-                  {/* Title */}
                   <a href={`/blog/${post.id}`} style={{ textDecoration: 'none' }}>
                     <h3 style={{
                       fontSize: '1.2rem',
@@ -184,12 +322,11 @@ export default function Blog() {
                       marginBottom: '10px',
                       lineHeight: '1.4',
                       cursor: 'pointer'
-                    }} onMouseEnter={(e) => e.target.style.color = '#0057B8'} onMouseLeave={(e) => e.target.style.color = '#003A8C'}>
+                    }} onMouseEnter={(e) => { e.target.style.color = '#0057B8'; }} onMouseLeave={(e) => { e.target.style.color = '#003A8C'; }}>
                       {post.title}
                     </h3>
                   </a>
 
-                  {/* Excerpt */}
                   <p style={{
                     color: '#666',
                     fontSize: '0.95rem',
@@ -200,7 +337,6 @@ export default function Blog() {
                     {post.excerpt}
                   </p>
 
-                  {/* Meta Info */}
                   <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -214,16 +350,38 @@ export default function Blog() {
                     <span>{post.readTime}</span>
                   </div>
 
-                  {/* Read More Link */}
-                  <a href={`/blog/${post.id}`} style={{
-                    marginTop: '15px',
-                    color: '#0057B8',
-                    fontWeight: '600',
-                    textDecoration: 'none',
-                    display: 'inline-block'
-                  }} onMouseEnter={(e) => e.target.style.color = '#003A8C'} onMouseLeave={(e) => e.target.style.color = '#0057B8'}>
-                    Read More →
-                  </a>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '15px' }}>
+                    <a href={`/blog/${post.id}`} style={{
+                      color: '#0057B8',
+                      fontWeight: '600',
+                      textDecoration: 'none',
+                      display: 'inline-block'
+                    }} onMouseEnter={(e) => { e.target.style.color = '#003A8C'; }} onMouseLeave={(e) => { e.target.style.color = '#0057B8'; }}>
+                      Read More →
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => handleDeletePost(post.id)}
+                      style={{
+                        padding: '8px 10px',
+                        borderRadius: '8px',
+                        border: '1px solid #E53935',
+                        backgroundColor: 'white',
+                        color: '#E53935',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => { e.target.style.backgroundColor = '#E53935'; e.target.style.color = 'white'; }}
+                      onMouseLeave={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.color = '#E53935'; }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: '0' }}>
+                        <path d="M3 6h18v2H3V6zm2 3h14l-1.5 12.5c-.1.8-.8 1.5-1.6 1.5H8.1c-.8 0-1.5-.7-1.6-1.5L5 9zm5 2v8h2v-8H10zm4 0v8h2v-8h-2zM9 4V2h6v2h5v2H4V4h5z" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </article>
             ))}
@@ -262,7 +420,7 @@ export default function Blog() {
                 fontWeight: '600',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease'
-              }} onMouseEnter={(e) => e.target.style.backgroundColor = '#003A8C'} onMouseLeave={(e) => e.target.style.backgroundColor = '#0057B8'}>
+              }} onMouseEnter={(e) => { e.target.style.backgroundColor = '#003A8C'; }} onMouseLeave={(e) => { e.target.style.backgroundColor = '#0057B8'; }}>
                 Subscribe
               </button>
             </div>

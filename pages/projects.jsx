@@ -68,10 +68,10 @@ export default function Projects() {
       </Head>
 
       {/* Page Header */}
-      <section style={{ padding: '40px 0', backgroundColor: '#0057B8', color: 'white', textAlign: 'center' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-          <h1 style={{ fontSize: '2.5rem', marginBottom: '10px', color: '#FFFFFF !important' }}>Our Completed Projects</h1>
-          <p style={{ fontSize: '1.1rem', opacity: 0.9, color: '#FFFFFF !important' }}>Real installations from satisfied customers across Rajasthan</p>
+      <section className="page-header">
+        <div className="container">
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>Our Completed Projects</h1>
+          <p style={{ fontSize: '1.1rem', opacity: 0.9 }}>Real installations from satisfied customers across Rajasthan</p>
         </div>
       </section>
 

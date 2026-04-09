@@ -73,7 +73,7 @@ export default function About() {
           </div>
           <div style={styles.stats}>
             <div style={{ ...styles.stat, backgroundColor: '#E3F2FD', borderRadius: '8px', padding: '30px' }}>
-              <div style={styles.statNumber}>500+</div>
+              <div style={styles.statNumber}>200+</div>
               <div style={{ fontSize: '1.1rem', color: '#555' }}>Projects Completed</div>
               <p style={{ fontSize: '0.9rem', color: '#999', marginTop: '10px' }}>Across Jaipur & Tonk</p>
             </div>
@@ -88,7 +88,7 @@ export default function About() {
               <p style={{ fontSize: '0.9rem', color: '#999', marginTop: '10px' }}>Industry expertise</p>
             </div>
             <div style={{ ...styles.stat, backgroundColor: '#E3F2FD', borderRadius: '8px', padding: '30px' }}>
-              <div style={styles.statNumber}>₹5 Cr+</div>
+              <div style={styles.statNumber}>₹1 Cr+</div>
               <div style={{ fontSize: '1.1rem', color: '#555' }}>Customer Savings</div>
               <p style={{ fontSize: '0.9rem', color: '#999', marginTop: '10px' }}>Annual electricity savings</p>
             </div>
