@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/next-script-for-ga */
 import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
@@ -5,12 +6,17 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        {/* Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@600;700&display=swap"
+          rel="stylesheet"
+        />
+
+        {/* Custom Global Fix */}
         <style>{`
-          /* Force white text on all blue backgrounds */
           [style*="backgroundColor: #0057B8"] h1,
           [style*="backgroundColor: #0057B8"] h2,
           [style*="backgroundColor: #0057B8"] h3,
@@ -33,6 +39,7 @@ export default function Document() {
           }
         `}</style>
       </Head>
+
       <body>
         <Main />
         <NextScript />
