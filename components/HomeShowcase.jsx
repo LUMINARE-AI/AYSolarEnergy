@@ -15,10 +15,8 @@ export default function HomeShowcase() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Auto-switch panels every 5 seconds (no scroll)
+  // Auto-switch panels every 5 seconds (works on both mobile and desktop)
   useEffect(() => {
-    if (isMobile) return;
-
     const startAutoSwitch = () => {
       autoSwitchTimerRef.current = setInterval(() => {
         setActivePanel((prev) => (prev + 1) % 3);
@@ -32,7 +30,7 @@ export default function HomeShowcase() {
         clearInterval(autoSwitchTimerRef.current);
       }
     };
-  }, [isMobile]);
+  }, []);
 
   const handleDotClick = (index) => {
     setActivePanel(index);
@@ -288,16 +286,16 @@ export default function HomeShowcase() {
         }}>
           {/* Right Visual */}
           <div style={{
-            flex: isMobile ? '0 0 180px' : '1',
+            flex: isMobile ? '0 0 220px' : '1',
             backgroundColor: currentPanel.bgColor,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: isMobile ? '15px' : '25px',
-            height: isMobile ? '180px' : 'calc(100vh - 260px)',
+            padding: isMobile ? '20px' : '25px',
+            height: isMobile ? '220px' : 'calc(100vh - 260px)',
             animation: 'fadeSlide 0.5s ease-out'
           }}>
-            <div style={{ transform: 'scale(0.75)' }}>
+            <div style={{ transform: isMobile ? 'scale(0.85)' : 'scale(0.75)' }}>
               {currentPanel.visual}
             </div>
           </div>
@@ -440,37 +438,35 @@ export default function HomeShowcase() {
         </div>
 
         {/* Navigation Dots */}
-        {!isMobile && (
-          <div style={{
-            position: 'relative',
-            padding: '15px 0',
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '15px',
-            justifyContent: 'center',
-            backgroundColor: '#f9f9f9',
-            borderTop: '1px solid #eee'
-          }}>
-            {[0, 1, 2].map((i) => (
-              <button
-                key={i}
-                onClick={() => handleDotClick(i)}
-                style={{
-                  width: activePanel === i ? '14px' : '10px',
-                  height: activePanel === i ? '14px' : '10px',
-                  borderRadius: '50%',
-                  border: 'none',
-                  cursor: 'pointer',
-                  backgroundColor: i === 0 || i === 1 ? '#0057B8' : '#2E7D32',
-                  opacity: activePanel === i ? 1 : 0.5,
-                  transition: 'all 0.3s ease',
-                  boxShadow: activePanel === i ? '0 0 10px rgba(0, 87, 184, 0.5)' : 'none'
-                }}
-                aria-label={`Go to panel ${i + 1}`}
-              />
-            ))}
-          </div>
-        )}
+        <div style={{
+          position: 'relative',
+          padding: isMobile ? '12px 0' : '15px 0',
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '15px',
+          justifyContent: 'center',
+          backgroundColor: '#f9f9f9',
+          borderTop: '1px solid #eee'
+        }}>
+          {[0, 1, 2].map((i) => (
+            <button
+              key={i}
+              onClick={() => handleDotClick(i)}
+              style={{
+                width: activePanel === i ? (isMobile ? '12px' : '14px') : (isMobile ? '8px' : '10px'),
+                height: activePanel === i ? (isMobile ? '12px' : '14px') : (isMobile ? '8px' : '10px'),
+                borderRadius: '50%',
+                border: 'none',
+                cursor: 'pointer',
+                backgroundColor: i === 0 || i === 1 ? '#0057B8' : '#2E7D32',
+                opacity: activePanel === i ? 1 : 0.5,
+                transition: 'all 0.3s ease',
+                boxShadow: activePanel === i ? '0 0 10px rgba(0, 87, 184, 0.5)' : 'none'
+              }}
+              aria-label={`Go to panel ${i + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
