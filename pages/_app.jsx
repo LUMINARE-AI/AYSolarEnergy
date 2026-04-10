@@ -3,10 +3,13 @@ import "../styles/surya.css";
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Script from "next/script";
+import SEO from '../next-seo.config';
+import { DefaultSeo } from 'next-seo';
 
 export default function App({ Component, pageProps }) {
   return (
     <>
+      <DefaultSeo {...SEO} />
       {/* Google Analytics */}
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-LCPB5SB48B"

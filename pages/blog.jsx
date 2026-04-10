@@ -79,55 +79,13 @@ const initialBlogPosts = [
 const initialCategories = ['All', 'Solar Tips', 'Government Schemes', 'Cost Analysis', 'Solar Technology', 'Maintenance', 'Finance'];
 
 export default function Blog() {
-  const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
-  const [categories, setCategories] = useState(initialCategories);
+  const blogPosts = initialBlogPosts;
+  const categories = initialCategories;
   const [activeCategory, setActiveCategory] = useState('All');
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    title: '',
-    excerpt: '',
-    category: '',
-    image: '',
-    readTime: '5 min read'
-  });
 
   const filteredPosts = activeCategory === 'All'
     ? blogPosts
     : blogPosts.filter((post) => post.category === activeCategory);
-
-  const handleFormChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleAddBlog = (event) => {
-    event.preventDefault();
-    if (!formData.title.trim() || !formData.excerpt.trim()) {
-      return;
-    }
-
-    const category = formData.category.trim() || 'Uncategorized';
-    const newCategories = categories.includes(category) ? categories : [...categories, category];
-
-    const newPost = {
-      id: Date.now(),
-      title: formData.title,
-      excerpt: formData.excerpt,
-      date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-      category,
-      readTime: formData.readTime.trim() || '5 min read',
-      image: formData.image.trim()
-    };
-
-    setBlogPosts((prev) => [newPost, ...prev]);
-    setCategories(newCategories);
-    setFormData({ title: '', excerpt: '', category: '', image: '', readTime: '5 min read' });
-    setActiveCategory('All');
-    setShowForm(false);
-  };
-
-  const handleDeletePost = (postId) => {
-    setBlogPosts((prev) => prev.filter((post) => post.id !== postId));
-  };
 
   return (
     <>
@@ -170,88 +128,7 @@ export default function Blog() {
                 </button>
               ))}
             </div>
-
-            <button
-              type="button"
-              onClick={() => setShowForm((prev) => !prev)}
-              style={{
-                padding: '10px 20px',
-                borderRadius: '8px',
-                border: 'none',
-                backgroundColor: '#0057B8',
-                color: 'white',
-                cursor: 'pointer',
-                fontWeight: '600',
-                transition: 'background-color 0.3s ease'
-              }}
-              onMouseEnter={(e) => { e.target.style.backgroundColor = '#003A8C'; }}
-              onMouseLeave={(e) => { e.target.style.backgroundColor = '#0057B8'; }}
-            >
-              {showForm ? 'Cancel' : 'Add New Blog'}
-            </button>
           </div>
-
-          {showForm && (
-            <div style={{ marginBottom: '40px', padding: '30px', borderRadius: '12px', backgroundColor: 'white', boxShadow: '0 2px 16px rgba(0,0,0,0.08)' }}>
-              <h2 style={{ marginBottom: '20px', color: '#003A8C' }}>Add New Blog Post</h2>
-              <form onSubmit={handleAddBlog} style={{ display: 'grid', gap: '16px' }}>
-                <input
-                  type="text"
-                  placeholder="Heading"
-                  value={formData.title}
-                  onChange={(e) => handleFormChange('title', e.target.value)}
-                  style={{ padding: '12px 16px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem' }}
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="Category"
-                  value={formData.category}
-                  onChange={(e) => handleFormChange('category', e.target.value)}
-                  style={{ padding: '12px 16px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem' }}
-                />
-                <input
-                  type="text"
-                  placeholder="Image URL"
-                  value={formData.image}
-                  onChange={(e) => handleFormChange('image', e.target.value)}
-                  style={{ padding: '12px 16px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem' }}
-                />
-                <textarea
-                  rows="5"
-                  placeholder="Content / Excerpt"
-                  value={formData.excerpt}
-                  onChange={(e) => handleFormChange('excerpt', e.target.value)}
-                  style={{ padding: '12px 16px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem', resize: 'vertical' }}
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="Read time (e.g. 5 min read)"
-                  value={formData.readTime}
-                  onChange={(e) => handleFormChange('readTime', e.target.value)}
-                  style={{ padding: '12px 16px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem' }}
-                />
-                <button
-                  type="submit"
-                  style={{
-                    padding: '14px 20px',
-                    borderRadius: '8px',
-                    border: 'none',
-                    backgroundColor: '#0057B8',
-                    color: 'white',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => { e.target.style.backgroundColor = '#003A8C'; }}
-                  onMouseLeave={(e) => { e.target.style.backgroundColor = '#0057B8'; }}
-                >
-                  Save Blog Post
-                </button>
-              </form>
-            </div>
-          )}
 
           {/* Blog Posts Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px', marginBottom: '60px' }}>
@@ -359,28 +236,6 @@ export default function Blog() {
                     }} onMouseEnter={(e) => { e.target.style.color = '#003A8C'; }} onMouseLeave={(e) => { e.target.style.color = '#0057B8'; }}>
                       Read More →
                     </a>
-                    <button
-                      type="button"
-                      onClick={() => handleDeletePost(post.id)}
-                      style={{
-                        padding: '8px 10px',
-                        borderRadius: '8px',
-                        border: '1px solid #E53935',
-                        backgroundColor: 'white',
-                        color: '#E53935',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease'
-                      }}
-                      onMouseEnter={(e) => { e.target.style.backgroundColor = '#E53935'; e.target.style.color = 'white'; }}
-                      onMouseLeave={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.color = '#E53935'; }}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: '0' }}>
-                        <path d="M3 6h18v2H3V6zm2 3h14l-1.5 12.5c-.1.8-.8 1.5-1.6 1.5H8.1c-.8 0-1.5-.7-1.6-1.5L5 9zm5 2v8h2v-8H10zm4 0v8h2v-8h-2zM9 4V2h6v2h5v2H4V4h5z" />
-                      </svg>
-                    </button>
                   </div>
                 </div>
               </article>
