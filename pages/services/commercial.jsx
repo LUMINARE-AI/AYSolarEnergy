@@ -1,6 +1,6 @@
-import Head from 'next/head';
-import Hero from '@/components/Hero';
-import { NextSeo } from 'next-seo';
+import Hero from "@/components/Hero";
+import { NextSeo } from "next-seo";
+import Link from "next/link";
 
 export default function Commercial() {
   return (
@@ -9,16 +9,26 @@ export default function Commercial() {
         title="Commercial & Industrial Solar - AY Solar Energy"
         description="Large-scale solar solutions for businesses and industries"
       />
-      <Head>
-        <title>Commercial & Industrial Solar - AY Solar Energy</title>
-        <meta name="description" content="Large-scale solar solutions for businesses and industries" />
-      </Head>
 
-      <Hero title="Commercial & Industrial Solar" subtitle="Large-Scale Solar Solutions" pageHero={true} />
+      <Hero
+        title="Commercial Solar Installation in Jaipur & Tonk"
+        subtitle="Industrial Solar Solutions for Businesses"
+        pageHero={true}
+      />
+
+      <p
+        style={{ textAlign: "center", maxWidth: "800px", margin: "20px auto" }}
+      >
+        AY Solar Energy provides commercial solar installation in Jaipur and
+        Tonk for offices, factories, schools, and industries. Reduce electricity
+        costs by up to 80% with high-efficiency solar systems.
+      </p>
 
       <section className="section">
         <div className="container">
-          <h2 style={{ marginBottom: '30px', textAlign: 'center' }}>Applications</h2>
+          <h2 style={{ marginBottom: "30px", textAlign: "center" }}>
+            Commercial Solar Applications in Jaipur
+          </h2>
           <div style={styles.applications}>
             <div style={styles.app}>
               <h4>🏢 Office Buildings</h4>
@@ -48,9 +58,11 @@ export default function Commercial() {
         </div>
       </section>
 
-      <section className="section" style={{ backgroundColor: '#F4F7FB' }}>
+      <section className="section" style={{ backgroundColor: "#F4F7FB" }}>
         <div className="container">
-          <h2 style={{ marginBottom: '30px', textAlign: 'center' }}>Key Benefits</h2>
+          <h2 style={{ marginBottom: "30px", textAlign: "center" }}>
+            Benefits of Commercial Solar Installation
+          </h2>
           <div style={styles.benefits}>
             <div style={styles.benefit}>
               <div style={styles.benefitIcon}>💰</div>
@@ -78,7 +90,9 @@ export default function Commercial() {
 
       <section className="section">
         <div className="container">
-          <h2 style={{ marginBottom: '30px', textAlign: 'center' }}>Our Process</h2>
+          <h2 style={{ marginBottom: "30px", textAlign: "center" }}>
+            Our Solar Installation Process in Rajasthan
+          </h2>
           <div style={styles.process}>
             <div style={styles.step}>
               <div style={styles.stepNum}>1</div>
@@ -112,6 +126,26 @@ export default function Commercial() {
             </div>
           </div>
         </div>
+        <div style={{ textAlign: "center", marginTop: "30px" }}>
+          <Link href="/services/residential">Residential Solar</Link> |
+          <Link href="/pm-suryaghar">Solar Subsidy Yojana</Link> |
+          <Link href="/finance">Solar EMI Options</Link>
+        </div>
+        <div style={{ textAlign: "center", marginTop: "40px" }}>
+          <h3 style={{ marginBottom: "20px" }}>Get Commercial Solar Installation Quote in Jaipur</h3>
+          <Link
+            href="/contact"
+            style={{
+              backgroundColor: "#0057B8",
+              color: "white",
+              padding: "12px 30px",
+              borderRadius: "5px",
+              textDecoration: "none",
+            }}
+          >
+            Get Free Quote →
+          </Link>
+        </div>
       </section>
     </>
   );
@@ -119,44 +153,44 @@ export default function Commercial() {
 
 const styles = {
   applications: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '20px',
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gap: "20px",
   },
   app: {
-    padding: '20px',
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+    padding: "20px",
+    backgroundColor: "white",
+    borderRadius: "8px",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
   },
   benefits: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '30px',
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gap: "30px",
   },
   benefit: {
-    textAlign: 'center',
-    padding: '20px',
+    textAlign: "center",
+    padding: "20px",
   },
   benefitIcon: {
-    fontSize: '2.5rem',
-    marginBottom: '10px',
+    fontSize: "2.5rem",
+    marginBottom: "10px",
   },
   process: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-    gap: '20px',
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+    gap: "20px",
   },
   step: {
-    textAlign: 'center',
-    padding: '20px',
-    backgroundColor: '#F4F7FB',
-    borderRadius: '8px',
+    textAlign: "center",
+    padding: "20px",
+    backgroundColor: "#F4F7FB",
+    borderRadius: "8px",
   },
   stepNum: {
-    fontSize: '2rem',
-    fontWeight: '700',
-    color: 'var(--primary-blue)',
-    marginBottom: '10px',
+    fontSize: "2rem",
+    fontWeight: "700",
+    color: "var(--primary-blue)",
+    marginBottom: "10px",
   },
 };

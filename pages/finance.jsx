@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import Link from 'next/link';
 import Hero from '@/components/Hero';
 import { NextSeo } from 'next-seo';
@@ -10,11 +9,6 @@ export default function Finance() {
         title="Solar Finance & EMI Options - AY Solar Energy"
         description="Easy financing options and EMI calculator for solar installations"
       />
-
-      <Head>
-        <title>Solar Finance & EMI Options - AY Solar Energy</title>
-        <meta name="description" content="Easy financing options and EMI calculator for solar installations" />
-      </Head>
 
       <Hero title="Finance & Subsidy" subtitle="Affordable Solar Solutions" pageHero={true} />
 
@@ -122,11 +116,11 @@ function EMICalculator() {
   return (
     <div style={styles.calculator}>
       <div style={styles.calcInput}>
-        <label>System Cost: ₹{systemCost.toLocaleString()}</label>
+        <label>System Cost: ₹{systemCost.toLocaleString("en-IN")}</label>
         <input type="range" min="50000" max="500000" step="10000" value={systemCost} onChange={(e) => setSystemCost(Number(e.target.value))} />
       </div>
       <div style={styles.calcInput}>
-        <label>Subsidy: ₹{subsidy.toLocaleString()}</label>
+        <label>Subsidy: ₹{subsidy.toLocaleString("en-IN")}</label>
         <input type="range" min="0" max="100000" step="10000" value={subsidy} onChange={(e) => setSubsidy(Number(e.target.value))} />
       </div>
       <div style={styles.calcInput}>
@@ -138,9 +132,9 @@ function EMICalculator() {
         <input type="range" min="3" max="10" step="1" value={years} onChange={(e) => setYears(Number(e.target.value))} />
       </div>
       <div style={styles.calcResult}>
-        <div>Your Investment: ₹{principal.toLocaleString()}</div>
+        <div>Your Investment: ₹{principal.toLocaleString("en-IN")}</div>
         <div style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--primary-blue)' }}>
-          Monthly EMI: ₹{Math.round(emi).toLocaleString()}
+          Monthly EMI: ₹{Math.round(emi).toLocaleString("en-IN")}
         </div>
       </div>
     </div>

@@ -1,22 +1,29 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import Hero from '@/components/Hero';
-import ServiceCard from '@/components/ServiceCard';
-import { NextSeo } from 'next-seo';
+import Link from "next/link";
+import Hero from "@/components/Hero";
+import ServiceCard from "@/components/ServiceCard";
+import { NextSeo } from "next-seo";
 
 export default function Services() {
   return (
     <>
       <NextSeo
-        title="Solar Services - AY Solar Energy"
-        description="Residential, commercial, and government scheme solar installations"
+        title="Solar Installation Services Jaipur & Tonk - Rooftop, Commercial, PM Schemes"
+        description="Complete solar installation services in Jaipur & Tonk including residential rooftop solar, commercial systems, PM Suryaghar and Kusum Yojana. Get free consultation."
       />
-      <Head>
-        <title>Solar Services - AY Solar Energy</title>
-        <meta name="description" content="Residential, commercial, and government scheme solar installations" />
-      </Head>
 
-      <Hero title="Our Services" subtitle="Complete Solar Solutions" pageHero={true} />
+      <Hero
+        title="Solar Installation Services in Jaipur & Tonk"
+        subtitle="Residential, Commercial & Government Solar Solutions"
+        pageHero={true}
+      />
+
+      <p
+        style={{ textAlign: "center", maxWidth: "800px", margin: "20px auto" }}
+      >
+        AY Solar Energy provides complete solar installation services in Jaipur
+        and Tonk including home rooftop solar, commercial solar systems, and
+        government schemes like PM Suryaghar and KUSUM Yojana.
+      </p>
 
       <section style={styles.section}>
         <div style={styles.container}>
@@ -24,34 +31,36 @@ export default function Services() {
             <ServiceCard
               icon="🏠"
               title="Residential Rooftop Solar"
-              description="Solar systems for homes with flexible sizes from 1kW to 10kW"
+              description="Home solar panel installation in Jaipur with 1kW–10kW rooftop systems and subsidy benefits"
               link="/services/residential"
             />
             <ServiceCard
               icon="🏭"
               title="Commercial & Industrial"
-              description="Large-scale solar solutions for businesses and industries"
+              description="Commercial solar installation in Jaipur for industries, offices and factories with high ROI"
               link="/services/commercial"
             />
             <ServiceCard
               icon="🌾"
               title="PM Kusum Yojana"
-              description="Government scheme for farmers and agricultural use"
+              description="PM KUSUM Yojana solar pumps for farmers in Rajasthan with up to 90% subsidy"
               link="/services/kusum"
             />
             <ServiceCard
               icon="💳"
               title="Finance & Subsidy"
-              description="Easy EMI options and government subsidy assistance"
+              description="Easy financing options and EMI calculator for solar installations in Jaipur"
               link="/finance"
             />
           </div>
         </div>
       </section>
 
-      <section style={{ ...styles.section, backgroundColor: '#F4F7FB' }}>
+      <section style={{ ...styles.section, backgroundColor: "#F4F7FB" }}>
         <div style={styles.container}>
-          <h2 style={{ textAlign: 'center', marginBottom: '40px' }}>Why Choose Our Services?</h2>
+          <h2 style={{ textAlign: "center", marginBottom: "40px" }}>
+            Why Choose Our Solar Installation Services in Jaipur & Tonk?
+          </h2>
           <div style={styles.features}>
             <div style={styles.feature}>
               <div style={styles.featureIcon}>✓</div>
@@ -87,6 +96,12 @@ export default function Services() {
             </Link>
           </div>
         </div>
+
+        <div style={{ textAlign: "center", marginTop: "30px" }}>
+          <Link href="/pm-suryaghar">PM Suryaghar Subsidy</Link> |
+          <Link href="/services/residential">Home Solar</Link> |
+          <Link href="/services/commercial">Commercial Solar</Link>
+        </div>
       </section>
     </>
   );
@@ -94,28 +109,28 @@ export default function Services() {
 
 const styles = {
   grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '30px',
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gap: "30px",
   },
   features: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '30px',
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gap: "30px",
   },
   feature: {
-    textAlign: 'center',
-    padding: '20px',
+    textAlign: "center",
+    padding: "20px",
   },
   featureIcon: {
-    fontSize: '2rem',
-    color: 'var(--primary-blue)',
-    marginBottom: '10px',
+    fontSize: "2rem",
+    color: "var(--primary-blue)",
+    marginBottom: "10px",
   },
   cta: {
-    textAlign: 'center',
-    padding: '40px',
-    backgroundColor: '#F4F7FB',
-    borderRadius: '8px',
+    textAlign: "center",
+    padding: "40px",
+    backgroundColor: "#F4F7FB",
+    borderRadius: "8px",
   },
 };
