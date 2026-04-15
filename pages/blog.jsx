@@ -9,8 +9,7 @@ const initialBlogPosts = [
     excerpt: 'Learn the best practices to ensure your solar panels operate at peak efficiency throughout the year.',
     date: 'March 15, 2024',
     category: 'Solar Tips',
-    readTime: '5 min read',
-    image: ''
+    readTime: '5 min read'
   },
   {
     id: 2,
@@ -18,8 +17,7 @@ const initialBlogPosts = [
     excerpt: 'A comprehensive guide to India\'s biggest rooftop solar scheme and how to apply for maximum subsidy.',
     date: 'March 10, 2024',
     category: 'Government Schemes',
-    readTime: '8 min read',
-    image: ''
+    readTime: '8 min read'
   },
   {
     id: 3,
@@ -27,8 +25,7 @@ const initialBlogPosts = [
     excerpt: 'Detailed analysis of how solar energy compares to traditional electricity in terms of cost and efficiency.',
     date: 'March 5, 2024',
     category: 'Cost Analysis',
-    readTime: '6 min read',
-    image: ''
+    readTime: '6 min read'
   },
   {
     id: 4,
@@ -36,8 +33,7 @@ const initialBlogPosts = [
     excerpt: 'Understand how net metering works and how you can earn money by selling surplus solar power to the grid.',
     date: 'February 28, 2024',
     category: 'Solar Technology',
-    readTime: '7 min read',
-    image: ''
+    readTime: '7 min read'
   },
   {
     id: 5,
@@ -45,8 +41,7 @@ const initialBlogPosts = [
     excerpt: 'Complete guide to the PM KUSUM scheme for farmers in Rajasthan and how to get solar pumps with 90% subsidy.',
     date: 'February 20, 2024',
     category: 'Government Schemes',
-    readTime: '9 min read',
-    image: ''
+    readTime: '9 min read'
   },
   {
     id: 6,
@@ -54,8 +49,7 @@ const initialBlogPosts = [
     excerpt: 'Essential maintenance practices to keep your solar system running smoothly for 25+ years.',
     date: 'February 15, 2024',
     category: 'Maintenance',
-    readTime: '5 min read',
-    image: ''
+    readTime: '5 min read'
   },
   {
     id: 7,
@@ -63,8 +57,7 @@ const initialBlogPosts = [
     excerpt: 'Understanding how solar panels degrade over time and what you can do to minimize efficiency loss.',
     date: 'February 10, 2024',
     category: 'Solar Technology',
-    readTime: '6 min read',
-    image: ''
+    readTime: '6 min read'
   },
   {
     id: 8,
@@ -72,8 +65,7 @@ const initialBlogPosts = [
     excerpt: 'Explore various financing options and loan schemes available for solar installations in Rajasthan.',
     date: 'February 5, 2024',
     category: 'Finance',
-    readTime: '7 min read',
-    image: ''
+    readTime: '7 min read'
   }
 ];
 
@@ -135,11 +127,12 @@ export default function Blog() {
             </div>
           </div>
 
-          {/* Blog Posts Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px', marginBottom: '60px' }}>
+          {/* Blog Posts Scroll List */}
+          <div className="blog-scroll" style={{ marginBottom: '60px', paddingBottom: '10px' }}>
             {filteredPosts.map((post) => (
               <article
                 key={post.id}
+                className="blog-card"
                 style={{
                   backgroundColor: 'white',
                   borderRadius: '8px',
@@ -159,28 +152,6 @@ export default function Blog() {
                   e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
                 }}
               >
-                {/* Featured Image */}
-                <div style={{
-                  height: '200px',
-                  backgroundColor: '#F4F7FB',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  overflow: 'hidden'
-                }}>
-                  {post.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                  ) : (
-                    <span style={{ fontSize: '3rem', color: '#0057B8' }}>📰</span>
-                  )}
-                </div>
-
-                {/* Content */}
                 <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                   <div style={{
                     display: 'inline-block',
@@ -287,6 +258,35 @@ export default function Blog() {
           </div>
         </div>
       </section>
+      <style jsx>{`
+        .blog-scroll {
+          display: flex;
+          flex-wrap: nowrap;
+          gap: 30px;
+          overflow-x: auto;
+          padding-bottom: 10px;
+          -webkit-overflow-scrolling: touch;
+          scroll-snap-type: x mandatory;
+        }
+
+        .blog-card {
+          min-width: 320px;
+          max-width: 320px;
+          flex: 0 0 auto;
+          scroll-snap-align: start;
+        }
+
+        @media (max-width: 768px) {
+          .blog-scroll {
+            gap: 16px;
+          }
+
+          .blog-card {
+            min-width: calc(100vw - 40px);
+            max-width: calc(100vw - 40px);
+          }
+        }
+      `}</style>
     </>
   );
 }
