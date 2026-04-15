@@ -1,9 +1,14 @@
 import Head from 'next/head';
 import Hero from '@/components/Hero';
+import { NextSeo } from 'next-seo';
 
 export default function Commercial() {
   return (
     <>
+      <NextSeo
+        title="Commercial & Industrial Solar - AY Solar Energy"
+        description="Large-scale solar solutions for businesses and industries"
+      />
       <Head>
         <title>Commercial & Industrial Solar - AY Solar Energy</title>
         <meta name="description" content="Large-scale solar solutions for businesses and industries" />

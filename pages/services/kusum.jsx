@@ -2,10 +2,15 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Hero from '@/components/Hero';
+import { NextSeo } from 'next-seo';
 
 export default function Kusum() {
   return (
     <>
+      <NextSeo
+        title="PM Kusum Yojana - Solar for Farmers"
+        description="Government scheme for farmers - solar pumps and energy solutions"
+      />
       <Head>
         <title>PM Kusum Yojana - Solar for Farmers</title>
         <meta name="description" content="Government scheme for farmers - solar pumps and energy solutions" />

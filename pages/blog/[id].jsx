@@ -1,11 +1,17 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Hero from '@/components/Hero';
+import { NextSeo } from 'next-seo';
 
 export default function BlogPost({ post }) {
   if (!post) {
     return (
       <>
+        <NextSeo
+          title="Blog Post Not Found"
+          description="The blog post you're looking for doesn't exist"
+        />
+
         <Head>
           <title>Blog Post Not Found</title>
         </Head>
@@ -37,6 +43,10 @@ export default function BlogPost({ post }) {
 
   return (
     <>
+      <NextSeo
+        title={`${post.title} - AY Solar Energy Blog`}
+        description={post.excerpt}
+      />
       <Head>
         <title>{post.title} - AY Solar Energy Blog</title>
         <meta name="description" content={post.excerpt} />

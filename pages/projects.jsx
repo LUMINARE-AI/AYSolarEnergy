@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { NextSeo } from 'next-seo';
 
 export default function Projects() {
   const projects = [
@@ -62,6 +63,10 @@ export default function Projects() {
 
   return (
     <>
+      <NextSeo
+        title="Our Projects - AY Solar Energy"
+        description="View our completed solar projects across Jaipur & Tonk. 500+ successful installations with real customer testimonials."
+      />
       <Head>
         <title>Our Projects - AY Solar Energy</title>
         <meta name="description" content="View our completed solar projects across Jaipur & Tonk. 500+ successful installations with real customer testimonials." />

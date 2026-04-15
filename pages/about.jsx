@@ -2,10 +2,16 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Hero from '@/components/Hero';
+import { NextSeo } from 'next-seo';
 
 export default function About() {
   return (
     <>
+      <NextSeo
+        title="About AY Solar Energy - Solar Company Jaipur"
+        description="Learn about AY Solar Energy - leading solar installer in Jaipur & Tonk with 500+ projects and 5+ years of experience"
+      />
+
       <Head>
         <title>About AY Solar Energy - Solar Company Jaipur</title>
         <meta name="description" content="Learn about AY Solar Energy - leading solar installer in Jaipur & Tonk with 500+ projects and 5+ years of experience" />

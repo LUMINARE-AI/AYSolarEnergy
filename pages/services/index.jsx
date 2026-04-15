@@ -2,10 +2,15 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Hero from '@/components/Hero';
 import ServiceCard from '@/components/ServiceCard';
+import { NextSeo } from 'next-seo';
 
 export default function Services() {
   return (
     <>
+      <NextSeo
+        title="Solar Services - AY Solar Energy"
+        description="Residential, commercial, and government scheme solar installations"
+      />
       <Head>
         <title>Solar Services - AY Solar Energy</title>
         <meta name="description" content="Residential, commercial, and government scheme solar installations" />

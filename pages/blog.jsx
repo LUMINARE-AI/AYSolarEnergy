@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useState } from 'react';
+import { NextSeo } from 'next-seo';
 
 const initialBlogPosts = [
   {
@@ -89,6 +90,10 @@ export default function Blog() {
 
   return (
     <>
+      <NextSeo
+        title="Blog - AY Solar Energy"
+        description="Read latest articles about solar energy, government schemes, and solar installation tips from AY Solar Energy."
+      />
       <Head>
         <title>Blog - AY Solar Energy</title>
         <meta name="description" content="Read latest articles about solar energy, government schemes, and solar installation tips from AY Solar Energy." />

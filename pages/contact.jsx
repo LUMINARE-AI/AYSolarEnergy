@@ -1,10 +1,15 @@
 import Head from 'next/head';
 import Hero from '@/components/Hero';
 import ContactForm from '@/components/ContactForm';
+import { NextSeo } from 'next-seo';
 
 export default function Contact() {
   return (
     <>
+      <NextSeo
+        title="Contact AY Solar Energy - Get Free Consultation"
+        description="Contact us for free solar consultation and site survey"
+      />
       <Head>
         <title>Contact AY Solar Energy - Get Free Consultation</title>
         <meta name="description" content="Contact us for free solar consultation and site survey" />

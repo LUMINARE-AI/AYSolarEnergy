@@ -4,14 +4,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Hero from '@/components/Hero';
 import HomeShowcase from '@/components/HomeShowcase';
+import { NextSeo } from 'next-seo';
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>AY Solar Energy - Solar Panel Installation Jaipur & Tonk</title>
-        <meta name="description" content="Leading solar energy solutions in Jaipur & Tonk. PM Suryaghar, residential, commercial, and Kusum Yojana installations." />
-      </Head>
+      <NextSeo
+        title="AY Solar Energy - Solar Panel Installation Jaipur & Tonk"
+        description="Leading solar energy solutions in Jaipur & Tonk. PM Suryaghar, residential, commercial, and Kusum Yojana installations."
+      />
 
       <Hero
         title="Harness the Power of Sun"

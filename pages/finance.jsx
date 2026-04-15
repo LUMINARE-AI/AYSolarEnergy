@@ -1,10 +1,16 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Hero from '@/components/Hero';
+import { NextSeo } from 'next-seo';
 
 export default function Finance() {
   return (
     <>
+      <NextSeo
+        title="Solar Finance & EMI Options - AY Solar Energy"
+        description="Easy financing options and EMI calculator for solar installations"
+      />
+
       <Head>
         <title>Solar Finance & EMI Options - AY Solar Energy</title>
         <meta name="description" content="Easy financing options and EMI calculator for solar installations" />
