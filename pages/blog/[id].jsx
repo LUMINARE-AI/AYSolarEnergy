@@ -72,21 +72,6 @@ export default function BlogPost({ post }) {
               <span>📁 {post.category}</span>
             </div>
 
-            {/* Featured Image */}
-            <div style={{
-              width: '100%',
-              height: '400px',
-              backgroundColor: '#F4F7FB',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '4rem',
-              marginBottom: '40px'
-            }}>
-              📰
-            </div>
-
             {/* Content */}
             <div style={{ lineHeight: '1.8', color: '#555', fontSize: '1.05rem' }}>
               <p>{post.excerpt}</p>
