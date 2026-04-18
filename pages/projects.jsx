@@ -531,7 +531,8 @@ export default function Projects() {
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
               gap: "30px",
-              marginBottom: "60px",
+              marginBottom: "10px",
+              marginTop: "60px",
             }}
           >
             <div
@@ -550,7 +551,7 @@ export default function Projects() {
                   marginBottom: "10px",
                 }}
               >
-                500+
+                200+
               </div>
               <h4 style={{ marginBottom: "10px", color: "#333" }}>
                 Projects Completed
