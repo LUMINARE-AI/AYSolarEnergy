@@ -1,7 +1,23 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { NextSeo } from "next-seo";
+import { getAuthHeaders, handleUnauthorized } from "@/lib/clientAuth";
+import ListingPagination from "@/components/ListingPagination";
+import lc from "@/styles/listingCards.module.css";
+
+const PROJECTS_PAGE_SIZE = 6;
+
+function displayOrDash(value) {
+  const s = (value || "").trim();
+  return s || "—";
+}
+
+/** Blue headline on the card — separate from customer name */
+function projectHeadline(project) {
+  const s = (project.mainTopic || project.title || "").trim();
+  return s || "Solar project";
+}
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -10,24 +26,37 @@ export default function Projects() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [formState, setFormState] = useState({
-    title: "",
+    mainTopic: "",
     description: "",
     images: [],
+    customerName: "",
+    location: "",
+    capacity: "",
+    monthlySavings: "",
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [projectPage, setProjectPage] = useState(1);
+
+  const projectTotalPages = Math.max(
+    1,
+    Math.ceil(projects.length / PROJECTS_PAGE_SIZE)
+  );
+
+  const paginatedProjects = useMemo(() => {
+    const start = (projectPage - 1) * PROJECTS_PAGE_SIZE;
+    return projects.slice(start, start + PROJECTS_PAGE_SIZE);
+  }, [projects, projectPage]);
+
+  useEffect(() => {
+    setProjectPage((p) => Math.min(p, projectTotalPages));
+  }, [projectTotalPages]);
 
   useEffect(() => {
     fetchProjects();
     if (typeof window !== "undefined") {
-      setIsAdmin(!!localStorage.getItem("token"));
+      setIsAdmin(!!localStorage.getItem("token")?.trim());
     }
   }, []);
-
-  const authHeaders = () => {
-    if (typeof window === "undefined") return {};
-    const token = localStorage.getItem("token");
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  };
 
   const fetchProjects = async () => {
     try {
@@ -53,7 +82,7 @@ export default function Projects() {
       const response = await axios.post(
         "/api/upload",
         { file: dataUrl },
-        { headers: authHeaders() }
+        { headers: getAuthHeaders() }
       );
       urls.push(response.data.url);
     }
@@ -62,14 +91,37 @@ export default function Projects() {
 
   const resetForm = () => {
     setEditingId(null);
-    setFormState({ title: "", description: "", images: [] });
+    setFormState({
+      mainTopic: "",
+      description: "",
+      images: [],
+      customerName: "",
+      location: "",
+      capacity: "",
+      monthlySavings: "",
+    });
     setSelectedFiles([]);
     setMessage("");
   };
 
+  const buildPayload = (images) => {
+    const main = formState.mainTopic.trim();
+    const desc = formState.description.trim();
+    return {
+      mainTopic: main,
+      title: main,
+      description: desc || undefined,
+      images,
+      customerName: formState.customerName.trim() || undefined,
+      location: formState.location.trim() || undefined,
+      capacity: formState.capacity.trim() || undefined,
+      monthlySavings: formState.monthlySavings.trim() || undefined,
+    };
+  };
+
   const handleSubmit = async () => {
-    if (!formState.title.trim() || !formState.description.trim()) {
-      setMessage("Title and description are required.");
+    if (!formState.mainTopic.trim()) {
+      setMessage("Main topic is required (e.g. Home Rooftop Solar).");
       return;
     }
 
@@ -86,25 +138,24 @@ export default function Projects() {
         images = [...images, ...uploadUrls];
       }
 
+      const payload = buildPayload(images);
+
       if (editingId) {
-        await axios.put(
-          `/api/projects/${editingId}`,
-          { title: formState.title, description: formState.description, images },
-          { headers: authHeaders() }
-        );
+        await axios.put(`/api/projects/${editingId}`, payload, {
+          headers: getAuthHeaders(),
+        });
         setMessage("Project updated successfully.");
       } else {
-        await axios.post(
-          "/api/projects",
-          { title: formState.title, description: formState.description, images },
-          { headers: authHeaders() }
-        );
+        await axios.post("/api/projects", payload, {
+          headers: getAuthHeaders(),
+        });
         setMessage("Project added successfully.");
       }
 
       resetForm();
       fetchProjects();
     } catch (error) {
+      if (handleUnauthorized(error, setIsAdmin, setMessage)) return;
       setMessage(error.response?.data?.msg || "Unable to save project.");
     } finally {
       setLoading(false);
@@ -114,9 +165,13 @@ export default function Projects() {
   const handleEdit = (project) => {
     setEditingId(project._id);
     setFormState({
-      title: project.title,
-      description: project.description,
+      mainTopic: (project.mainTopic || project.title || "").trim(),
+      description: project.description || "",
       images: project.images || [],
+      customerName: project.customerName || "",
+      location: project.location || "",
+      capacity: project.capacity || "",
+      monthlySavings: project.monthlySavings || "",
     });
     setSelectedFiles([]);
     setMessage("");
@@ -126,9 +181,10 @@ export default function Projects() {
     if (!window.confirm("Delete this project?")) return;
 
     try {
-      await axios.delete(`/api/projects/${id}`, { headers: authHeaders() });
+      await axios.delete(`/api/projects/${id}`, { headers: getAuthHeaders() });
       fetchProjects();
     } catch (error) {
+      if (handleUnauthorized(error, setIsAdmin, setMessage)) return;
       setMessage(error.response?.data?.msg || "Unable to delete project.");
     }
   };
@@ -148,6 +204,13 @@ export default function Projects() {
     setSelectedFiles((prev) => prev.filter((_, idx) => idx !== index));
   };
 
+  const kvRow = (label, value) => (
+    <div className={lc.kvRow}>
+      <span className={lc.kvLabel}>{label}</span>
+      <span className={lc.kvValue}>{displayOrDash(value)}</span>
+    </div>
+  );
+
   return (
     <>
       <NextSeo
@@ -166,7 +229,7 @@ export default function Projects() {
         </div>
       </section>
 
-      <section style={{ padding: "60px 0" }}>
+      <section style={{ padding: "0 0 60px" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}>
           {isAdmin && (
             <div
@@ -183,32 +246,111 @@ export default function Projects() {
               </h2>
               <div style={{ display: "grid", gap: "16px" }}>
                 <input
-                  value={formState.title}
-                  onChange={(e) => setFormState({ ...formState, title: e.target.value })}
-                  placeholder="Project title"
-                  style={{ padding: "14px", borderRadius: "8px", border: "1px solid #ddd" }}
+                  value={formState.mainTopic}
+                  onChange={(e) =>
+                    setFormState({ ...formState, mainTopic: e.target.value })
+                  }
+                  placeholder='Main topic (e.g. Home Rooftop Solar, Residential Solar System)'
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                  }}
+                />
+                <input
+                  value={formState.customerName}
+                  onChange={(e) =>
+                    setFormState({ ...formState, customerName: e.target.value })
+                  }
+                  placeholder="Customer name (e.g. Hamza Saeedi)"
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                  }}
+                />
+                <input
+                  value={formState.location}
+                  onChange={(e) =>
+                    setFormState({ ...formState, location: e.target.value })
+                  }
+                  placeholder="Location (e.g. Tonk, Rajasthan)"
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                  }}
+                />
+                <input
+                  value={formState.capacity}
+                  onChange={(e) =>
+                    setFormState({ ...formState, capacity: e.target.value })
+                  }
+                  placeholder="Capacity (e.g. 8 kW)"
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                  }}
+                />
+                <input
+                  value={formState.monthlySavings}
+                  onChange={(e) =>
+                    setFormState({
+                      ...formState,
+                      monthlySavings: e.target.value,
+                    })
+                  }
+                  placeholder="Monthly savings (e.g. ₹8,000+)"
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                  }}
                 />
                 <textarea
                   value={formState.description}
-                  onChange={(e) => setFormState({ ...formState, description: e.target.value })}
-                  placeholder="Project description"
-                  rows={5}
-                  style={{ padding: "14px", borderRadius: "8px", border: "1px solid #ddd", resize: "vertical" }}
+                  onChange={(e) =>
+                    setFormState({ ...formState, description: e.target.value })
+                  }
+                  placeholder="Internal notes (optional — not shown on project cards)"
+                  rows={4}
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                    resize: "vertical",
+                  }}
                 />
                 <div>
-                  <label style={{ display: "block", marginBottom: "8px", fontWeight: 600 }}>
+                  <label
+                    style={{ display: "block", marginBottom: "8px", fontWeight: 600 }}
+                  >
                     {editingId ? "Add more images" : "Project images"}
                   </label>
-                  <input type="file" multiple accept="image/*" onChange={handleFileChange} />
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
                 </div>
                 {formState.images.length > 0 && (
                   <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                     {formState.images.map((image, index) => (
-                      <div key={`${image}-${index}`} style={{ position: "relative", width: "120px" }}>
+                      <div
+                        key={`${image}-${index}`}
+                        style={{ position: "relative", width: "120px" }}
+                      >
                         <img
                           src={image}
                           alt={`Project image ${index + 1}`}
-                          style={{ width: "100%", height: "80px", objectFit: "cover", borderRadius: "8px" }}
+                          style={{
+                            width: "100%",
+                            height: "80px",
+                            objectFit: "cover",
+                            borderRadius: "8px",
+                          }}
                         />
                         <button
                           type="button"
@@ -237,9 +379,17 @@ export default function Projects() {
                     {selectedFiles.map((file, index) => (
                       <div
                         key={`${file.name}-${index}`}
-                        style={{ position: "relative", width: "120px", border: "1px solid #ddd", borderRadius: "8px", padding: "8px" }}
+                        style={{
+                          position: "relative",
+                          width: "120px",
+                          border: "1px solid #ddd",
+                          borderRadius: "8px",
+                          padding: "8px",
+                        }}
                       >
-                        <div style={{ fontSize: "0.85rem", marginBottom: "8px" }}>{file.name}</div>
+                        <div style={{ fontSize: "0.85rem", marginBottom: "8px" }}>
+                          {file.name}
+                        </div>
                         <button
                           type="button"
                           onClick={() => removeSelectedFile(index)}
@@ -263,7 +413,9 @@ export default function Projects() {
                   </div>
                 )}
                 {message && (
-                  <div style={{ color: "#333", fontSize: "0.95rem" }}>{message}</div>
+                  <div style={{ color: "#333", fontSize: "0.95rem" }}>
+                    {message}
+                  </div>
                 )}
                 <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                   <button
@@ -301,83 +453,79 @@ export default function Projects() {
               </div>
             </div>
           )}
+        </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "30px",
-              marginBottom: "60px",
-            }}
-          >
-            {projects.map((project) => (
-              <div
-                key={project._id}
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "8px",
-                  overflow: "hidden",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                }}
-              >
-                {project.images && project.images[0] && (
-                  <img
-                    src={project.images[0]}
-                    alt={project.title}
-                    style={{ width: "100%", height: "220px", objectFit: "cover" }}
-                  />
-                )}
-                <div style={{ padding: "20px" }}>
-                  <h3
-                    style={{ marginBottom: "15px", color: "#0057B8", fontSize: "1.2rem" }}
-                  >
-                    {project.title}
-                  </h3>
-                  <p style={{ marginBottom: "16px", color: "#555" }}>
-                    {project.description}
-                  </p>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "16px" }}>
-                    <span style={{ fontSize: "0.95rem", color: "#333" }}>
-                      <strong>{project.images?.length || 0}</strong> image(s)
-                    </span>
+        <div className={lc.listingSection}>
+          <div className={lc.listingInner}>
+            <div className={lc.listingCardGrid}>
+              {paginatedProjects.map((project) => (
+                <div key={project._id} className={lc.projectCard}>
+                  <div className={lc.projectImageWrap}>
+                    {project.images && project.images[0] ? (
+                      <img
+                        src={project.images[0]}
+                        alt={projectHeadline(project)}
+                        className={lc.projectImage}
+                      />
+                    ) : null}
                   </div>
-                  {isAdmin && (
-                    <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                      <button
-                        type="button"
-                        onClick={() => handleEdit(project)}
-                        style={{
-                          backgroundColor: "#F4F7FB",
-                          color: "#333",
-                          border: "1px solid #ddd",
-                          borderRadius: "8px",
-                          padding: "10px 14px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(project._id)}
-                        style={{
-                          backgroundColor: "#ffe5e5",
-                          color: "#b71c1c",
-                          border: "1px solid #f5c2c2",
-                          borderRadius: "8px",
-                          padding: "10px 14px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
+                  <div className={lc.projectCardBody}>
+                    <h3 className={lc.projectTitle}>
+                      {projectHeadline(project)}
+                    </h3>
+                    {kvRow("Customer Name", project.customerName)}
+                    {kvRow("Location", project.location)}
+                    {kvRow("Capacity", project.capacity)}
+                    {kvRow("Monthly Savings", project.monthlySavings)}
+                    {isAdmin && (
+                      <div className={lc.projectAdminRow}>
+                        <button
+                          type="button"
+                          onClick={() => handleEdit(project)}
+                          style={{
+                            backgroundColor: "#F4F7FB",
+                            color: "#333",
+                            border: "1px solid #ddd",
+                            borderRadius: "8px",
+                            padding: "8px 12px",
+                            cursor: "pointer",
+                            fontSize: "0.85rem",
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(project._id)}
+                          style={{
+                            backgroundColor: "#ffe5e5",
+                            color: "#b71c1c",
+                            border: "1px solid #f5c2c2",
+                            borderRadius: "8px",
+                            padding: "8px 12px",
+                            cursor: "pointer",
+                            fontSize: "0.85rem",
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
+            <ListingPagination
+              page={projectPage}
+              totalPages={projectTotalPages}
+              onPageChange={setProjectPage}
+              suffix="projects"
+            />
+          </div>
+        </div>
+
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}>
           <div
             style={{
               display: "grid",
@@ -386,24 +534,96 @@ export default function Projects() {
               marginBottom: "60px",
             }}
           >
-            <div style={{ textAlign: "center", padding: "30px", backgroundColor: "#F4F7FB", borderRadius: "8px" }}>
-              <div style={{ fontSize: "2.5rem", fontWeight: "700", color: "#0057B8", marginBottom: "10px" }}>500+</div>
-              <h4 style={{ marginBottom: "10px", color: "#333" }}>Projects Completed</h4>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "30px",
+                backgroundColor: "#F4F7FB",
+                borderRadius: "8px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: "700",
+                  color: "#0057B8",
+                  marginBottom: "10px",
+                }}
+              >
+                500+
+              </div>
+              <h4 style={{ marginBottom: "10px", color: "#333" }}>
+                Projects Completed
+              </h4>
               <p>Successful installations across Rajasthan</p>
             </div>
-            <div style={{ textAlign: "center", padding: "30px", backgroundColor: "#F4F7FB", borderRadius: "8px" }}>
-              <div style={{ fontSize: "2.5rem", fontWeight: "700", color: "#0057B8", marginBottom: "10px" }}>2500+ kW</div>
-              <h4 style={{ marginBottom: "10px", color: "#333" }}>Total Capacity</h4>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "30px",
+                backgroundColor: "#F4F7FB",
+                borderRadius: "8px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: "700",
+                  color: "#0057B8",
+                  marginBottom: "10px",
+                }}
+              >
+                2500+ kW
+              </div>
+              <h4 style={{ marginBottom: "10px", color: "#333" }}>
+                Total Capacity
+              </h4>
               <p>Solar power generating clean energy</p>
             </div>
-            <div style={{ textAlign: "center", padding: "30px", backgroundColor: "#F4F7FB", borderRadius: "8px" }}>
-              <div style={{ fontSize: "2.5rem", fontWeight: "700", color: "#0057B8", marginBottom: "10px" }}>₹5 Cr+</div>
-              <h4 style={{ marginBottom: "10px", color: "#333" }}>Customer Savings</h4>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "30px",
+                backgroundColor: "#F4F7FB",
+                borderRadius: "8px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: "700",
+                  color: "#0057B8",
+                  marginBottom: "10px",
+                }}
+              >
+                ₹5 Cr+
+              </div>
+              <h4 style={{ marginBottom: "10px", color: "#333" }}>
+                Customer Savings
+              </h4>
               <p>Annual electricity bill savings</p>
             </div>
-            <div style={{ textAlign: "center", padding: "30px", backgroundColor: "#F4F7FB", borderRadius: "8px" }}>
-              <div style={{ fontSize: "2.5rem", fontWeight: "700", color: "#0057B8", marginBottom: "10px" }}>5+</div>
-              <h4 style={{ marginBottom: "10px", color: "#333" }}>Years Experience</h4>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "30px",
+                backgroundColor: "#F4F7FB",
+                borderRadius: "8px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: "700",
+                  color: "#0057B8",
+                  marginBottom: "10px",
+                }}
+              >
+                5+
+              </div>
+              <h4 style={{ marginBottom: "10px", color: "#333" }}>
+                Years Experience
+              </h4>
               <p>Trusted solar energy partner</p>
             </div>
           </div>
@@ -411,9 +631,25 @@ export default function Projects() {
       </section>
 
       <section style={{ padding: "60px 0", backgroundColor: "#F4F7FB" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px", textAlign: "center" }}>
-          <div style={{ backgroundColor: "#E3F2FD", padding: "20px", borderRadius: "8px", marginBottom: "20px" }}>
-            <h2 style={{ marginBottom: "0px", color: "#333" }}>Ready to Join Our Success Stories?</h2>
+        <div
+          style={{
+            maxWidth: "1200px",
+            margin: "0 auto",
+            padding: "0 20px",
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#E3F2FD",
+              padding: "20px",
+              borderRadius: "8px",
+              marginBottom: "20px",
+            }}
+          >
+            <h2 style={{ marginBottom: "0px", color: "#333" }}>
+              Ready to Join Our Success Stories?
+            </h2>
           </div>
           <p style={{ marginBottom: "30px", fontSize: "1.1rem", color: "#666" }}>
             Get a free consultation and quote for your solar installation

@@ -1,8 +1,64 @@
 ﻿import Link from "next/link";
 import Hero from "@/components/Hero";
 import { NextSeo } from "next-seo";
+import ReactMarkdown from "react-markdown";
 import { connectDB } from "@/lib/db";
 import Blog from "@/models/Blog";
+import { normalizeCategory } from "@/lib/contentCategories";
+import styles from "@/styles/BlogPost.module.css";
+
+function CalendarGlyph() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M8 2v3M16 2v3M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M3 14h18"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        opacity="0.35"
+      />
+    </svg>
+  );
+}
+
+function ClockGlyph() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle
+        cx="12"
+        cy="12"
+        r="9"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M12 7v5l3 2"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function seoDescription(post) {
+  const ex = (post.excerpt || "").trim();
+  if (ex) return ex.slice(0, 160);
+  const raw = (post.content || "")
+    .replace(/^#+\s+/gm, "")
+    .replace(/\*\*?|__|`|\[|\]|\([^)]*\)/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return raw.slice(0, 160);
+}
 
 export default function BlogPost({ post }) {
   if (!post) {
@@ -52,37 +108,67 @@ export default function BlogPost({ post }) {
     );
   }
 
+  const categoryLabel = normalizeCategory(post.category);
+  const readLine =
+    post.readTimeMinutes != null && post.readTimeMinutes >= 1
+      ? `${post.readTimeMinutes} min read`
+      : null;
+  const published = new Date(post.createdAt);
+  const dateLabel = published.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <>
       <NextSeo
         title={`${post.title} Jaipur - Solar Guide Rajasthan | AY Solar`}
-        description={post.content.slice(0, 160)}
+        description={seoDescription(post)}
       />
 
-      <Hero title={post.title} subtitle="Solar Blog" pageHero={true} />
+      <Hero title={post.title} subtitle={categoryLabel} pageHero={true} />
 
       <section className="section">
         <div className="container">
           <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-            <div
-              style={{
-                display: "flex",
-                gap: "20px",
-                marginBottom: "30px",
-                paddingBottom: "20px",
-                borderBottom: "1px solid #eee",
-                color: "#666",
-                fontSize: "0.95rem",
-              }}
-            >
-              <span>📅 {new Date(post.createdAt).toLocaleDateString()}</span>
+            <div className={styles.metaWrap} role="group" aria-label="Article details">
+              <div className={styles.metaItem}>
+                <div className={styles.metaIconWrap} aria-hidden>
+                  <CalendarGlyph />
+                </div>
+                <div className={styles.metaBody}>
+                  <span className={styles.metaEyebrow}>Published</span>
+                  <time
+                    dateTime={published.toISOString()}
+                    className={styles.metaPrimary}
+                  >
+                    {dateLabel}
+                  </time>
+                </div>
+              </div>
+              {readLine && (
+                <>
+                  <span className={styles.metaSep} aria-hidden />
+                  <div className={styles.metaItem}>
+                    <div
+                      className={`${styles.metaIconWrap} ${styles.metaIconWrapClock}`}
+                      aria-hidden
+                    >
+                      <ClockGlyph />
+                    </div>
+                    <div className={styles.metaBody}>
+                      <span className={styles.metaEyebrow}>Reading time</span>
+                      <span className={styles.metaPrimary}>{readLine}</span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
-            <div
-              style={{ lineHeight: "1.8", color: "#555", fontSize: "1.05rem" }}
-            >
-              <p>{post.content}</p>
-            </div>
+            <article className="blog-post-body">
+              <ReactMarkdown>{post.content}</ReactMarkdown>
+            </article>
 
             <div
               style={{
@@ -145,6 +231,9 @@ export async function getServerSideProps({ params }) {
             _id: post._id.toString(),
             title: post.title,
             content: post.content,
+            category: normalizeCategory(post.category),
+            excerpt: post.excerpt ?? null,
+            readTimeMinutes: post.readTimeMinutes ?? null,
             createdAt: post.createdAt.toISOString(),
           }
         : null,

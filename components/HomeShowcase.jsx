@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import styles from '../styles/HomeShowcase.module.css';
 
 export default function HomeShowcase() {
   const [activePanel, setActivePanel] = useState(0);
@@ -256,216 +257,124 @@ export default function HomeShowcase() {
           0% { stroke-dashoffset: 0; }
           100% { stroke-dashoffset: -10; }
         }
-        @keyframes fadeSlide {
-          from {
-            opacity: 0;
-            transform: translateX(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          * {
-            animation: none !important;
-          }
-        }
       `}</style>
 
-      <div style={{ position: 'relative' }}>
-        {/* Carousel Container - Fit in Window */}
-        <div style={{
-          height: isMobile ? 'auto' : 'calc(100vh - 260px)',
-          display: 'flex',
-          flexDirection: isMobile ? 'column-reverse' : 'row',
-          alignItems: 'stretch',
-          backgroundColor: '#fff',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          {/* Right Visual */}
-          <div style={{
-            flex: isMobile ? '0 0 220px' : '1',
-            backgroundColor: currentPanel.bgColor,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: isMobile ? '20px' : '25px',
-            height: isMobile ? '220px' : 'calc(100vh - 260px)',
-            animation: 'fadeSlide 0.5s ease-out'
-          }}>
-            <div style={{ transform: isMobile ? 'scale(0.85)' : 'scale(0.75)' }}>
-              {currentPanel.visual}
-            </div>
-          </div>
-
-          {/* Left Content */}
-          <div style={{
-            flex: isMobile ? '1' : '1',
-            padding: isMobile ? '20px 15px' : '25px 30px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            backgroundColor: '#FFFFFF',
-            height: isMobile ? 'auto' : 'calc(100vh - 360px)',
-            overflow: 'hidden',
-            animation: 'fadeSlide 0.5s ease-out'
-          }}>
-            <div style={{ maxWidth: '420px' }}>
-              {/* Badge */}
-              <div style={{
-                display: 'inline-block',
-                backgroundColor: '#F0F0F0',
-                color: '#666',
-                padding: '4px 10px',
-                borderRadius: '20px',
-                fontSize: '0.65rem',
-                fontWeight: '600',
-                marginBottom: '8px',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-              }}>
-                {currentPanel.badge}
-              </div>
-
-              {/* Heading */}
-              <h2 style={{
-                fontSize: isMobile ? '1.3rem' : '1.55rem',
-                fontWeight: '700',
-                color: '#003A8C',
-                marginBottom: '4px',
-                lineHeight: '1.1'
-              }}>
-                {currentPanel.heading}
-              </h2>
-
-              {/* Subheading */}
-              <h3 style={{
-                fontSize: isMobile ? '0.85rem' : '0.98rem',
-                fontWeight: '600',
-                color: '#0057B8',
-                marginBottom: '10px'
-              }}>
-                {currentPanel.subheading}
-              </h3>
-
-              {/* Description */}
-              <p style={{
-                fontSize: '0.8rem',
-                color: '#555',
-                lineHeight: '1.35',
-                marginBottom: '10px'
-              }}>
-                {currentPanel.description}
-              </p>
-
-              {/* Features */}
-              {currentPanel.features && (
-                <div style={{ marginBottom: '10px' }}>
-                  {currentPanel.features.map((feature, i) => (
-                    <div key={i} style={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      marginBottom: '4px',
-                      fontSize: '0.75rem',
-                      color: '#333'
-                    }}>
-                      <span style={{ color: '#2E7D32', fontWeight: '700', marginRight: '5px', marginTop: '0px', flexShrink: 0 }}>✓</span>
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* CTAs */}
-              <div style={{
-                display: 'flex',
-                gap: '6px',
-                flexWrap: 'wrap',
-                marginBottom: '0px'
-              }}>
-                {currentPanel.cta1 && (
-                  <Link href={currentPanel.cta1.href} style={{
-                    backgroundColor: currentPanel.cta1.color || '#FFC107',
-                    color: currentPanel.cta1.textColor || '#333',
-                    padding: '7px 14px',
-                    borderRadius: '4px',
-                    fontWeight: '600',
-                    textDecoration: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    display: 'inline-block',
-                    fontSize: '0.74rem'
-                  }} onMouseEnter={(e) => e.target.style.transform = 'translateY(-1px)'} onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}>
-                    {currentPanel.cta1.label}
-                  </Link>
-                )}
-                {currentPanel.cta2 && (
-                  <Link href={currentPanel.cta2.href} style={{
-                    backgroundColor: 'transparent',
-                    color: currentPanel.cta2.color || '#0057B8',
-                    padding: '7px 14px',
-                    borderRadius: '4px',
-                    fontWeight: '600',
-                    textDecoration: 'none',
-                    border: `1.5px solid ${currentPanel.cta2.color || '#0057B8'}`,
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    display: 'inline-block',
-                    fontSize: '0.74rem'
-                  }} onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = currentPanel.cta2.color || '#0057B8';
-                    e.target.style.color = 'white';
-                  }} onMouseLeave={(e) => {
-                    e.target.style.backgroundColor = 'transparent';
-                    e.target.style.color = currentPanel.cta2.color || '#0057B8';
-                  }}>
-                    {currentPanel.cta2.label}
-                  </Link>
-                )}
-              </div>
-
-              {/* Trust line */}
-              {currentPanel.cta1.trust && (
-                <p style={{ fontSize: '0.7rem', color: '#999', fontStyle: 'italic', marginTop: '5px' }}>
-                  {currentPanel.cta1.trust}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation Dots */}
-        <div style={{
-          position: 'relative',
-          padding: isMobile ? '12px 0' : '15px 0',
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '15px',
-          justifyContent: 'center',
-          backgroundColor: '#f9f9f9',
-          borderTop: '1px solid #eee'
-        }}>
-          {[0, 1, 2].map((i) => (
-            <button
-              key={i}
-              onClick={() => handleDotClick(i)}
+      <div className={styles.pageWrap}>
+        <p className={styles.eyebrow}>Schemes & services</p>
+        <div className={styles.frame}>
+          <div
+            className={`${styles.carousel} ${isMobile ? styles.carouselMobile : ''}`}
+            style={{
+              minHeight: isMobile ? undefined : 'clamp(380px, 48vh, 560px)',
+            }}
+          >
+            <div
+              className={styles.visualPane}
               style={{
-                width: activePanel === i ? (isMobile ? '12px' : '14px') : (isMobile ? '8px' : '10px'),
-                height: activePanel === i ? (isMobile ? '12px' : '14px') : (isMobile ? '8px' : '10px'),
-                borderRadius: '50%',
-                border: 'none',
-                cursor: 'pointer',
-                backgroundColor: i === 0 || i === 1 ? '#0057B8' : '#2E7D32',
-                opacity: activePanel === i ? 1 : 0.5,
-                transition: 'all 0.3s ease',
-                boxShadow: activePanel === i ? '0 0 10px rgba(0, 87, 184, 0.5)' : 'none'
+                flex: isMobile ? '0 0 220px' : '1',
+                backgroundColor: currentPanel.bgColor,
+                padding: isMobile ? '20px' : '28px 32px',
+                minHeight: isMobile ? '220px' : undefined,
               }}
-              aria-label={`Go to panel ${i + 1}`}
-            />
-          ))}
+            >
+              <div style={{ transform: isMobile ? 'scale(0.88)' : 'scale(0.78)' }}>
+                {currentPanel.visual}
+              </div>
+            </div>
+
+            <div
+              className={styles.contentPane}
+              style={{
+                flex: 1,
+                padding: isMobile ? '22px 18px 26px' : '32px 40px',
+              }}
+            >
+              <div className={styles.innerMax}>
+                <div className={styles.badge}>{currentPanel.badge}</div>
+
+                <h2
+                  className={styles.heading}
+                  style={{ fontSize: isMobile ? '1.35rem' : '1.65rem' }}
+                >
+                  {currentPanel.heading}
+                </h2>
+
+                <h3
+                  className={styles.subheading}
+                  style={{ fontSize: isMobile ? '0.92rem' : '1.02rem' }}
+                >
+                  {currentPanel.subheading}
+                </h3>
+
+                <p
+                  className={styles.description}
+                  style={{ fontSize: isMobile ? '0.86rem' : '0.92rem' }}
+                >
+                  {currentPanel.description}
+                </p>
+
+                {currentPanel.features && (
+                  <div style={{ marginBottom: '12px' }}>
+                    {currentPanel.features.map((feature, i) => (
+                      <div key={i} className={styles.featureRow}>
+                        <span className={styles.featureCheck}>✓</span>
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className={styles.ctaRow}>
+                  {currentPanel.cta1 && (
+                    <Link
+                      href={currentPanel.cta1.href}
+                      className={styles.ctaPrimary}
+                      style={{
+                        backgroundColor: currentPanel.cta1.color || '#FFC107',
+                        color: currentPanel.cta1.textColor || '#333',
+                      }}
+                    >
+                      {currentPanel.cta1.label}
+                    </Link>
+                  )}
+                  {currentPanel.cta2 && (
+                    <Link
+                      href={currentPanel.cta2.href}
+                      className={styles.ctaGhost}
+                      style={{
+                        color: currentPanel.cta2.color || '#0057B8',
+                        border: `2px solid ${currentPanel.cta2.color || '#0057B8'}`,
+                      }}
+                    >
+                      {currentPanel.cta2.label}
+                    </Link>
+                  )}
+                </div>
+
+                {currentPanel.cta1.trust && (
+                  <p className={styles.trust}>{currentPanel.cta1.trust}</p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.nav}>
+            {[0, 1, 2].map((i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => handleDotClick(i)}
+                className={`${styles.navDot} ${activePanel === i ? styles.navDotActive : ''}`}
+                style={{
+                  width: activePanel === i ? (isMobile ? 12 : 13) : isMobile ? 9 : 10,
+                  height: activePanel === i ? (isMobile ? 12 : 13) : isMobile ? 9 : 10,
+                  backgroundColor: i === 0 || i === 1 ? '#0369a1' : '#15803d',
+                  opacity: activePanel === i ? 1 : 0.45,
+                }}
+                aria-label={`Go to panel ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>

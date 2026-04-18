@@ -163,6 +163,26 @@
   width: 100%;
 }
 
+.authLink {
+  color: var(--text-dark);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.authButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+  color: var(--text-dark);
+  padding: 0;
+}
+
+.authButton:hover {
+  color: var(--primary-blue);
+}
+
 .mobileMenuBtn {
   display: none;
   background: none;
@@ -242,6 +262,22 @@
   }
 
   .navActive :global(a) {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .nav .authButton,
+  .navActive .authButton {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .nav .authLink,
+  .navActive .authLink {
     display: block;
     padding: 10px 0;
     border-bottom: 1px solid var(--border-color);

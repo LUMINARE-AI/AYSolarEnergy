@@ -41,16 +41,32 @@ export default function Home() {
       />
 
       <Hero
-        title="Solar Panel Installation in Jaipur & Tonk - AY Solar Energy"
-        subtitle="Solar Solutions in Jaipur & Tonk"
-        cta={true}
+        homeShowcase
+        homeBadge="MNRE-channel solar · Jaipur & Tonk"
+        homeTitleLead="Solar panel installation in"
+        homeTitleAccent="Jaipur & Tonk"
+        homeTitleRest="by AY Solar Energy"
+        homeSubtitle="Rooftop and commercial solar with PM Suryaghar subsidy support — site survey, quality hardware, net metering, and paperwork handled for you."
+        cta
       />
+
+      <div className="surya-stats-bar">
+        {[
+          { num: "₹78k", label: "Max central subsidy" },
+          { num: "25 yr", label: "Panel warranties" },
+          { num: "500+", label: "Installs in Rajasthan" },
+          { num: "3–5 yr", label: "Typical payback" },
+        ].map((s, i) => (
+          <div key={i} className="surya-stat-item">
+            <span className="surya-stat-num">{s.num}</span>
+            <span className="surya-stat-label">{s.label}</span>
+          </div>
+        ))}
+      </div>
 
       <HomeShowcase />
 
-      <p
-        style={{ textAlign: "center", maxWidth: "800px", margin: "20px auto" }}
-      >
+      <p className="home-intro">
         AY Solar Energy provides professional solar panel installation in Jaipur
         and Tonk. We specialize in rooftop solar, commercial solar systems, and
         government schemes like PM Suryaghar Yojana.

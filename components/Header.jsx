@@ -1,13 +1,35 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import styles from '../styles/Header.module.css';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const router = useRouter();
-  const isHome = router.pathname === '/';
+
+  const syncAuth = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    setLoggedIn(!!localStorage.getItem('token')?.trim());
+  }, []);
+
+  useEffect(() => {
+    syncAuth();
+    router.events.on('routeChangeComplete', syncAuth);
+    window.addEventListener('storage', syncAuth);
+    return () => {
+      router.events.off('routeChangeComplete', syncAuth);
+      window.removeEventListener('storage', syncAuth);
+    };
+  }, [router.events, syncAuth]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    setMobileMenuOpen(false);
+    router.push('/');
+  };
 
   return (
     <>
@@ -45,6 +67,21 @@ export default function Header() {
                 <li><Link href="/pm-suryaghar">PM Suryaghar</Link></li>
                 <li><Link href="/finance">Finance</Link></li>
                 <li><Link href="/contact">Contact</Link></li>
+                <li>
+                  {loggedIn ? (
+                    <button
+                      type="button"
+                      className={styles.authButton}
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
+                  ) : (
+                    <Link href="/admin/login" className={styles.authLink}>
+                      Login
+                    </Link>
+                  )}
+                </li>
               </ul>
             </nav>
           </div>

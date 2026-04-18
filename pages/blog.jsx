@@ -1,30 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
+import {
+  CONTENT_CATEGORIES,
+  DEFAULT_CATEGORY,
+  normalizeCategory,
+} from "@/lib/contentCategories";
+import { getAuthHeaders, handleUnauthorized } from "@/lib/clientAuth";
+import ListingPagination from "@/components/ListingPagination";
+import lc from "@/styles/listingCards.module.css";
 
-const categories = ["All"];
+const filterCategories = ["All", ...CONTENT_CATEGORIES];
+const BLOG_PAGE_SIZE = 6;
+
+function cardExcerpt(post) {
+  const raw = (post.excerpt || "").trim();
+  if (raw) return raw.length > 180 ? `${raw.slice(0, 177)}…` : raw;
+  const fromContent = (post.content || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 160);
+  return fromContent ? `${fromContent}…` : "";
+}
 
 export default function Blog() {
   const [posts, setPosts] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [isAdmin, setIsAdmin] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({ title: "", content: "" });
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    category: DEFAULT_CATEGORY,
+    excerpt: "",
+    readTimeMinutes: "",
+  });
   const [message, setMessage] = useState("");
+  const [blogPage, setBlogPage] = useState(1);
 
   useEffect(() => {
     fetchPosts();
     if (typeof window !== "undefined") {
-      setIsAdmin(!!localStorage.getItem("token"));
+      setIsAdmin(!!localStorage.getItem("token")?.trim());
     }
   }, []);
-
-  const authHeaders = () => {
-    if (typeof window === "undefined") return {};
-    const token = localStorage.getItem("token");
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  };
 
   const fetchPosts = async () => {
     try {
@@ -41,8 +61,28 @@ export default function Blog() {
 
   const resetForm = () => {
     setEditingId(null);
-    setFormData({ title: "", content: "" });
+    setFormData({
+      title: "",
+      content: "",
+      category: DEFAULT_CATEGORY,
+      excerpt: "",
+      readTimeMinutes: "",
+    });
     setMessage("");
+  };
+
+  const buildPayload = () => {
+    const readNum = parseInt(String(formData.readTimeMinutes).trim(), 10);
+    const payload = {
+      title: formData.title.trim(),
+      content: formData.content.trim(),
+      category: normalizeCategory(formData.category),
+      excerpt: formData.excerpt.trim() || undefined,
+    };
+    if (!Number.isNaN(readNum) && readNum >= 1) {
+      payload.readTimeMinutes = readNum;
+    }
+    return payload;
   };
 
   const handleSave = async () => {
@@ -52,27 +92,36 @@ export default function Blog() {
     }
 
     try {
+      const payload = buildPayload();
       if (editingId) {
-        await axios.put(`/api/blogs/${editingId}`, formData, {
-          headers: authHeaders(),
+        await axios.put(`/api/blogs/${editingId}`, payload, {
+          headers: getAuthHeaders(),
         });
         setMessage("Blog updated successfully.");
       } else {
-        await axios.post("/api/blogs", formData, {
-          headers: authHeaders(),
+        await axios.post("/api/blogs", payload, {
+          headers: getAuthHeaders(),
         });
         setMessage("Blog added successfully.");
       }
       resetForm();
       fetchPosts();
     } catch (error) {
+      if (handleUnauthorized(error, setIsAdmin, setMessage)) return;
       setMessage(error.response?.data?.msg || "Unable to save blog.");
     }
   };
 
   const handleEdit = (post) => {
     setEditingId(post._id);
-    setFormData({ title: post.title, content: post.content });
+    setFormData({
+      title: post.title,
+      content: post.content,
+      category: normalizeCategory(post.category),
+      excerpt: post.excerpt || "",
+      readTimeMinutes:
+        post.readTimeMinutes != null ? String(post.readTimeMinutes) : "",
+    });
     setMessage("");
   };
 
@@ -80,18 +129,42 @@ export default function Blog() {
     if (!window.confirm("Delete this blog post?")) return;
     try {
       await axios.delete(`/api/blogs/${id}`, {
-        headers: authHeaders(),
+        headers: getAuthHeaders(),
       });
       fetchPosts();
     } catch (error) {
+      if (handleUnauthorized(error, setIsAdmin, setMessage)) return;
       setMessage(error.response?.data?.msg || "Unable to delete blog.");
     }
   };
 
-  const filteredPosts =
-    activeCategory === "All"
-      ? posts
-      : posts.filter((post) => post.category === activeCategory);
+  const filteredPosts = useMemo(
+    () =>
+      activeCategory === "All"
+        ? posts
+        : posts.filter(
+            (post) => normalizeCategory(post.category) === activeCategory
+          ),
+    [posts, activeCategory]
+  );
+
+  const blogTotalPages = Math.max(
+    1,
+    Math.ceil(filteredPosts.length / BLOG_PAGE_SIZE)
+  );
+
+  const paginatedPosts = useMemo(() => {
+    const start = (blogPage - 1) * BLOG_PAGE_SIZE;
+    return filteredPosts.slice(start, start + BLOG_PAGE_SIZE);
+  }, [filteredPosts, blogPage]);
+
+  useEffect(() => {
+    setBlogPage(1);
+  }, [activeCategory]);
+
+  useEffect(() => {
+    setBlogPage((p) => Math.min(p, blogTotalPages));
+  }, [blogTotalPages]);
 
   return (
     <>
@@ -118,7 +191,7 @@ export default function Blog() {
         government schemes, solar cost, maintenance, and energy-saving tips.
       </p>
 
-      <section style={{ padding: "60px 0" }}>
+      <section style={{ padding: "0 0 60px" }}>
         <div
           style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}
         >
@@ -140,17 +213,69 @@ export default function Blog() {
                   value={formData.title}
                   onChange={(e) => handleChange("title", e.target.value)}
                   placeholder="Blog title"
-                  style={{ padding: "14px", borderRadius: "8px", border: "1px solid #ddd" }}
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                  }}
+                />
+                <select
+                  value={formData.category}
+                  onChange={(e) => handleChange("category", e.target.value)}
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                  }}
+                >
+                  {CONTENT_CATEGORIES.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+                <textarea
+                  value={formData.excerpt}
+                  onChange={(e) => handleChange("excerpt", e.target.value)}
+                  placeholder="Short excerpt for cards (optional — auto from content if empty)"
+                  rows={2}
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                    resize: "vertical",
+                  }}
+                />
+                <input
+                  type="number"
+                  min={1}
+                  value={formData.readTimeMinutes}
+                  onChange={(e) =>
+                    handleChange("readTimeMinutes", e.target.value)
+                  }
+                  placeholder="Read time in minutes (optional)"
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                  }}
                 />
                 <textarea
                   value={formData.content}
                   onChange={(e) => handleChange("content", e.target.value)}
-                  placeholder="Blog content"
+                  placeholder="Blog body — Markdown supported: use ## for subheadings, **bold**, lists"
                   rows={8}
-                  style={{ padding: "14px", borderRadius: "8px", border: "1px solid #ddd", resize: "vertical" }}
+                  style={{
+                    padding: "14px",
+                    borderRadius: "8px",
+                    border: "1px solid #ddd",
+                    resize: "vertical",
+                  }}
                 />
                 {message && (
-                  <div style={{ color: "#333", fontSize: "0.95rem" }}>{message}</div>
+                  <div style={{ color: "#333", fontSize: "0.95rem" }}>
+                    {message}
+                  </div>
                 )}
                 <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                   <button
@@ -187,168 +312,118 @@ export default function Blog() {
               </div>
             </div>
           )}
+        </div>
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: "20px",
-              marginBottom: "40px",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-              {categories.map((cat) => (
+        <div className={lc.listingSection}>
+          <div className={lc.listingInner}>
+            <div className={lc.filterRow}>
+              {filterCategories.map((cat) => (
                 <button
                   key={cat}
                   type="button"
+                  className={
+                    cat === activeCategory ? lc.filterPillActive : lc.filterPill
+                  }
                   onClick={() => setActiveCategory(cat)}
-                  style={{
-                    padding: "8px 16px",
-                    borderRadius: "20px",
-                    border: cat === activeCategory ? "none" : "1px solid #ddd",
-                    backgroundColor: cat === activeCategory ? "#0057B8" : "white",
-                    color: cat === activeCategory ? "white" : "#333",
-                    cursor: "pointer",
-                    fontWeight: "500",
-                    transition: "all 0.3s ease",
-                  }}
                 >
                   {cat}
                 </button>
               ))}
             </div>
-          </div>
 
-          <div
-            className="blog-scroll"
-            style={{ marginBottom: "60px", paddingBottom: "10px" }}
-          >
-            {filteredPosts.map((post) => (
-              <article
-                key={post._id}
-                className="blog-card"
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "8px",
-                  overflow: "hidden",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  cursor: "pointer",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 16px rgba(0,0,0,0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div
-                  style={{
-                    padding: "20px",
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "inline-block",
-                      backgroundColor: "#E3F2FD",
-                      color: "#0057B8",
-                      padding: "4px 12px",
-                      borderRadius: "12px",
-                      fontSize: "0.8rem",
-                      fontWeight: "600",
-                      marginBottom: "10px",
-                      width: "fit-content",
-                    }}
-                  >
-                    Solar Blog
-                  </div>
-
-                  <Link href={`/blog/${post._id}`}>
-                    <h3
-                      style={{
-                        fontSize: "1.2rem",
-                        fontWeight: "700",
-                        color: "#003A8C",
-                        marginBottom: "10px",
-                        lineHeight: "1.4",
-                      }}
-                    >
-                      {post.title}
-                    </h3>
-                  </Link>
-
-                  <p
-                    style={{
-                      color: "#666",
-                      fontSize: "0.95rem",
-                      lineHeight: "1.6",
-                      marginBottom: "15px",
-                      flex: 1,
-                    }}
-                  >
-                    {post.content.slice(0, 150)}...
-                  </p>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      fontSize: "0.85rem",
-                      color: "#999",
-                      borderTop: "1px solid #eee",
-                      paddingTop: "15px",
-                    }}
-                  >
-                    <span>
-                      {new Date(post.createdAt).toLocaleDateString()}
+            <div className={lc.listingCardGrid}>
+              {paginatedPosts.map((post) => (
+                <article key={post._id} className={lc.blogCard}>
+                  <div className={lc.blogCardInner}>
+                    <span className={lc.categoryBadge}>
+                      {normalizeCategory(post.category)}
                     </span>
-                    {isAdmin && (
-                      <span style={{ display: "flex", gap: "10px" }}>
-                        <button
-                          type="button"
-                          onClick={() => handleEdit(post)}
-                          style={{
-                            backgroundColor: "#F4F7FB",
-                            border: "1px solid #ddd",
-                            borderRadius: "8px",
-                            padding: "8px 12px",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(post._id)}
-                          style={{
-                            backgroundColor: "#ffe5e5",
-                            border: "1px solid #f5c2c2",
-                            borderRadius: "8px",
-                            padding: "8px 12px",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
 
+                    <Link
+                      href={`/blog/${post._id}`}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      <h3 className={lc.blogCardTitle}>{post.title}</h3>
+                    </Link>
+
+                    <p className={lc.blogCardExcerpt}>{cardExcerpt(post)}</p>
+
+                    <div className={lc.blogMetaRow}>
+                      <span>
+                        {new Date(post.createdAt).toLocaleDateString(
+                          undefined,
+                          {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          }
+                        )}
+                      </span>
+                      <span>
+                        {post.readTimeMinutes != null &&
+                        post.readTimeMinutes >= 1
+                          ? `${post.readTimeMinutes} min read`
+                          : "—"}
+                      </span>
+                    </div>
+
+                    <div className={lc.blogFooterRow}>
+                      <Link
+                        href={`/blog/${post._id}`}
+                        className={lc.readMore}
+                      >
+                        Read more →
+                      </Link>
+                      {isAdmin && (
+                        <span style={{ display: "flex", gap: "8px" }}>
+                          <button
+                            type="button"
+                            onClick={() => handleEdit(post)}
+                            style={{
+                              backgroundColor: "#F4F7FB",
+                              border: "1px solid #ddd",
+                              borderRadius: "8px",
+                              padding: "6px 10px",
+                              cursor: "pointer",
+                              fontSize: "0.8rem",
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(post._id)}
+                            style={{
+                              backgroundColor: "#ffe5e5",
+                              border: "1px solid #f5c2c2",
+                              borderRadius: "8px",
+                              padding: "6px 10px",
+                              cursor: "pointer",
+                              fontSize: "0.8rem",
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <ListingPagination
+              page={blogPage}
+              totalPages={blogTotalPages}
+              onPageChange={setBlogPage}
+              suffix="blog posts"
+            />
+          </div>
+        </div>
+
+        <div
+          style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}
+        >
           <div
             style={{
               backgroundColor: "#F4F7FB",
@@ -356,13 +431,15 @@ export default function Blog() {
               borderRadius: "8px",
               textAlign: "center",
               marginBottom: "40px",
+              marginTop: "60px",
             }}
           >
             <h3 style={{ marginBottom: "15px", color: "#003A8C" }}>
               Subscribe to Our Newsletter
             </h3>
             <p style={{ marginBottom: "20px", color: "#666" }}>
-              Get the latest solar energy tips and updates delivered to your inbox
+              Get the latest solar energy tips and updates delivered to your
+              inbox
             </p>
             <div
               style={{
@@ -412,35 +489,6 @@ export default function Blog() {
           <Link href="/finance">Solar EMI Options</Link>
         </div>
       </section>
-      <style jsx>{`
-        .blog-scroll {
-          display: flex;
-          flex-wrap: nowrap;
-          gap: 30px;
-          overflow-x: auto;
-          padding-bottom: 10px;
-          -webkit-overflow-scrolling: touch;
-          scroll-snap-type: x mandatory;
-        }
-
-        .blog-card {
-          min-width: 320px;
-          max-width: 320px;
-          flex: 0 0 auto;
-          scroll-snap-align: start;
-        }
-
-        @media (max-width: 768px) {
-          .blog-scroll {
-            gap: 16px;
-          }
-
-          .blog-card {
-            min-width: calc(100vw - 40px);
-            max-width: calc(100vw - 40px);
-          }
-        }
-      `}</style>
     </>
   );
 }

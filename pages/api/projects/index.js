@@ -13,11 +13,15 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       verifyToken(req);
-
-      const project = await Project.create(req.body);
-      return res.json(project);
     } catch {
       return res.status(401).json({ msg: "Unauthorized" });
+    }
+    try {
+      const project = await Project.create(req.body);
+      return res.json(project);
+    } catch (e) {
+      console.error("[projects POST]", e);
+      return res.status(500).json({ msg: e.message || "Server error" });
     }
   }
 }
