@@ -1,101 +1,97 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
 
-const initialBlogPosts = [
-  {
-    id: 1,
-    title: "How to Maximize Solar Panel Efficiency in Jaipur Homes",
-    excerpt:
-      "Learn the best practices to ensure your solar panels operate at peak efficiency throughout the year.",
-    date: "March 15, 2024",
-    category: "Solar Tips Jaipur",
-    readTime: "5 min read",
-  },
-  {
-    id: 2,
-    title: "PM Suryaghar Yojana Guide Jaipur - How to Get Solar Subsidy",
-    excerpt:
-      "A comprehensive guide to India's biggest rooftop solar scheme and how to apply for maximum subsidy.",
-    date: "March 10, 2024",
-    category: "Government Solar Schemes in Rajasthan",
-    readTime: "8 min read",
-  },
-  {
-    id: 3,
-    title: "Solar vs Traditional Energy: Cost Comparison 2024",
-    excerpt:
-      "Detailed analysis of how solar energy compares to traditional electricity in terms of cost and efficiency.",
-    date: "March 5, 2024",
-    category: "Solar Cost & ROI",
-    readTime: "6 min read",
-  },
-  {
-    id: 4,
-    title: "Net Metering Explained: Sell Your Excess Solar Power",
-    excerpt:
-      "Understand how net metering works and how you can earn money by selling surplus solar power to the grid.",
-    date: "February 28, 2024",
-    category: "Solar Technology Guide",
-    readTime: "7 min read",
-  },
-  {
-    id: 5,
-    title: "PM KUSUM Yojana for Farmers: Everything You Need to Know",
-    excerpt:
-      "Complete guide to the PM KUSUM scheme for farmers in Rajasthan and how to get solar pumps with 90% subsidy.",
-    date: "February 20, 2024",
-    category: "Government Schemes",
-    readTime: "9 min read",
-  },
-  {
-    id: 6,
-    title: "Maintenance Tips for Your Solar Installation",
-    excerpt:
-      "Essential maintenance practices to keep your solar system running smoothly for 25+ years.",
-    date: "February 15, 2024",
-    category: "Solar Maintenance tips",
-    readTime: "5 min read",
-  },
-  {
-    id: 7,
-    title: "Solar Panel Degradation: What You Should Know",
-    excerpt:
-      "Understanding how solar panels degrade over time and what you can do to minimize efficiency loss.",
-    date: "February 10, 2024",
-    category: "Solar Technology",
-    readTime: "6 min read",
-  },
-  {
-    id: 8,
-    title: "Financing Your Solar Installation: Loan Options in Rajasthan",
-    excerpt:
-      "Explore various financing options and loan schemes available for solar installations in Rajasthan.",
-    date: "February 5, 2024",
-    category: "Finance",
-    readTime: "7 min read",
-  },
-];
-
-const initialCategories = [
-  "All",
-  "Solar Tips",
-  "Government Schemes",
-  "Cost Analysis",
-  "Solar Technology",
-  "Maintenance",
-  "Finance",
-];
+const categories = ["All"];
 
 export default function Blog() {
-  const blogPosts = initialBlogPosts;
-  const categories = initialCategories;
+  const [posts, setPosts] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [formData, setFormData] = useState({ title: "", content: "" });
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    fetchPosts();
+    if (typeof window !== "undefined") {
+      setIsAdmin(!!localStorage.getItem("token"));
+    }
+  }, []);
+
+  const authHeaders = () => {
+    if (typeof window === "undefined") return {};
+    const token = localStorage.getItem("token");
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get("/api/blogs");
+      setPosts(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const resetForm = () => {
+    setEditingId(null);
+    setFormData({ title: "", content: "" });
+    setMessage("");
+  };
+
+  const handleSave = async () => {
+    if (!formData.title.trim() || !formData.content.trim()) {
+      setMessage("Title and content are required.");
+      return;
+    }
+
+    try {
+      if (editingId) {
+        await axios.put(`/api/blogs/${editingId}`, formData, {
+          headers: authHeaders(),
+        });
+        setMessage("Blog updated successfully.");
+      } else {
+        await axios.post("/api/blogs", formData, {
+          headers: authHeaders(),
+        });
+        setMessage("Blog added successfully.");
+      }
+      resetForm();
+      fetchPosts();
+    } catch (error) {
+      setMessage(error.response?.data?.msg || "Unable to save blog.");
+    }
+  };
+
+  const handleEdit = (post) => {
+    setEditingId(post._id);
+    setFormData({ title: post.title, content: post.content });
+    setMessage("");
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this blog post?")) return;
+    try {
+      await axios.delete(`/api/blogs/${id}`, {
+        headers: authHeaders(),
+      });
+      fetchPosts();
+    } catch (error) {
+      setMessage(error.response?.data?.msg || "Unable to delete blog.");
+    }
+  };
 
   const filteredPosts =
     activeCategory === "All"
-      ? blogPosts
-      : blogPosts.filter((post) => post.category === activeCategory);
+      ? posts
+      : posts.filter((post) => post.category === activeCategory);
 
   return (
     <>
@@ -104,7 +100,6 @@ export default function Blog() {
         description="Read latest blogs on solar panel installation in Jaipur, PM Suryaghar Yojana, subsidy, cost, and maintenance tips. Expert guides by AY Solar Energy."
       />
 
-      {/* Page Header */}
       <section className="page-header">
         <div className="container">
           <h1 style={{ fontSize: "2.5rem", marginBottom: "10px" }}>
@@ -120,15 +115,79 @@ export default function Blog() {
         style={{ maxWidth: "800px", margin: "10px auto", textAlign: "center" }}
       >
         Explore expert articles on solar panel installation in Jaipur,
-        government schemes like PM Suryaghar and KUSUM Yojana, solar cost,
-        maintenance, and energy-saving tips.
+        government schemes, solar cost, maintenance, and energy-saving tips.
       </p>
 
-      {/* Blog Content */}
       <section style={{ padding: "60px 0" }}>
         <div
           style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}
         >
+          {isAdmin && (
+            <div
+              style={{
+                backgroundColor: "white",
+                padding: "24px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 16px rgba(0,0,0,0.08)",
+                marginBottom: "40px",
+              }}
+            >
+              <h2 style={{ marginBottom: "16px", color: "#003A8C" }}>
+                {editingId ? "Edit Blog" : "Add Blog"}
+              </h2>
+              <div style={{ display: "grid", gap: "16px" }}>
+                <input
+                  value={formData.title}
+                  onChange={(e) => handleChange("title", e.target.value)}
+                  placeholder="Blog title"
+                  style={{ padding: "14px", borderRadius: "8px", border: "1px solid #ddd" }}
+                />
+                <textarea
+                  value={formData.content}
+                  onChange={(e) => handleChange("content", e.target.value)}
+                  placeholder="Blog content"
+                  rows={8}
+                  style={{ padding: "14px", borderRadius: "8px", border: "1px solid #ddd", resize: "vertical" }}
+                />
+                {message && (
+                  <div style={{ color: "#333", fontSize: "0.95rem" }}>{message}</div>
+                )}
+                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                  <button
+                    type="button"
+                    onClick={handleSave}
+                    style={{
+                      backgroundColor: "#0057B8",
+                      color: "white",
+                      padding: "12px 20px",
+                      borderRadius: "8px",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {editingId ? "Save Changes" : "Add Blog"}
+                  </button>
+                  {editingId && (
+                    <button
+                      type="button"
+                      onClick={resetForm}
+                      style={{
+                        backgroundColor: "#F4F7FB",
+                        color: "#333",
+                        padding: "12px 20px",
+                        borderRadius: "8px",
+                        border: "1px solid #ddd",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           <div
             style={{
               display: "flex",
@@ -139,7 +198,6 @@ export default function Blog() {
               alignItems: "center",
             }}
           >
-            {/* Category Filter */}
             <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
               {categories.map((cat) => (
                 <button
@@ -150,8 +208,7 @@ export default function Blog() {
                     padding: "8px 16px",
                     borderRadius: "20px",
                     border: cat === activeCategory ? "none" : "1px solid #ddd",
-                    backgroundColor:
-                      cat === activeCategory ? "#0057B8" : "white",
+                    backgroundColor: cat === activeCategory ? "#0057B8" : "white",
                     color: cat === activeCategory ? "white" : "#333",
                     cursor: "pointer",
                     fontWeight: "500",
@@ -164,14 +221,13 @@ export default function Blog() {
             </div>
           </div>
 
-          {/* Blog Posts Scroll List */}
           <div
             className="blog-scroll"
             style={{ marginBottom: "60px", paddingBottom: "10px" }}
           >
             {filteredPosts.map((post) => (
               <article
-                key={post.id}
+                key={post._id}
                 className="blog-card"
                 style={{
                   backgroundColor: "white",
@@ -214,13 +270,10 @@ export default function Blog() {
                       width: "fit-content",
                     }}
                   >
-                    {post.category}
+                    Solar Blog
                   </div>
 
-                  <a
-                    href={`/blog/${post.id}`}
-                    style={{ textDecoration: "none" }}
-                  >
+                  <Link href={`/blog/${post._id}`}>
                     <h3
                       style={{
                         fontSize: "1.2rem",
@@ -228,18 +281,11 @@ export default function Blog() {
                         color: "#003A8C",
                         marginBottom: "10px",
                         lineHeight: "1.4",
-                        cursor: "pointer",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.color = "#0057B8";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.color = "#003A8C";
                       }}
                     >
                       {post.title}
                     </h3>
-                  </a>
+                  </Link>
 
                   <p
                     style={{
@@ -250,7 +296,7 @@ export default function Blog() {
                       flex: 1,
                     }}
                   >
-                    {post.excerpt}
+                    {post.content.slice(0, 150)}...
                   </p>
 
                   <div
@@ -264,42 +310,45 @@ export default function Blog() {
                       paddingTop: "15px",
                     }}
                   >
-                    <span>{post.date}</span>
-                    <span>{post.readTime}</span>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginTop: "15px",
-                    }}
-                  >
-                    <a
-                      href={`/blog/${post.id}`}
-                      style={{
-                        color: "#0057B8",
-                        fontWeight: "600",
-                        textDecoration: "none",
-                        display: "inline-block",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.color = "#003A8C";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.color = "#0057B8";
-                      }}
-                    >
-                      Read More →
-                    </a>
+                    <span>
+                      {new Date(post.createdAt).toLocaleDateString()}
+                    </span>
+                    {isAdmin && (
+                      <span style={{ display: "flex", gap: "10px" }}>
+                        <button
+                          type="button"
+                          onClick={() => handleEdit(post)}
+                          style={{
+                            backgroundColor: "#F4F7FB",
+                            border: "1px solid #ddd",
+                            borderRadius: "8px",
+                            padding: "8px 12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(post._id)}
+                          style={{
+                            backgroundColor: "#ffe5e5",
+                            border: "1px solid #f5c2c2",
+                            borderRadius: "8px",
+                            padding: "8px 12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </span>
+                    )}
                   </div>
                 </div>
               </article>
             ))}
           </div>
 
-          {/* Newsletter Signup */}
           <div
             style={{
               backgroundColor: "#F4F7FB",
@@ -313,8 +362,7 @@ export default function Blog() {
               Subscribe to Our Newsletter
             </h3>
             <p style={{ marginBottom: "20px", color: "#666" }}>
-              Get the latest solar energy tips and updates delivered to your
-              inbox
+              Get the latest solar energy tips and updates delivered to your inbox
             </p>
             <div
               style={{
@@ -363,7 +411,6 @@ export default function Blog() {
           <Link href="/services/commercial">Commercial Solar</Link> |
           <Link href="/finance">Solar EMI Options</Link>
         </div>
-        
       </section>
       <style jsx>{`
         .blog-scroll {

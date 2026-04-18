@@ -47,26 +47,26 @@ export default function Residential() {
                 <tr>
                   <td>1 kW</td>
                   <td>₹500-800</td>
-                  <td>₹80,000-100,000</td>
-                  <td>10-12 years</td>
+                  <td>₹30,000</td>
+                  <td>1 - 1.5 years</td>
                 </tr>
                 <tr>
                   <td>2 kW</td>
                   <td>₹1,000-1,600</td>
-                  <td>₹160,000-200,000</td>
-                  <td>10-12 years</td>
+                  <td>₹60,000</td>
+                  <td>2.5 - 3.5 years</td>
                 </tr>
                 <tr>
                   <td>3 kW</td>
                   <td>₹1,500-2,400</td>
-                  <td>₹240,000-300,000</td>
-                  <td>10-12 years</td>
+                  <td>₹78,000</td>
+                  <td>1.7 - 2.2 years</td>
                 </tr>
                 <tr>
                   <td>5 kW</td>
                   <td>₹2,500-4,000</td>
-                  <td>₹400,000-500,000</td>
-                  <td>10-12 years</td>
+                  <td>₹78,000</td>
+                  <td>2.5 - 3.5 years</td>
                 </tr>
               </tbody>
             </table>

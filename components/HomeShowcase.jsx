@@ -308,7 +308,7 @@ export default function HomeShowcase() {
             flexDirection: 'column',
             justifyContent: 'center',
             backgroundColor: '#FFFFFF',
-            height: isMobile ? 'auto' : 'calc(100vh - 260px)',
+            height: isMobile ? 'auto' : 'calc(100vh - 360px)',
             overflow: 'hidden',
             animation: 'fadeSlide 0.5s ease-out'
           }}>
