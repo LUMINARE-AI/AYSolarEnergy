@@ -158,7 +158,7 @@ export default function Kusum() {
         <div className="container">
           <div style={styles.cta}>
             <h2>Apply for PM KUSUM Yojana Solar Pump</h2>
-            <p>Get up to 90% subsidy on solar pumps in Jaipur & Tonk</p>
+            <p>Get up to 60% subsidy on solar pumps in Jaipur & Tonk</p>
             <Link href="/contact" className="btn btn-primary">
               Get Free Consultation
             </Link>
