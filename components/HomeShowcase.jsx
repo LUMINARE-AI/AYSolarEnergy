@@ -188,7 +188,6 @@ export default function HomeShowcase() {
         href: '/contact',
         color: '#0057B8',
         textColor: '#fff',
-        trust: '500+ installations across Rajasthan'
       },
       visual: (
         <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
