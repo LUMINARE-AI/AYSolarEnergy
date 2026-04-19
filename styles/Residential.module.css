@@ -1,0 +1,121 @@
+/* Pricing table — residential solar (aligned with surya / primary blues) */
+
+.tableSection {
+  margin-top: 8px;
+}
+
+.tableIntro {
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0 0 20px;
+  max-width: 52rem;
+}
+
+.tableScroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 14px;
+  box-shadow:
+    0 4px 6px -1px rgba(12, 74, 110, 0.06),
+    0 16px 40px -12px rgba(12, 74, 110, 0.14);
+  border: 1px solid rgba(3, 105, 161, 0.15);
+  background: #fff;
+}
+
+.pricingTable {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 0.95rem;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pricingTable thead {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.pricingTable thead th {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 16px 18px;
+  border: none;
+  vertical-align: middle;
+}
+
+.pricingTable thead th:first-child {
+  border-radius: 0;
+}
+
+.pricingTable tbody tr {
+  background: #fff;
+  transition: background 0.15s ease;
+}
+
+.pricingTable tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.pricingTable tbody tr:hover {
+  background: #e0f2fe;
+}
+
+.pricingTable tbody td {
+  padding: 14px 18px;
+  color: #334155;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  vertical-align: middle;
+}
+
+.pricingTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.pricingTable tbody td:first-child {
+  font-weight: 700;
+  color: #0c4a6e;
+  font-family: "Poppins", system-ui, sans-serif;
+}
+
+.pricingTable tbody td:not(:first-child) {
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .pricingTable {
+    font-size: 0.88rem;
+    min-width: 480px;
+  }
+
+  .pricingTable thead th,
+  .pricingTable tbody td {
+    padding: 12px 14px;
+  }
+
+  .pricingTable thead th {
+    font-size: 0.72rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricingTable tbody tr {
+    transition: none;
+  }
+}

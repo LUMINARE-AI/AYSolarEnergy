@@ -139,7 +139,8 @@ export default function HomeShowcase() {
       features: [
         '1 kW → ₹30,000',
         '2 kW → ₹60,000',
-        '3 kW+ → ₹78,000'
+        '3 kW+ → ₹78,000',
+        '5 kW+ → ₹78,000'
       ],
       cta1: {
         label: 'Apply Now',
@@ -178,7 +179,6 @@ export default function HomeShowcase() {
       description: "Install a 1kW–10kW rooftop solar system on your home in Jaipur, Tonk or nearby Rajasthan district. With 300+ sunny days in Rajasthan, solar pays for itself in 3–4 years.",
       features: [
         'MNRE approved panels & inverters',
-        'Net metering — sell surplus to grid',
         '5-year installation warranty',
         'Complete subsidy paperwork handled',
         'Installation in 3–7 working days'

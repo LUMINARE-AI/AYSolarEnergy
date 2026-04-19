@@ -8,7 +8,7 @@ export default function Kusum() {
     <>
       <NextSeo
         title="PM KUSUM Yojana Solar Pump Jaipur - Subsidy for Farmers Rajasthan"
-        description="Get PM KUSUM Yojana solar pump in Jaipur with up to 90% subsidy. Solar irrigation systems for farmers in Rajasthan. Apply now with AY Solar Energy."
+        description="Get PM KUSUM Yojana solar pump in Jaipur with up to 60% subsidy. Solar irrigation systems for farmers in Rajasthan. Apply now with AY Solar Energy."
       />
 
       <Hero
@@ -20,7 +20,7 @@ export default function Kusum() {
         style={{ textAlign: "center", maxWidth: "800px", margin: "20px auto" }}
       >
         AY Solar Energy provides PM KUSUM Yojana solar pump installation in
-        Jaipur and Tonk. Farmers can get up to 90% subsidy on solar irrigation
+        Jaipur and Tonk. Farmers can get up to 60% subsidy on solar irrigation
         systems and reduce diesel costs permanently.
       </p>
 

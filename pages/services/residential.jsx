@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
+import tableStyles from "@/styles/Residential.module.css";
 
 export default function Residential() {
   return (
@@ -28,48 +29,54 @@ export default function Residential() {
           <h2 style={{ marginBottom: "30px" }}>
             Home Solar System Sizes & Pricing in Jaipur
           </h2>
-          <div style={styles.table}>
-            <p>
+          <div className={tableStyles.tableSection}>
+            <p className={tableStyles.tableIntro}>
               The cost of home solar panel installation in Jaipur depends on
               system size and subsidy. Below is an estimated pricing for
               residential rooftop solar systems:
             </p>
-            <table>
-              <thead>
-                <tr>
-                  <th>System Size</th>
-                  <th>Monthly Savings</th>
-                  <th>Investment</th>
-                  <th>Payback Period</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1 kW</td>
-                  <td>₹500-800</td>
-                  <td>₹30,000</td>
-                  <td>1 - 1.5 years</td>
-                </tr>
-                <tr>
-                  <td>2 kW</td>
-                  <td>₹1,000-1,600</td>
-                  <td>₹60,000</td>
-                  <td>2.5 - 3.5 years</td>
-                </tr>
-                <tr>
-                  <td>3 kW</td>
-                  <td>₹1,500-2,400</td>
-                  <td>₹78,000</td>
-                  <td>1.7 - 2.2 years</td>
-                </tr>
-                <tr>
-                  <td>5 kW</td>
-                  <td>₹2,500-4,000</td>
-                  <td>₹78,000</td>
-                  <td>2.5 - 3.5 years</td>
-                </tr>
-              </tbody>
-            </table>
+            <div className={tableStyles.tableScroll}>
+              <table className={tableStyles.pricingTable}>
+                <caption className={tableStyles.srOnly}>
+                  Estimated residential rooftop solar pricing by system size in
+                  Jaipur
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">System Size</th>
+                    <th scope="col">Monthly Savings</th>
+                    <th scope="col">Investment</th>
+                    <th scope="col">Payback Period</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1 kW</td>
+                    <td>₹500–800</td>
+                    <td>₹30,000</td>
+                    <td>1–1.5 years</td>
+                  </tr>
+                  <tr>
+                    <td>2 kW</td>
+                    <td>₹1,000–1,600</td>
+                    <td>₹60,000</td>
+                    <td>2.5–3.5 years</td>
+                  </tr>
+                  <tr>
+                    <td>3 kW</td>
+                    <td>₹1,500–2,400</td>
+                    <td>₹78,000</td>
+                    <td>1.7–2.2 years</td>
+                  </tr>
+                  <tr>
+                    <td>5 kW</td>
+                    <td>₹2,500–4,000</td>
+                    <td>₹78,000</td>
+                    <td>2.5–3.5 years</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
@@ -164,9 +171,6 @@ export default function Residential() {
 }
 
 const styles = {
-  table: {
-    overflowX: "auto",
-  },
   steps: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",

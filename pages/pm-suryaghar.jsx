@@ -96,14 +96,14 @@ export default function PMSuryaghar() {
           </p>
           <div className="surya-subsidy-grid">
             <div className="surya-subsidy-card">
-              <div className="surya-card-size">1 kW System</div>
-              <div className="surya-card-subsidy">₹60,000</div>
+              <div className="surya-card-size">3 kW System</div>
+              <div className="surya-card-subsidy">₹1,80,000</div>
               <div className="surya-card-divider" />
               <div className="surya-card-row">
                 <span className="surya-card-row-label">
                   Your cost after subsidy
                 </span>
-                <span className="surya-card-row-val">₹20,000–40,000</span>
+                <span className="surya-card-row-val">₹1,0,2000</span>
               </div>
               <div className="surya-card-payback">
                 <svg
@@ -122,14 +122,14 @@ export default function PMSuryaghar() {
             </div>
             <div className="surya-subsidy-card featured">
               <div className="surya-top-tag">Best Value</div>
-              <div className="surya-card-size">2 kW System</div>
-              <div className="surya-card-subsidy">₹1,00,000</div>
+              <div className="surya-card-size">5 kW System</div>
+              <div className="surya-card-subsidy">₹2,80,000</div>
               <div className="surya-card-divider" />
               <div className="surya-card-row">
                 <span className="surya-card-row-label">
                   Your cost after subsidy
                 </span>
-                <span className="surya-card-row-val">₹40,000–60,000</span>
+                <span className="surya-card-row-val">₹2,02,000</span>
               </div>
               <div className="surya-card-payback">
                 <svg
