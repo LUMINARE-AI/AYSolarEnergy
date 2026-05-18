@@ -743,3 +743,195 @@
             line-height: 1.75;
             color: #444;
         }
+
+        /* Rent A Roof (same design language as PM Suryaghar) */
+        .surya-rent-badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .surya-hero-hindi {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 28px;
+            max-width: 440px;
+            line-height: 1.5;
+        }
+
+        .surya-policy-feature {
+            background: linear-gradient(135deg, #FFFBF0 0%, #FEF3C7 100%);
+            border: 2px solid rgba(245, 158, 11, 0.45);
+            border-radius: 24px;
+            padding: 48px 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .surya-breaking-tag {
+            display: inline-block;
+            background: linear-gradient(90deg, #dc2626, #f59e0b);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .surya-new-policy-pill {
+            display: inline-block;
+            margin-left: 8px;
+            background: #F59E0B;
+            color: #1C1917;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 100px;
+            vertical-align: middle;
+        }
+
+        .surya-news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .surya-news-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .surya-news-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+
+        .surya-news-img-wrap {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            background: #F4F7FB;
+        }
+
+        .surya-news-img {
+            object-fit: cover;
+        }
+
+        .surya-news-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            min-height: 180px;
+            padding: 24px;
+            text-align: center;
+            color: #78716C;
+            font-size: 13px;
+        }
+
+        .surya-news-caption {
+            padding: 16px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1C1917;
+        }
+
+        .surya-rent-three-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .surya-rent-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #FEF3C7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #B45309;
+            margin-bottom: 16px;
+        }
+
+        .surya-models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .surya-waitlist-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .surya-waitlist-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #78350F;
+            margin-bottom: 6px;
+        }
+
+        .surya-waitlist-field input,
+        .surya-waitlist-field select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(120, 53, 15, 0.25);
+            font-size: 15px;
+            font-family: inherit;
+            background: #fff;
+            color: #1C1917;
+        }
+
+        .surya-waitlist-field input:focus,
+        .surya-waitlist-field select:focus {
+            outline: none;
+            border-color: #F59E0B;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+        }
+
+        .surya-waitlist-submit {
+            margin-top: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .surya-waitlist-success {
+            color: #16A34A;
+            font-weight: 600;
+            padding: 16px;
+            background: rgba(22, 163, 74, 0.1);
+            border-radius: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .surya-policy-feature {
+                padding: 32px 20px;
+            }
+
+            .surya-news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .surya-models-grid {
+                grid-template-columns: 1fr;
+            }
+        }

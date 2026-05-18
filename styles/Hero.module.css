@@ -156,6 +156,24 @@
   }
 
   .pageHero :global(h1) {
-    font-size: 1.8rem;
+    font-size: 1.65rem;
+    line-height: 1.2;
+    padding: 0 8px;
+  }
+
+  .pageHero :global(p) {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    padding: 0 12px;
+  }
+
+  .pageHero {
+    padding: 16px 0 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .pageHero :global(h1) {
+    font-size: 1.45rem;
   }
 }

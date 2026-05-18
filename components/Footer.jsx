@@ -31,6 +31,7 @@ export default function Footer() {
                 <li><Link href="/about">About Us</Link></li>
                 <li><Link href="/services">Services</Link></li>
                 <li><Link href="/pm-suryaghar">PM Suryaghar</Link></li>
+                <li><Link href="/rent-a-roof">Rent A Roof</Link></li>
                 <li><Link href="/finance">Finance</Link></li>
                 <li><Link href="/contact">Contact</Link></li>
               </ul>
