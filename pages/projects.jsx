@@ -4,7 +4,9 @@ import Link from "next/link";
 import { NextSeo } from "next-seo";
 import { getAuthHeaders, handleUnauthorized } from "@/lib/clientAuth";
 import ListingPagination from "@/components/ListingPagination";
+import Hero from "@/components/Hero";
 import lc from "@/styles/listingCards.module.css";
+import sp from "@/styles/sitePage.module.css";
 
 const PROJECTS_PAGE_SIZE = 6;
 
@@ -218,19 +220,20 @@ export default function Projects() {
         description="View our completed solar projects across Jaipur & Tonk. Updated project management for admin users."
       />
 
-      <section className="page-header">
-        <div className="container">
-          <h1 style={{ fontSize: "2.5rem", marginBottom: "10px" }}>
-            Our Completed Projects
-          </h1>
-          <p style={{ fontSize: "1.1rem", opacity: 0.9 }}>
-            Real installations from satisfied customers across Rajasthan
-          </p>
-        </div>
-      </section>
+      <div className={sp.root}>
+        <Hero
+          title="Our completed projects"
+          subtitle="Real installations from satisfied customers across Rajasthan"
+          pageHero
+        />
 
-      <section style={{ padding: "0 0 60px" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}>
+        <p className={sp.pageIntro}>
+          Explore solar panel installations completed by AY Solar Energy in Jaipur, Tonk and across
+          Rajasthan.
+        </p>
+
+        <section className={lc.listingSection}>
+          <div className={lc.listingInner}>
           {isAdmin && (
             <div
               style={{
@@ -453,10 +456,7 @@ export default function Projects() {
               </div>
             </div>
           )}
-        </div>
 
-        <div className={lc.listingSection}>
-          <div className={lc.listingInner}>
             <div className={lc.listingCardGrid}>
               {paginatedProjects.map((project) => (
                 <div key={project._id} className={lc.projectCard}>
@@ -523,157 +523,35 @@ export default function Projects() {
               suffix="projects"
             />
           </div>
-        </div>
+        </section>
 
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: "30px",
-              marginBottom: "10px",
-              marginTop: "60px",
-            }}
-          >
-            <div
-              style={{
-                textAlign: "center",
-                padding: "30px",
-                backgroundColor: "#F4F7FB",
-                borderRadius: "8px",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "2.5rem",
-                  fontWeight: "700",
-                  color: "#0057B8",
-                  marginBottom: "10px",
-                }}
-              >
-                200+
-              </div>
-              <h4 style={{ marginBottom: "10px", color: "#333" }}>
-                Projects Completed
-              </h4>
-              <p>Successful installations across Rajasthan</p>
-            </div>
-            <div
-              style={{
-                textAlign: "center",
-                padding: "30px",
-                backgroundColor: "#F4F7FB",
-                borderRadius: "8px",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "2.5rem",
-                  fontWeight: "700",
-                  color: "#0057B8",
-                  marginBottom: "10px",
-                }}
-              >
-                2500+ kW
-              </div>
-              <h4 style={{ marginBottom: "10px", color: "#333" }}>
-                Total Capacity
-              </h4>
-              <p>Solar power generating clean energy</p>
-            </div>
-            <div
-              style={{
-                textAlign: "center",
-                padding: "30px",
-                backgroundColor: "#F4F7FB",
-                borderRadius: "8px",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "2.5rem",
-                  fontWeight: "700",
-                  color: "#0057B8",
-                  marginBottom: "10px",
-                }}
-              >
-                ₹5 Cr+
-              </div>
-              <h4 style={{ marginBottom: "10px", color: "#333" }}>
-                Customer Savings
-              </h4>
-              <p>Annual electricity bill savings</p>
-            </div>
-            <div
-              style={{
-                textAlign: "center",
-                padding: "30px",
-                backgroundColor: "#F4F7FB",
-                borderRadius: "8px",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "2.5rem",
-                  fontWeight: "700",
-                  color: "#0057B8",
-                  marginBottom: "10px",
-                }}
-              >
-                5+
-              </div>
-              <h4 style={{ marginBottom: "10px", color: "#333" }}>
-                Years Experience
-              </h4>
-              <p>Trusted solar energy partner</p>
+        <section className={`${sp.section} ${sp.sectionMuted}`}>
+          <div className={sp.wrapWide}>
+            <div className={sp.grid4}>
+              {[
+                { num: "200+", label: "Projects completed", hint: "Across Rajasthan" },
+                { num: "2500+ kW", label: "Total capacity", hint: "Clean solar power" },
+                { num: "₹5 Cr+", label: "Customer savings", hint: "Annual bill savings" },
+                { num: "5+", label: "Years experience", hint: "Trusted partner" },
+              ].map((stat) => (
+                <div key={stat.label} className={sp.statCard}>
+                  <span className={sp.statNum}>{stat.num}</span>
+                  <span className={sp.statLabel}>{stat.label}</span>
+                  <p className={sp.statHint}>{stat.hint}</p>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section style={{ padding: "60px 0", backgroundColor: "#F4F7FB" }}>
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-            padding: "0 20px",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "#E3F2FD",
-              padding: "20px",
-              borderRadius: "8px",
-              marginBottom: "20px",
-            }}
-          >
-            <h2 style={{ marginBottom: "0px", color: "#333" }}>
-              Ready to Join Our Success Stories?
-            </h2>
-          </div>
-          <p style={{ marginBottom: "30px", fontSize: "1.1rem", color: "#666" }}>
-            Get a free consultation and quote for your solar installation
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              backgroundColor: "#0057B8",
-              color: "white",
-              padding: "14px 40px",
-              borderRadius: "6px",
-              fontWeight: "600",
-              textDecoration: "none",
-              display: "inline-block",
-              transition: "all 0.3s ease",
-            }}
-            onMouseEnter={(e) => (e.target.style.backgroundColor = "#003A8C")}
-            onMouseLeave={(e) => (e.target.style.backgroundColor = "#0057B8")}
-          >
-            Get Free Quote
+        <section className={sp.ctaBand}>
+          <h2>Ready to join our success stories?</h2>
+          <p>Get a free consultation and quote for your solar installation</p>
+          <Link href="/contact" className={sp.btnPrimary}>
+            Get free quote
           </Link>
-        </div>
-      </section>
+        </section>
+      </div>
     </>
   );
 }

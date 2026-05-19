@@ -1,196 +1,114 @@
-import Hero from "@/components/Hero";
-import { NextSeo } from "next-seo";
-import Link from "next/link";
+import Hero from '@/components/Hero';
+import { NextSeo } from 'next-seo';
+import Link from 'next/link';
+import SectionHeader from '@/components/layout/SectionHeader';
+import PageIcon from '@/components/icons/PageIcon';
+import sp from '@/styles/sitePage.module.css';
+
+const APPLICATIONS = [
+  { icon: 'office', title: 'Office buildings', text: 'Reduce operational costs with rooftop solar' },
+  { icon: 'manufacturing', title: 'Manufacturing units', text: 'Large-scale solar for industrial operations' },
+  { icon: 'retail', title: 'Retail stores', text: 'Solar solutions for shopping complexes' },
+  { icon: 'hospital', title: 'Hospitals & clinics', text: 'Reliable backup power with solar' },
+  { icon: 'school', title: 'Educational institutions', text: 'Sustainable energy for schools & colleges' },
+  { icon: 'hotel', title: 'Hotels & resorts', text: 'Cost-effective energy for hospitality' },
+];
+
+const BENEFITS = [
+  { icon: 'savings', title: 'Reduce operating costs', text: 'Save up to 80% on electricity bills' },
+  { icon: 'chart', title: 'Increase profitability', text: 'Better bottom line with lower energy costs' },
+  { icon: 'leaf', title: 'Corporate responsibility', text: 'Demonstrate environmental commitment' },
+  { icon: 'shield', title: 'Energy independence', text: 'Protection from rising electricity rates' },
+];
+
+const PROCESS = [
+  { num: '1', title: 'Energy audit', desc: 'Analyze your energy consumption' },
+  { num: '2', title: 'Custom design', desc: 'Tailored solar solution' },
+  { num: '3', title: 'ROI analysis', desc: 'Clear financial projections' },
+  { num: '4', title: 'Installation', desc: 'Professional implementation' },
+  { num: '5', title: 'Monitoring', desc: 'Real-time performance tracking' },
+  { num: '6', title: 'Support', desc: 'Ongoing maintenance & support' },
+];
 
 export default function Commercial() {
   return (
     <>
       <NextSeo
         title="Commercial & Industrial Solar - AY Solar Energy"
-        description="Large-scale solar solutions for businesses and industries"
+        description="Large-scale solar solutions for businesses and industries in Jaipur & Tonk"
       />
 
-      <Hero
-        title="Commercial Solar Installation in Jaipur & Tonk"
-        subtitle="Industrial Solar Solutions for Businesses"
-        pageHero={true}
-      />
+      <div className={sp.root}>
+        <Hero
+          title="Commercial solar installation in Jaipur & Tonk"
+          subtitle="Industrial solar solutions for businesses"
+          pageHero
+        />
 
-      <p
-        style={{ textAlign: "center", maxWidth: "800px", margin: "20px auto" }}
-      >
-        AY Solar Energy provides commercial solar installation in Jaipur and
-        Tonk for offices, factories, schools, and industries. Reduce electricity
-        costs by up to 80% with high-efficiency solar systems.
-      </p>
+        <p className={sp.pageIntro}>
+          AY Solar Energy provides commercial solar installation in Jaipur and Tonk for offices, factories,
+          schools, and industries. Reduce electricity costs by up to 80% with high-efficiency solar systems.
+        </p>
 
-      <section className="section">
-        <div className="container">
-          <h2 style={{ marginBottom: "30px", textAlign: "center" }}>
-            Commercial Solar Applications in Jaipur
-          </h2>
-          <div style={styles.applications}>
-            <div style={styles.app}>
-              <h4>🏢 Office Buildings</h4>
-              <p>Reduce operational costs with rooftop solar</p>
-            </div>
-            <div style={styles.app}>
-              <h4>🏭 Manufacturing Units</h4>
-              <p>Large-scale solar for industrial operations</p>
-            </div>
-            <div style={styles.app}>
-              <h4>🏪 Retail Stores</h4>
-              <p>Solar solutions for shopping complexes</p>
-            </div>
-            <div style={styles.app}>
-              <h4>🏥 Hospitals & Clinics</h4>
-              <p>Reliable backup power with solar</p>
-            </div>
-            <div style={styles.app}>
-              <h4>🎓 Educational Institutions</h4>
-              <p>Sustainable energy for schools & colleges</p>
-            </div>
-            <div style={styles.app}>
-              <h4>🏨 Hotels & Resorts</h4>
-              <p>Cost-effective energy for hospitality</p>
+        <section className={sp.section}>
+          <div className={sp.wrapWide}>
+            <SectionHeader eyebrow="Applications" title="Commercial solar applications" />
+            <div className={sp.grid3}>
+              {APPLICATIONS.map((item) => (
+                <article key={item.title} className={`${sp.card} ${sp.iconCard}`}>
+                  <div className={sp.iconWrap}>
+                    <PageIcon name={item.icon} />
+                  </div>
+                  <h4>{item.title}</h4>
+                  <p>{item.text}</p>
+                </article>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="section" style={{ backgroundColor: "#F4F7FB" }}>
-        <div className="container">
-          <h2 style={{ marginBottom: "30px", textAlign: "center" }}>
-            Benefits of Commercial Solar Installation
-          </h2>
-          <div style={styles.benefits}>
-            <div style={styles.benefit}>
-              <div style={styles.benefitIcon}>💰</div>
-              <h4>Reduce Operating Costs</h4>
-              <p>Save up to 80% on electricity bills</p>
-            </div>
-            <div style={styles.benefit}>
-              <div style={styles.benefitIcon}>📈</div>
-              <h4>Increase Profitability</h4>
-              <p>Better bottom line with lower energy costs</p>
-            </div>
-            <div style={styles.benefit}>
-              <div style={styles.benefitIcon}>🌍</div>
-              <h4>Corporate Responsibility</h4>
-              <p>Demonstrate environmental commitment</p>
-            </div>
-            <div style={styles.benefit}>
-              <div style={styles.benefitIcon}>🛡️</div>
-              <h4>Energy Independence</h4>
-              <p>Protection from rising electricity rates</p>
+        <section className={`${sp.section} ${sp.sectionMuted}`}>
+          <div className={sp.wrapWide}>
+            <SectionHeader eyebrow="Benefits" title="Benefits of commercial solar" />
+            <div className={sp.grid4}>
+              {BENEFITS.map((item) => (
+                <article key={item.title} className={`${sp.card} ${sp.iconCard}`}>
+                  <div className={sp.iconWrap}>
+                    <PageIcon name={item.icon} />
+                  </div>
+                  <h4>{item.title}</h4>
+                  <p>{item.text}</p>
+                </article>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="section">
-        <div className="container">
-          <h2 style={{ marginBottom: "30px", textAlign: "center" }}>
-            Our Solar Installation Process in Rajasthan
-          </h2>
-          <div style={styles.process}>
-            <div style={styles.step}>
-              <div style={styles.stepNum}>1</div>
-              <h4>Energy Audit</h4>
-              <p>Analyze your energy consumption</p>
+        <section className={sp.section}>
+          <div className={sp.wrapWide}>
+            <SectionHeader eyebrow="Process" title="Our installation process" />
+            <div className={sp.stepGrid}>
+              {PROCESS.map((step) => (
+                <article key={step.num} className={sp.stepCard}>
+                  <div className={sp.stepNum}>{step.num}</div>
+                  <h4>{step.title}</h4>
+                  <p>{step.desc}</p>
+                </article>
+              ))}
             </div>
-            <div style={styles.step}>
-              <div style={styles.stepNum}>2</div>
-              <h4>Custom Design</h4>
-              <p>Tailored solar solution for your needs</p>
+            <div style={{ textAlign: 'center', marginTop: 40 }}>
+              <Link href="/contact" className={sp.btnPrimary}>
+                Get commercial quote →
+              </Link>
             </div>
-            <div style={styles.step}>
-              <div style={styles.stepNum}>3</div>
-              <h4>ROI Analysis</h4>
-              <p>Clear financial projections</p>
-            </div>
-            <div style={styles.step}>
-              <div style={styles.stepNum}>4</div>
-              <h4>Installation</h4>
-              <p>Professional implementation</p>
-            </div>
-            <div style={styles.step}>
-              <div style={styles.stepNum}>5</div>
-              <h4>Monitoring</h4>
-              <p>Real-time performance tracking</p>
-            </div>
-            <div style={styles.step}>
-              <div style={styles.stepNum}>6</div>
-              <h4>Support</h4>
-              <p>Ongoing maintenance & support</p>
-            </div>
+            <nav className={sp.linkRow} aria-label="Related pages">
+              <Link href="/services/residential">Residential solar</Link>
+              <Link href="/pm-suryaghar">Solar subsidy yojana</Link>
+              <Link href="/finance">Solar EMI options</Link>
+            </nav>
           </div>
-        </div>
-        <div style={{ textAlign: "center", marginTop: "30px" }}>
-          <Link href="/services/residential">Residential Solar</Link> |
-          <Link href="/pm-suryaghar">Solar Subsidy Yojana</Link> |
-          <Link href="/finance">Solar EMI Options</Link>
-        </div>
-        <div style={{ textAlign: "center", marginTop: "40px" }}>
-          <h3 style={{ marginBottom: "20px" }}>Get Commercial Solar Installation Quote in Jaipur</h3>
-          <Link
-            href="/contact"
-            style={{
-              backgroundColor: "#0057B8",
-              color: "white",
-              padding: "12px 30px",
-              borderRadius: "5px",
-              textDecoration: "none",
-            }}
-          >
-            Get Free Quote →
-          </Link>
-        </div>
-      </section>
+        </section>
+      </div>
     </>
   );
 }
-
-const styles = {
-  applications: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-    gap: "20px",
-  },
-  app: {
-    padding: "20px",
-    backgroundColor: "white",
-    borderRadius: "8px",
-    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-  },
-  benefits: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-    gap: "30px",
-  },
-  benefit: {
-    textAlign: "center",
-    padding: "20px",
-  },
-  benefitIcon: {
-    fontSize: "2.5rem",
-    marginBottom: "10px",
-  },
-  process: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-    gap: "20px",
-  },
-  step: {
-    textAlign: "center",
-    padding: "20px",
-    backgroundColor: "#F4F7FB",
-    borderRadius: "8px",
-  },
-  stepNum: {
-    fontSize: "2rem",
-    fontWeight: "700",
-    color: "var(--primary-blue)",
-    marginBottom: "10px",
-  },
-};

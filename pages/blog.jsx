@@ -9,7 +9,9 @@ import {
 } from "@/lib/contentCategories";
 import { getAuthHeaders, handleUnauthorized } from "@/lib/clientAuth";
 import ListingPagination from "@/components/ListingPagination";
+import Hero from "@/components/Hero";
 import lc from "@/styles/listingCards.module.css";
+import sp from "@/styles/sitePage.module.css";
 
 const filterCategories = ["All", ...CONTENT_CATEGORIES];
 const BLOG_PAGE_SIZE = 6;
@@ -173,28 +175,20 @@ export default function Blog() {
         description="Read latest blogs on solar panel installation in Jaipur, PM Suryaghar Yojana, subsidy, cost, and maintenance tips. Expert guides by AY Solar Energy."
       />
 
-      <section className="page-header">
-        <div className="container">
-          <h1 style={{ fontSize: "2.5rem", marginBottom: "10px" }}>
-            Solar Panel Blog in Jaipur - Tips, Subsidy & Installation Guides
-          </h1>
-          <p style={{ fontSize: "1.1rem", opacity: 0.9 }}>
-            Latest insights, tips, and guides about solar energy
-          </p>
-        </div>
-      </section>
+      <div className={sp.root}>
+        <Hero
+          title="Solar blog — tips, subsidy & guides"
+          subtitle="Expert insights on solar energy in Jaipur & Rajasthan"
+          pageHero
+        />
 
-      <p
-        style={{ maxWidth: "800px", margin: "10px auto", textAlign: "center" }}
-      >
-        Explore expert articles on solar panel installation in Jaipur,
-        government schemes, solar cost, maintenance, and energy-saving tips.
-      </p>
+        <p className={sp.pageIntro}>
+          Explore expert articles on solar panel installation in Jaipur, government schemes,
+          solar cost, maintenance, and energy-saving tips.
+        </p>
 
-      <section style={{ padding: "0 0 60px" }}>
-        <div
-          style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}
-        >
+        <section className={lc.listingSection}>
+          <div className={lc.listingInner}>
           {isAdmin && (
             <div
               style={{
@@ -488,7 +482,8 @@ export default function Blog() {
           <Link href="/services/commercial">Commercial Solar</Link> |
           <Link href="/finance">Solar EMI Options</Link>
         </div>
-      </section>
+        </section>
+      </div>
     </>
   );
 }

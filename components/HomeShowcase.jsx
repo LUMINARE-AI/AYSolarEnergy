@@ -4,378 +4,367 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import styles from '../styles/HomeShowcase.module.css';
 
-export default function HomeShowcase() {
-  const [activePanel, setActivePanel] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-  const autoSwitchTimerRef = useRef(null);
+const PANEL_COUNT = 4;
+const AUTO_MS = 5000;
 
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+function RoofIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 200 200" aria-hidden>
+      <polygon points="100,25 175,95 25,95" fill="#0057B8" />
+      <rect x="55" y="95" width="90" height="75" fill="#E3F2FD" stroke="#0057B8" strokeWidth="2" />
+      <rect x="80" y="115" width="40" height="55" fill="#8B4513" />
+      <circle cx="145" cy="55" r="22" fill="#FFC107" />
+    </svg>
+  );
+}
 
-  // Auto-switch panels every 5 seconds (works on both mobile and desktop)
-  useEffect(() => {
-    const startAutoSwitch = () => {
-      autoSwitchTimerRef.current = setInterval(() => {
-        setActivePanel((prev) => (prev + 1) % 3);
-      }, 5000);
-    };
-
-    startAutoSwitch();
-
-    return () => {
-      if (autoSwitchTimerRef.current) {
-        clearInterval(autoSwitchTimerRef.current);
-      }
-    };
-  }, []);
-
-  const handleDotClick = (index) => {
-    setActivePanel(index);
-    // Reset auto-switch timer on manual click
-    if (autoSwitchTimerRef.current) {
-      clearInterval(autoSwitchTimerRef.current);
-    }
-    autoSwitchTimerRef.current = setInterval(() => {
-      setActivePanel((prev) => (prev + 1) % 3);
-    }, 5000);
-  };
-
-  // SVG Icons
-  const SunIcon = () => (
-    <svg viewBox="0 0 100 100" style={{ width: '80px', height: '80px', animation: 'spin 20s linear infinite' }}>
+function SunIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 100 100" aria-hidden>
       <circle cx="50" cy="50" r="30" fill="#FFC107" />
       <g stroke="#FFC107" strokeWidth="4" strokeLinecap="round">
-        <line x1="50" y1="5" x2="50" y2="15" />
-        <line x1="50" y1="85" x2="50" y2="95" />
-        <line x1="5" y1="50" x2="15" y2="50" />
-        <line x1="85" y1="50" x2="95" y2="50" />
-        <line x1="15" y1="15" x2="22" y2="22" />
-        <line x1="78" y1="78" x2="85" y2="85" />
-        <line x1="85" y1="15" x2="78" y2="22" />
-        <line x1="22" y1="78" x2="15" y2="85" />
+        {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
+          <line key={deg} x1="50" y1="8" x2="50" y2="18" transform={`rotate(${deg} 50 50)`} />
+        ))}
       </g>
     </svg>
   );
+}
 
-  const HouseIcon = () => (
-    <svg viewBox="0 0 200 200" style={{ width: '140px', height: '140px' }}>
-      {/* House body */}
+function HouseIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 200 200" aria-hidden>
       <rect x="40" y="80" width="120" height="100" fill="#E3F2FD" stroke="#0057B8" strokeWidth="2" />
-      {/* Roof */}
-      <polygon points="40,80 100,20 160,80" fill="#0057B8" stroke="#0057B8" strokeWidth="2" />
-      {/* Door */}
-      <rect x="85" y="120" width="30" height="60" fill="#8B4513" stroke="#654321" strokeWidth="1" />
-      {/* Solar panels on roof */}
-      <rect x="60" y="35" width="15" height="20" fill="#1976D2" stroke="#0057B8" strokeWidth="1" />
-      <rect x="80" y="35" width="15" height="20" fill="#1976D2" stroke="#0057B8" strokeWidth="1" />
-      <rect x="100" y="35" width="15" height="20" fill="#1976D2" stroke="#0057B8" strokeWidth="1" />
-      <rect x="120" y="35" width="15" height="20" fill="#1976D2" stroke="#0057B8" strokeWidth="1" />
-      {/* Sun rays */}
-      <g stroke="#FFC107" strokeWidth="2" strokeLinecap="round" opacity="0.6">
-        <line x1="100" y1="0" x2="100" y2="10" />
-        <line x1="130" y1="10" x2="122" y2="18" />
-        <line x1="140" y1="30" x2="132" y2="32" />
-      </g>
+      <polygon points="40,80 100,20 160,80" fill="#0057B8" />
+      <rect x="85" y="120" width="30" height="60" fill="#8B4513" />
+      {[60, 80, 100, 120].map((x) => (
+        <rect key={x} x={x} y="35" width="15" height="20" fill="#1976D2" stroke="#0057B8" strokeWidth="1" />
+      ))}
     </svg>
   );
+}
 
-  const FarmIcon = () => (
-    <svg viewBox="0 0 200 200" style={{ width: '140px', height: '140px' }}>
-      {/* Sun */}
+function FarmIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 200 200" aria-hidden>
       <circle cx="160" cy="30" r="20" fill="#FFC107" />
-      {/* Solar panels */}
       <rect x="20" y="40" width="50" height="40" fill="#1976D2" stroke="#0057B8" strokeWidth="2" />
-      <line x1="30" y1="40" x2="30" y2="80" stroke="#0057B8" strokeWidth="1" />
-      <line x1="40" y1="40" x2="40" y2="80" stroke="#0057B8" strokeWidth="1" />
-      <line x1="50" y1="40" x2="50" y2="80" stroke="#0057B8" strokeWidth="1" />
-      <line x1="60" y1="40" x2="60" y2="80" stroke="#0057B8" strokeWidth="1" />
-      {/* Pump */}
-      <rect x="85" y="100" width="15" height="30" fill="#666" stroke="#333" strokeWidth="1" />
-      <circle cx="92.5" cy="95" r="8" fill="#999" />
-      {/* Water flow */}
-      <path d="M 92.5 130 Q 100 140 92.5 150" stroke="#0099FF" strokeWidth="3" fill="none" strokeDasharray="5,5" style={{ animation: 'flow 2s linear infinite' }} />
-      {/* Field */}
       <rect x="20" y="150" width="160" height="40" fill="#90EE90" stroke="#228B22" strokeWidth="2" />
-      <line x1="30" y1="150" x2="30" y2="190" stroke="#228B22" strokeWidth="1" opacity="0.5" />
-      <line x1="50" y1="150" x2="50" y2="190" stroke="#228B22" strokeWidth="1" opacity="0.5" />
-      <line x1="70" y1="150" x2="70" y2="190" stroke="#228B22" strokeWidth="1" opacity="0.5" />
-      <line x1="90" y1="150" x2="90" y2="190" stroke="#228B22" strokeWidth="1" opacity="0.5" />
-      <line x1="110" y1="150" x2="110" y2="190" stroke="#228B22" strokeWidth="1" opacity="0.5" />
-      <line x1="130" y1="150" x2="130" y2="190" stroke="#228B22" strokeWidth="1" opacity="0.5" />
-      <line x1="150" y1="150" x2="150" y2="190" stroke="#228B22" strokeWidth="1" opacity="0.5" />
-      <line x1="170" y1="150" x2="170" y2="190" stroke="#228B22" strokeWidth="1" opacity="0.5" />
     </svg>
   );
+}
 
-  const StatCard = ({ value, label }) => (
-    <div style={{
-      backgroundColor: 'rgba(255, 255, 255, 0.15)',
-      padding: '12px 16px',
-      borderRadius: '8px',
-      textAlign: 'center',
-      backdropFilter: 'blur(10px)',
-      border: '1px solid rgba(255, 255, 255, 0.2)',
-      minWidth: '100px'
-    }}>
-      <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#FFC107', marginBottom: '3px' }}>
-        {value}
-      </div>
-      <div style={{ fontSize: '0.7rem', color: 'rgba(255, 255, 255, 0.9)' }}>
-        {label}
-      </div>
-    </div>
+function SolarCells({ active }) {
+  return (
+    <span className={`${styles.solarCells} ${active ? styles.solarCellsActive : ''}`} aria-hidden>
+      {Array.from({ length: 6 }).map((_, i) => (
+        <span key={i} className={styles.solarCell} />
+      ))}
+    </span>
   );
+}
 
-  const panelData = [
-    {
-      badge: "Government Scheme 2024",
-      heading: "PM Suryaghar Muft Bijli Yojana",
-      subheading: "300 Units FREE Electricity Every Month",
-      description: "India's biggest rooftop solar scheme. Get up to ₹78,000 central subsidy + additional Rajasthan state subsidy. AY Solar Energy is your authorized installer in Jaipur & Tonk.",
-      features: [
-        '1 kW → ₹30,000',
-        '2 kW → ₹60,000',
-        '3 kW+ → ₹78,000',
-        '5 kW+ → ₹78,000'
-      ],
-      cta1: {
-        label: 'Apply Now',
-        href: '/pm-suryaghar',
-        color: '#FFC107',
-        textColor: '#333'
-      },
-      cta2: {
-        label: 'Check Eligibility',
-        href: '/contact',
-        color: '#0057B8'
-      },
-      visual: (
-        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
-          <SunIcon />
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '10px',
-            width: '100%',
-            maxWidth: '240px'
-          }}>
-            <StatCard value="₹78,000" label="Max Subsidy" />
-            <StatCard value="300 Units" label="Free per Month" />
-            <StatCard value="1 Crore" label="Homes Targeted" />
-            <StatCard value="25 Years" label="System Life" />
-          </div>
-        </div>
-      ),
-      bgColor: "#003A8C"
-    },
-    {
-      badge: "Most Popular",
-      heading: "Home Rooftop Solar Installation",
-      subheading: "Cut Your Electricity Bill by 90%",
-      description: "Install a 1kW–10kW rooftop solar system on your home in Jaipur, Tonk or nearby Rajasthan district. With 300+ sunny days in Rajasthan, solar pays for itself in 3–4 years.",
-      features: [
-        'MNRE approved panels & inverters',
-        '5-year installation warranty',
-        'Complete subsidy paperwork handled',
-        'Installation in 3–7 working days'
-      ],
-      cta1: {
-        label: 'Get Free Quote',
-        href: '/contact',
-        color: '#0057B8',
-        textColor: '#fff',
-      },
-      visual: (
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <HouseIcon />
-        </div>
-      ),
-      bgColor: "#E3F2FD"
-    },
-    {
-      badge: "For Farmers — किसानों के लिए",
-      heading: "PM Kusum Yojana",
-      subheading: "Solar Pumps for Rajasthan Farmers",
-      description: "Replace diesel pumps with solar water pumps. Up to 90% government subsidy under PM KUSUM scheme. Farmer pays only 10%. Save ₹8,000–₹15,000 every month on irrigation costs.",
-      features: [
-        '90% Subsidy — Government pays',
-        'Zero Diesel — Free solar irrigation',
-        'Extra Income — Sell surplus power',
-        '3HP–10HP — All pump sizes'
-      ],
-      cta1: {
-        label: 'Apply for Solar Pump',
-        href: '/kusum-yojana',
-        color: '#2E7D32',
-        textColor: '#fff'
-      },
-      cta2: {
-        label: 'Available Districts',
-        href: '/contact',
-        color: '#2E7D32'
-      },
-      visual: (
-        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
-          <FarmIcon />
-          <div style={{
-            fontSize: '1.8rem',
-            fontWeight: '700',
-            color: '#fff',
-            textAlign: 'center',
-            textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
-          }}>
-            सौर ऊर्जा से सिंचाई
-          </div>
-          <div style={{
-            fontSize: '0.9rem',
-            color: 'rgba(255,255,255,0.9)',
-            textAlign: 'center'
-          }}>
-            Tonk • Jaipur • Dausa • Bundi • Sawai Madhopur
-          </div>
-        </div>
-      ),
-      bgColor: "#8BC34A"
-    }
-  ];
+const PANEL_DATA = [
+  {
+    id: 'rent',
+    shortTitle: 'Rent A Roof',
+    badge: 'Coming Soon',
+    featured: true,
+    theme: 'rent',
+    heading: 'Rent A Roof',
+    subheading: 'Solar without your own rooftop',
+    description:
+      'Virtual and Group Net Metering in Rajasthan. Use solar credits from another site, list your roof for income, or join early access in Jaipur and Tonk.',
+    features: [
+      'VNM and GNM under new RERC rules',
+      'No panels required on every property',
+      'Early access waitlist open now',
+    ],
+    cta1: { label: 'Join waitlist', href: '/rent-a-roof#waitlist', variant: 'gold' },
+    cta2: { label: 'Explore', href: '/rent-a-roof', variant: 'ghost' },
+    visual: <RoofIcon className={styles.visualSvg} />,
+  },
+  {
+    id: 'suryaghar',
+    shortTitle: 'PM Suryaghar',
+    badge: 'Government scheme',
+    theme: 'suryaghar',
+    heading: 'PM Suryaghar Muft Bijli Yojana',
+    subheading: '300 units FREE electricity every month',
+    description:
+      "India's biggest rooftop solar scheme. Up to Rs 78,000 central subsidy plus Rajasthan state subsidy. Authorized installer in Jaipur and Tonk.",
+    features: ['1 kW - Rs 30,000', '2 kW - Rs 60,000', '3 kW+ - Rs 78,000'],
+    cta1: { label: 'Apply now', href: '/pm-suryaghar', variant: 'gold' },
+    cta2: { label: 'Eligibility', href: '/contact', variant: 'ghost' },
+    visual: <SunIcon className={`${styles.visualSvg} ${styles.visualSpin}`} />,
+    stats: [
+      { value: 'Rs 78k', label: 'Max subsidy' },
+      { value: '300', label: 'Free units/mo' },
+    ],
+  },
+  {
+    id: 'home',
+    shortTitle: 'Home Solar',
+    badge: 'Most popular',
+    theme: 'home',
+    heading: 'Home rooftop solar installation',
+    subheading: 'Cut your electricity bill by up to 90%',
+    description:
+      '1kW to 10kW rooftop systems in Jaipur, Tonk and nearby districts. MNRE-approved hardware and complete subsidy paperwork.',
+    features: [
+      'MNRE approved panels and inverters',
+      '5-year installation warranty',
+      'Install in 3-7 working days',
+    ],
+    cta1: { label: 'Get free quote', href: '/contact', variant: 'primary' },
+    cta2: { label: 'Learn more', href: '/services/residential', variant: 'ghost' },
+    visual: <HouseIcon className={styles.visualSvg} />,
+  },
+  {
+    id: 'kusum',
+    shortTitle: 'PM Kusum',
+    badge: 'For farmers',
+    theme: 'kusum',
+    heading: 'PM Kusum Yojana',
+    subheading: 'Solar pumps for Rajasthan farmers',
+    description:
+      'Replace diesel pumps with solar irrigation. Up to 90% subsidy. Save Rs 8,000 to Rs 15,000 monthly in Tonk, Jaipur and more.',
+    features: ['90% government subsidy', 'Zero diesel costs', '3HP to 10HP pump sizes'],
+    cta1: { label: 'Apply for pump', href: '/services/kusum', variant: 'green' },
+    cta2: { label: 'Districts', href: '/contact', variant: 'ghost' },
+    visual: <FarmIcon className={styles.visualSvg} />,
+  },
+];
 
-  const currentPanel = panelData[activePanel];
+export default function HomeShowcase({ embedded = false }) {
+  const [activePanel, setActivePanel] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const timerRef = useRef(null);
+  const trackRef = useRef(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  useEffect(() => {
+    if (isPaused) return undefined;
+    timerRef.current = setInterval(() => {
+      setActivePanel((p) => (p + 1) % PANEL_COUNT);
+    }, AUTO_MS);
+    return () => clearInterval(timerRef.current);
+  }, [isPaused]);
+
+  useEffect(() => {
+    if (!isMobile || !trackRef.current) return;
+    const child = trackRef.current.children[activePanel];
+    child?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }, [activePanel, isMobile]);
+
+  const goTo = (index) => {
+    setActivePanel(index);
+    clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setActivePanel((p) => (p + 1) % PANEL_COUNT);
+    }, AUTO_MS);
+  };
+
+  const syncScroll = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    const first = el.children[0];
+    if (!first) return;
+    const w = first.getBoundingClientRect().width;
+    const gap = parseFloat(getComputedStyle(el).gap) || 14;
+    const i = Math.round(el.scrollLeft / (w + gap));
+    setActivePanel(Math.min(Math.max(i, 0), PANEL_COUNT - 1));
+  };
+
+  const panel = PANEL_DATA[activePanel];
+
+  const renderPanelBody = (p) => (
+    <>
+      <span className={`${styles.badge} ${p.featured ? styles.badgeFeatured : ''}`}>
+        {p.featured && <span className={styles.badgeIcon} aria-hidden>☀</span>}
+        {p.badge}
+      </span>
+      <h2 className={styles.cardHeading}>{p.heading}</h2>
+      <p className={styles.cardSub}>{p.subheading}</p>
+      <p className={styles.cardDesc}>{p.description}</p>
+      <ul className={styles.featureList}>
+        {p.features.map((f) => (
+          <li key={f} className={styles.featureRow}>
+            <span className={styles.featureSun} aria-hidden>◆</span>
+            {f}
+          </li>
+        ))}
+      </ul>
+      <div className={styles.ctaRow}>
+        <Link href={p.cta1.href} className={`${styles.ctaPrimary} ${styles[`cta_${p.cta1.variant}`]}`}>
+          {p.cta1.label}
+        </Link>
+        <Link href={p.cta2.href} className={`${styles.ctaGhost} ${styles[`ctaGhost_${p.theme}`]}`}>
+          {p.cta2.label}
+        </Link>
+      </div>
+    </>
+  );
 
   return (
-    <>
-      <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes flow {
-          0% { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: -10; }
-        }
-      `}</style>
+    <section
+      className={`${styles.pageWrap} ${embedded ? styles.pageWrapEmbedded : ''}`}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      aria-label="Solar schemes showcase"
+    >
+      <div className={styles.heroDecor} aria-hidden>
+        <span className={styles.heroSun} />
+        <span className={styles.heroRays} />
+      </div>
 
-      <div className={styles.pageWrap}>
-        <p className={styles.eyebrow}>Schemes & services</p>
-        <div className={styles.frame}>
-          <div
-            className={`${styles.carousel} ${isMobile ? styles.carouselMobile : ''}`}
-            style={{
-              minHeight: isMobile ? undefined : 'clamp(380px, 48vh, 560px)',
-            }}
-          >
-            <div
-              className={styles.visualPane}
-              style={{
-                flex: isMobile ? '0 0 220px' : '1',
-                backgroundColor: currentPanel.bgColor,
-                padding: isMobile ? '20px' : '28px 32px',
-                minHeight: isMobile ? '220px' : undefined,
-              }}
-            >
-              <div style={{ transform: isMobile ? 'scale(0.88)' : 'scale(0.78)' }}>
-                {currentPanel.visual}
-              </div>
-            </div>
+      <header className={styles.heroHeader}>
+        <span className={styles.heroBadge}>
+          <span className={styles.heroBadgeDot} />
+          MNRE-channel partner · Rajasthan
+        </span>
+        <h1 className={styles.heroTitle}>
+          Solar panel installation in{' '}
+          <span className={styles.heroAccent}>Jaipur &amp; Tonk</span>
+          <span className={styles.heroByline}>by AY Solar Energy</span>
+        </h1>
+      </header>
 
-            <div
-              className={styles.contentPane}
-              style={{
-                flex: 1,
-                padding: isMobile ? '22px 18px 26px' : '32px 40px',
-              }}
-            >
-              <div className={styles.innerMax}>
-                <div className={styles.badge}>{currentPanel.badge}</div>
+      {!isMobile && (
+        <>
+          <p className={styles.schemeEyebrow}>Schemes &amp; services</p>
+          <div className={styles.schemeTabs} role="tablist" aria-label="Solar schemes">
+            {PANEL_DATA.map((p, i) => (
+              <button
+                key={p.id}
+                type="button"
+                role="tab"
+                aria-selected={activePanel === i}
+                className={`${styles.schemeTab} ${activePanel === i ? styles.schemeTabActive : ''} ${
+                  p.featured ? styles.schemeTabFeatured : ''
+                }`}
+                onClick={() => goTo(i)}
+              >
+                <SolarCells active={activePanel === i} />
+                <span className={styles.schemeTabTitle}>{p.shortTitle}</span>
+                {p.featured && <span className={styles.schemeTabTag}>New</span>}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
 
-                <h2
-                  className={styles.heading}
-                  style={{ fontSize: isMobile ? '1.35rem' : '1.65rem' }}
-                >
-                  {currentPanel.heading}
-                </h2>
+      {isMobile && (
+        <p className={styles.mobileLead}>
+          Swipe or tap a scheme — <strong>{panel.shortTitle}</strong>
+          {panel.featured && <span className={styles.mobileNewTag}>New</span>}
+        </p>
+      )}
 
-                <h3
-                  className={styles.subheading}
-                  style={{ fontSize: isMobile ? '0.92rem' : '1.02rem' }}
-                >
-                  {currentPanel.subheading}
-                </h3>
-
-                <p
-                  className={styles.description}
-                  style={{ fontSize: isMobile ? '0.86rem' : '0.92rem' }}
-                >
-                  {currentPanel.description}
-                </p>
-
-                {currentPanel.features && (
-                  <div style={{ marginBottom: '12px' }}>
-                    {currentPanel.features.map((feature, i) => (
-                      <div key={i} className={styles.featureRow}>
-                        <span className={styles.featureCheck}>✓</span>
-                        <span>{feature}</span>
+      <div
+        className={`${styles.solarFrame} ${panel.featured ? styles.solarFrameFeatured : ''}`}
+        data-theme={panel.theme}
+      >
+        {!isMobile ? (
+          <div key={panel.id} className={`${styles.showcasePanel} ${styles.panelFade}`}>
+            <div className={`${styles.visualPane} ${styles[`visualTheme_${panel.theme}`]}`}>
+              <div className={styles.solarGridBg} aria-hidden />
+              <div className={styles.visualGlow} aria-hidden />
+              <div className={styles.visualInner}>
+                {panel.visual}
+                {panel.stats && (
+                  <div className={styles.statRow}>
+                    {panel.stats.map((s) => (
+                      <div key={s.label} className={styles.statChip}>
+                        <strong>{s.value}</strong>
+                        <span>{s.label}</span>
                       </div>
                     ))}
                   </div>
                 )}
-
-                <div className={styles.ctaRow}>
-                  {currentPanel.cta1 && (
-                    <Link
-                      href={currentPanel.cta1.href}
-                      className={styles.ctaPrimary}
-                      style={{
-                        backgroundColor: currentPanel.cta1.color || '#FFC107',
-                        color: currentPanel.cta1.textColor || '#333',
-                      }}
-                    >
-                      {currentPanel.cta1.label}
-                    </Link>
-                  )}
-                  {currentPanel.cta2 && (
-                    <Link
-                      href={currentPanel.cta2.href}
-                      className={styles.ctaGhost}
-                      style={{
-                        color: currentPanel.cta2.color || '#0057B8',
-                        border: `2px solid ${currentPanel.cta2.color || '#0057B8'}`,
-                      }}
-                    >
-                      {currentPanel.cta2.label}
-                    </Link>
-                  )}
-                </div>
-
-                {currentPanel.cta1.trust && (
-                  <p className={styles.trust}>{currentPanel.cta1.trust}</p>
-                )}
               </div>
             </div>
+            <div className={styles.contentPane}>{renderPanelBody(panel)}</div>
           </div>
-
-          <div className={styles.nav}>
-            {[0, 1, 2].map((i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => handleDotClick(i)}
-                className={`${styles.navDot} ${activePanel === i ? styles.navDotActive : ''}`}
-                style={{
-                  width: activePanel === i ? (isMobile ? 12 : 13) : isMobile ? 9 : 10,
-                  height: activePanel === i ? (isMobile ? 12 : 13) : isMobile ? 9 : 10,
-                  backgroundColor: i === 0 || i === 1 ? '#0369a1' : '#15803d',
-                  opacity: activePanel === i ? 1 : 0.45,
-                }}
-                aria-label={`Go to panel ${i + 1}`}
-              />
+        ) : (
+          <div ref={trackRef} className={styles.mobileTrack} onScroll={syncScroll}>
+            {PANEL_DATA.map((p, i) => (
+              <article
+                key={p.id}
+                className={`${styles.mobileCard} ${activePanel === i ? styles.mobileCardActive : ''} ${
+                  p.featured ? styles.mobileCardFeatured : ''
+                }`}
+                data-theme={p.theme}
+              >
+                <div className={`${styles.visualPane} ${styles.visualPaneMobile} ${styles[`visualTheme_${p.theme}`]}`}>
+                  <div className={styles.solarGridBg} aria-hidden />
+                  <span className={styles.mobileCardLabel}>
+                    {p.shortTitle}
+                    {p.featured && ' · Coming soon'}
+                  </span>
+                  <div className={styles.visualInner}>{p.visual}</div>
+                </div>
+                <div className={styles.contentPane}>{renderPanelBody(p)}</div>
+              </article>
             ))}
           </div>
+        )}
+
+        <div className={styles.frameFooter}>
+          <div className={styles.progressTrack} aria-hidden>
+            <span
+              className={styles.progressFill}
+              style={{ animationDuration: isPaused ? '0s' : `${AUTO_MS}ms` }}
+              key={activePanel}
+            />
+          </div>
+          <nav className={styles.nav} aria-label="Slide navigation">
+            {isMobile ? (
+              <div className={styles.mobileNavPills}>
+                {PANEL_DATA.map((p, i) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => goTo(i)}
+                    className={`${styles.mobileNavPill} ${
+                      activePanel === i ? styles.mobileNavPillActive : ''
+                    } ${p.featured ? styles.mobileNavPillFeatured : ''}`}
+                    aria-current={activePanel === i ? 'true' : undefined}
+                  >
+                    {p.shortTitle}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <>
+                {PANEL_DATA.map((p, i) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => goTo(i)}
+                    className={`${styles.navDot} ${activePanel === i ? styles.navDotActive : ''} ${
+                      p.featured ? styles.navDotFeatured : ''
+                    }`}
+                    data-theme={p.theme}
+                    aria-label={p.shortTitle}
+                    aria-current={activePanel === i ? 'true' : undefined}
+                  />
+                ))}
+                <span className={styles.navCounter}>
+                  {activePanel + 1} / {PANEL_COUNT}
+                </span>
+              </>
+            )}
+          </nav>
         </div>
       </div>
-    </>
+    </section>
   );
 }

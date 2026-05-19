@@ -33,6 +33,32 @@
             overflow: hidden;
         }
 
+        .surya-hero-showcase {
+            min-height: auto;
+            align-items: stretch;
+            justify-content: center;
+            padding: 24px 12px 16px;
+            background: linear-gradient(160deg, #0C4A6E 0%, #0369A1 42%, #0EA5E9 100%);
+            overflow: hidden;
+        }
+
+        .surya-hero-showcase::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+        }
+
+        @media (max-width: 767px) {
+            .surya-hero-showcase {
+                padding: 16px 0 10px;
+            }
+        }
+
         .surya-hero-sun {
             position: absolute;
             right: -60px;
