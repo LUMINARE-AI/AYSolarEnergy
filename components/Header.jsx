@@ -4,6 +4,27 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import styles from '../styles/Header.module.css';
 
+function DigitalSolarIcon() {
+  return (
+    <svg
+      className={styles.digitalSolarIcon}
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.85"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+      <path d="M8 8l-2-2M16 8l2-2M8 16l-2 2M16 16l2 2" opacity="0.35" />
+    </svg>
+  );
+}
+
 function RoofIcon() {
   return (
     <svg
@@ -141,6 +162,11 @@ export default function Header() {
                   Contact
                 </Link>
               </li>
+              <li className={styles.digitalSolarNavOnly}>
+                <Link href="/digital-solar" onClick={closeMenu}>
+                  Digital Solar
+                </Link>
+              </li>
               <li>
                 {loggedIn ? (
                   <button
@@ -164,6 +190,10 @@ export default function Header() {
           </nav>
 
           <div className={styles.headerActions}>
+            <Link href="/digital-solar" className={styles.digitalSolarLink} onClick={closeMenu}>
+              <DigitalSolarIcon />
+              <span>Digital Solar</span>
+            </Link>
             <Link href="/rent-a-roof" className={styles.rentRoofBtn}>
               <RoofIcon />
               <span>Rent A Roof</span>
