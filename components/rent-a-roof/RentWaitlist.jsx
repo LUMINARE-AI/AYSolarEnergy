@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import styles from '@/styles/rentARoof.module.css';
 import { USER_TYPES } from '@/lib/rentARoofContent';
+import { whatsappUrl, WA_RENT_WAITLIST } from '@/lib/whatsapp';
 
 export default function RentWaitlist() {
   const [form, setForm] = useState({
@@ -11,7 +12,6 @@ export default function RentWaitlist() {
     city: '',
     userType: 'homeowner',
   });
-  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
@@ -28,39 +28,20 @@ export default function RentWaitlist() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    const formspreeId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
-    const payload = {
-      name: form.name.trim(),
-      phone: form.phone.trim(),
-      city: form.city.trim(),
-      userType: form.userType,
-      _subject: 'Rent A Roof — Waitlist',
-      message: `Rent A Roof waitlist\nType: ${form.userType}\nCity: ${form.city}`,
-    };
-
-    try {
-      if (formspreeId) {
-        const res = await fetch(`https://formspree.io/f/${formspreeId}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        if (res.ok) {
-          setSubmitted(true);
-          setForm({ name: '', phone: '', city: '', userType: 'homeowner' });
-        }
-      } else {
-        setSubmitted(true);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    const typeLabel = USER_TYPES.find((t) => t.value === form.userType)?.label ?? form.userType;
+    const lines = [
+      WA_RENT_WAITLIST,
+      '',
+      `Name: ${form.name.trim()}`,
+      `Phone: ${form.phone.trim()}`,
+      `City: ${form.city.trim()}`,
+      `I am a: ${typeLabel}`,
+    ];
+    const url = whatsappUrl(lines.join('\n'));
+    window.open(url, '_blank', 'noopener,noreferrer');
+    setSubmitted(true);
   };
 
   return (
@@ -71,18 +52,31 @@ export default function RentWaitlist() {
             <span className={styles.ctaEyebrow}>Contact us</span>
             <h2 id="waitlist-title">Join the waitlist today</h2>
             <p>
-              Whether you want early access as a subscriber or plan to list a
-              roof—we will reach out when Rent A Roof launches in your area.
+              Whether you want early access as a subscriber or plan to list a roof — fill the form and continue on
+              WhatsApp <strong style={{ color: 'var(--rent-gold)' }}>98872 70041</strong>, or message us directly from
+              the app.
             </p>
             <p className={styles.ctaNote}>
-              Give us your details. We respond as soon as we can.
+              Same number for quick questions — we respond as soon as we can.
             </p>
+            <div className={styles.introActions} style={{ marginTop: 16 }}>
+              <a
+                href={whatsappUrl(WA_RENT_WAITLIST)}
+                className={styles.btnGoldOutline}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ borderColor: 'rgba(255,255,255,0.85)', color: '#fff' }}
+              >
+                WhatsApp waitlist
+              </a>
+            </div>
           </div>
 
           <div className={styles.waitlistCard}>
             {submitted ? (
               <p className={styles.formSuccess}>
-                Thank you. We will contact you when Rent A Roof is live.
+                WhatsApp should have opened with your details. If it did not, message us on{' '}
+                <strong>98872 70041</strong>.
               </p>
             ) : (
               <form className={styles.form} onSubmit={handleSubmit}>
@@ -141,11 +135,11 @@ export default function RentWaitlist() {
                     ))}
                   </select>
                 </div>
-                <button type="submit" className={styles.submitBtn} disabled={loading}>
-                  {loading ? 'Sending…' : 'Join early access'}
+                <button type="submit" className={styles.submitBtn}>
+                  Get free consultation on WhatsApp
                 </button>
                 <p className={styles.formNote}>
-                  We only use this to notify you about the launch.
+                  Opens WhatsApp with your details — we only use this to follow up about Rent A Roof.
                 </p>
               </form>
             )}

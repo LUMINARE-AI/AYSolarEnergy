@@ -1,6 +1,6 @@
-import Link from "next/link";
 import styles from "@/styles/rentARoof.module.css";
 import { BUSINESS_MODELS } from "@/lib/rentARoofContent";
+import { whatsappUrl, WA_RENT_WAITLIST } from "@/lib/whatsapp";
 import RentIcon from "./RentIcon";
 import RentSwipeTrack from "./RentSwipeTrack";
 
@@ -39,10 +39,15 @@ export default function RentBusinessModels() {
                 ))}
               </ul>
               <p className={styles.modelAudience}>{model.audience}</p>
-              <Link href="#waitlist" className={styles.linkMore}>
+              <a
+                href={whatsappUrl(WA_RENT_WAITLIST)}
+                className={styles.linkMore}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Join waitlist
                 <span aria-hidden> →</span>
-              </Link>
+              </a>
             </article>
           ))}
         </RentSwipeTrack>

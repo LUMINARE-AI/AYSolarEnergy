@@ -643,6 +643,7 @@
 }
 
 .btnPrimary:hover {
+  color: var(--sp-dark);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 193, 7, 0.45);
 }

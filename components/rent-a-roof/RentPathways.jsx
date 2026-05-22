@@ -29,10 +29,22 @@ export default function RentPathways() {
               </div>
               <h3>{card.title}</h3>
               <p>{card.description}</p>
-              <Link href={card.href} className={styles.linkMore}>
-                Learn more
-                <span aria-hidden> →</span>
-              </Link>
+              {/^https?:\/\//.test(card.href) ? (
+                <a
+                  href={card.href}
+                  className={styles.linkMore}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn more
+                  <span aria-hidden> →</span>
+                </a>
+              ) : (
+                <Link href={card.href} className={styles.linkMore}>
+                  Learn more
+                  <span aria-hidden> →</span>
+                </Link>
+              )}
             </article>
           ))}
         </RentSwipeTrack>

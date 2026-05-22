@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from '@/styles/rentARoof.module.css';
+import { whatsappUrl, WA_DIGITAL_SOLAR_CONSULT } from '@/lib/whatsapp';
 
 const STATS = [
   { value: '3', label: 'Simple steps' },
@@ -29,9 +30,14 @@ export default function DigitalSolarHero() {
               <Link href="#calculator" className={styles.btnPrimary}>
                 Try calculator
               </Link>
-              <Link href="/contact" className={styles.btnOutline}>
+              <a
+                href={whatsappUrl(WA_DIGITAL_SOLAR_CONSULT)}
+                className={styles.btnOutline}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Talk to us
-              </Link>
+              </a>
               <Link href="/rent-a-roof" className={styles.btnGoldOutline}>
                 Rent A Roof
               </Link>
@@ -44,7 +50,9 @@ export default function DigitalSolarHero() {
                 <span className={styles.pillDot} aria-hidden />
                 AY Solar Energy
               </span>
-              <p className={styles.visualTagline}>Planning first — promises only after we see your bill and roof rights.</p>
+              <p className={styles.visualTagline}>
+                Planning first — promises only after we see your bill and roof rights.
+              </p>
               <div className={styles.statsGrid}>
                 {STATS.map((s) => (
                   <div key={s.label} className={styles.statCard}>

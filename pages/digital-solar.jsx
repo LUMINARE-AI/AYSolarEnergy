@@ -6,6 +6,18 @@ import DigitalSolarCalculator from '@/components/digital-solar/DigitalSolarCalcu
 import RentSwipeTrack from '@/components/rent-a-roof/RentSwipeTrack';
 import RentIcon from '@/components/rent-a-roof/RentIcon';
 import r from '@/styles/rentARoof.module.css';
+import { whatsappUrl, WA_DIGITAL_SOLAR_CONSULT } from '@/lib/whatsapp';
+
+function WaOrLink({ href, className, children }) {
+  if (typeof href === 'string' && /^https?:\/\//.test(href)) {
+    return (
+      <a href={href} className={className} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    );
+  }
+  return <Link href={href} className={className}>{children}</Link>;
+}
 
 const STEPS = [
   {
@@ -13,7 +25,9 @@ const STEPS = [
     title: 'Share your bill & roof story',
     description:
       'Upload or describe your consumption, slab, and whether you own the roof, rent, or live in a society — so we can check compatibility with credits, rooftop, or group models.',
-    href: '/contact',
+    href: whatsappUrl(
+      'Hi AY Solar Energy, I want Digital Solar guidance and can share my bill / roof details (Jaipur or Tonk).',
+    ),
     linkText: 'Contact us',
   },
   {
@@ -29,7 +43,7 @@ const STEPS = [
     title: 'Track savings honestly',
     description:
       'After install or enrolment, reconcile expected kWh with credited units on your bill — conservative, transparent reporting.',
-    href: '/contact',
+    href: whatsappUrl(WA_DIGITAL_SOLAR_CONSULT),
     linkText: 'Get consultation',
   },
 ];
@@ -86,14 +100,16 @@ const HIGHLIGHTS = [
     icon: 'subscription',
     title: 'Clear bill math',
     text: 'kWh, slabs, and export rules translated into rupees you can sanity-check — no hype.',
-    href: '/contact',
+    href: whatsappUrl(WA_DIGITAL_SOLAR_CONSULT),
     linkText: 'Talk to us',
   },
   {
     icon: 'resco',
     title: 'Jaipur & Tonk',
     text: 'DISCOM-aware steps for rooftop paperwork and shared allocation where permitted.',
-    href: '/contact',
+    href: whatsappUrl(
+      'Hi AY Solar Energy, I want to book guidance for rooftop / digital solar in Jaipur or Tonk.',
+    ),
     linkText: 'Book guidance',
   },
 ];
@@ -202,10 +218,10 @@ export default function DigitalSolarPage() {
                   </div>
                   <h3>{step.title}</h3>
                   <p>{step.description}</p>
-                  <Link href={step.href} className={r.linkMore}>
+                  <WaOrLink href={step.href} className={r.linkMore}>
                     {step.linkText}
                     <span aria-hidden> →</span>
-                  </Link>
+                  </WaOrLink>
                 </article>
               ))}
             </RentSwipeTrack>
@@ -262,10 +278,10 @@ export default function DigitalSolarPage() {
                   </div>
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
-                  <Link href={item.href} className={r.linkMore}>
+                  <WaOrLink href={item.href} className={r.linkMore}>
                     {item.linkText}
                     <span aria-hidden> →</span>
-                  </Link>
+                  </WaOrLink>
                 </article>
               ))}
             </RentSwipeTrack>
@@ -305,9 +321,14 @@ export default function DigitalSolarPage() {
                 </p>
                 <p className={r.ctaNote}>No obligation — we respond as soon as we can.</p>
                 <div className={r.introActions} style={{ marginTop: 20 }}>
-                  <Link href="/contact" className={r.btnPrimary}>
+                  <a
+                    href={whatsappUrl(WA_DIGITAL_SOLAR_CONSULT)}
+                    className={r.btnPrimary}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Get free consultation
-                  </Link>
+                  </a>
                   <Link href="/rent-a-roof" className={r.btnGoldOutline}>
                     Rent A Roof
                   </Link>

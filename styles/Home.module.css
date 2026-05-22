@@ -379,6 +379,7 @@
 }
 
 .btnGold:hover {
+  color: #1a1a1a;
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(255, 193, 7, 0.5);
 }

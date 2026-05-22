@@ -158,10 +158,19 @@ export default function HomeShowcase({ embedded = false }) {
     return () => clearInterval(timerRef.current);
   }, [isPaused]);
 
+  // Keep carousel in sync without scrollIntoView (that scrolls the whole page to the element).
   useEffect(() => {
     if (!isMobile || !trackRef.current) return;
-    const child = trackRef.current.children[activePanel];
-    child?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    const el = trackRef.current;
+    const child = el.children[activePanel];
+    if (!child) return;
+    const reduce =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollTo({
+      left: child.offsetLeft,
+      behavior: reduce ? 'auto' : 'smooth',
+    });
   }, [activePanel, isMobile]);
 
   const goTo = (index) => {

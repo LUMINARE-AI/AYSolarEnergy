@@ -1,6 +1,6 @@
-import Link from "next/link";
 import styles from "@/styles/rentARoof.module.css";
 import { HERO_STATS } from "@/lib/rentARoofContent";
+import { whatsappUrl, WA_RENT_ROOF, WA_RENT_WAITLIST } from "@/lib/whatsapp";
 
 export default function RentHero() {
   return (
@@ -21,15 +21,22 @@ export default function RentHero() {
               अब कहीं भी solar लगाओ, हर जगह सस्ती बिजली पाओ।
             </p>
             <div className={styles.introActions}>
-              <Link href="#waitlist" className={styles.btnPrimary}>
+              <a
+                href={whatsappUrl(WA_RENT_WAITLIST)}
+                className={styles.btnPrimary}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Join waitlist
-              </Link>
-              <Link
-                href="/rent-a-roof?type=roof#waitlist"
+              </a>
+              <a
+                href={whatsappUrl(WA_RENT_ROOF)}
                 className={styles.btnGoldOutline}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 List your roof
-              </Link>
+              </a>
             </div>
           </div>
 

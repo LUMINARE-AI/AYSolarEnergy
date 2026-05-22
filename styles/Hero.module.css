@@ -79,6 +79,7 @@
 
 .btnPrimary:hover {
   background-color: #ffb300;
+  color: var(--text-dark);
 }
 
 .btnSecondary {
