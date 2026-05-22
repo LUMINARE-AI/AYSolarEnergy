@@ -226,14 +226,13 @@ export default function HomeShowcase({ embedded = false }) {
       </div>
 
       <header className={styles.heroHeader}>
-        <span className={styles.heroBadge}>
+        {/* <span className={styles.heroBadge}>
           <span className={styles.heroBadgeDot} />
           MNRE-channel partner · Rajasthan
-        </span>
+        </span> */}
         <h1 className={styles.heroTitle}>
           Solar panel installation in{' '}
           <span className={styles.heroAccent}>Jaipur &amp; Tonk</span>
-          <span className={styles.heroByline}>by AY Solar Energy</span>
         </h1>
       </header>
 

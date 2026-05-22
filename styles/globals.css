@@ -20,13 +20,29 @@
 
 html {
   scroll-behavior: smooth;
+  /* Slightly larger root so rem-based text reads more comfortably site-wide */
+  font-size: 106.25%;
 }
 
 body {
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1rem;
   color: var(--text-dark);
   background-color: #fff;
   line-height: 1.6;
+}
+
+p {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+/* Inline spans in flowing copy — slight bump without overriding heading/banner spans */
+p span,
+li span,
+td span,
+dd span {
+  font-size: 1.04em;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -150,14 +166,14 @@ button {
 
 .section-title p {
   color: var(--text-light);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
 }
 
 /* Blog post body (Markdown from react-markdown) */
 .blog-post-body {
   line-height: 1.8;
   color: #555;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
 }
 
 .blog-post-body p {
