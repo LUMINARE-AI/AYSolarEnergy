@@ -25,8 +25,8 @@ export default function DigitalSolarCalculator() {
       <div id="calculator" className={`${r.visualCard} ${r.visualCardAccent} ${ds.calcCardWrap}`}>
         <h3 className={ds.calcTitle}>Forecast your bill relief</h3>
         <p className={ds.calcSub}>
-          Sliders below give an <strong>illustrative</strong> range only. Final savings depend on DISCOM rules, project
-          output, contract terms, and which part of your bill (energy vs fixed) can be offset.
+          Illustrative estimate for how reserved Digital Solar capacity could reduce your bill. Final savings depend on
+          project output, tenure, contract, DISCOM rules, and which bill components are credited.
         </p>
 
         <div className={ds.calcField}>
@@ -61,8 +61,7 @@ export default function DigitalSolarCalculator() {
             onChange={(e) => setOffsetPct(Number(e.target.value))}
           />
           <p className={ds.calcHint}>
-            Many shared or credit-style models start with a part of the bill; rooftop on your own site can sometimes
-            offset more where net metering applies.
+            Higher reserved kW usually tracks to a higher share of bill relief — actual mapping is set per project.
           </p>
         </div>
 
@@ -86,13 +85,12 @@ export default function DigitalSolarCalculator() {
         </div>
 
         <p className={ds.calcDisclaimer}>
-          For <strong>planning only</strong> — not financial advice, not a guaranteed return. &quot;Digital&quot; or
-          community-style programmes differ by state and DISCOM; rooftop with net metering is a separate path. AY
-          Solar Energy helps you compare{' '}
+          For <strong>planning only</strong> — not financial advice or a guaranteed return. Digital Solar terms vary by
+          project. AY Solar Energy also offers rooftop (including PM Suryaghar) and{' '}
           <Link href="/rent-a-roof" className={ds.calcInlineLink}>
             Rent A Roof (VNM / GNM)
           </Link>
-          , PM Suryaghar subsidy rooftop, and conventional home solar, then validates figures on your real bill.
+          ; we validate savings against your real bill once a project is matched.
         </p>
       </div>
     </div>

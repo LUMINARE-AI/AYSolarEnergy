@@ -3,9 +3,9 @@ import styles from '@/styles/rentARoof.module.css';
 import { whatsappUrl, WA_DIGITAL_SOLAR_CONSULT } from '@/lib/whatsapp';
 
 const STATS = [
-  { value: '3', label: 'Simple steps' },
-  { value: 'DISCOM', label: 'Bill-led sizing' },
-  { value: 'Jaipur', label: '& Tonk focus' },
+  { value: '10 yr', label: 'Typical tenure' },
+  { value: 'C&I', label: 'Hosted projects' },
+  { value: 'Digital', label: 'Reserve & monitor' },
 ];
 
 export default function DigitalSolarHero() {
@@ -14,17 +14,15 @@ export default function DigitalSolarHero() {
       <div className={styles.wrapWide}>
         <div className={styles.featureHeroGrid}>
           <div>
-            <span className={styles.eyebrow}>Credits &amp; shared solar</span>
+            <span className={styles.eyebrow}>Digital Solar</span>
             <h2 id="ds-feature-title" className={styles.featureTitle}>
-              Digital solar — benefits without always needing your own{' '}
-              <span className={styles.goldText}>rooftop</span>
+              Own solar capacity digitally &amp;{' '}
+              <span className={styles.goldText}>reduce your electricity bills</span>
             </h2>
             <p className={styles.featureLead}>
-              Understand how off-site generation, bill credits, and group or virtual net metering can fit your
-              situation — with numbers you can cross-check against your DISCOM bill.
-            </p>
-            <p className={styles.introHindi}>
-              बिना हमेशा अपनी छत के — बिल और नियमों के हिसाब से साफ़ गणना।
+              Reserve capacity from large commercial &amp; industrial solar projects installed and managed by AY
+              Solar Energy — clean energy from your reserved share becomes bill savings over a fixed tenure, with no
+              rooftop installation at your home.
             </p>
             <div className={styles.introActions}>
               <Link href="#calculator" className={styles.btnPrimary}>
@@ -51,7 +49,7 @@ export default function DigitalSolarHero() {
                 AY Solar Energy
               </span>
               <p className={styles.visualTagline}>
-                Planning first — promises only after we see your bill and roof rights.
+                Inspired by emerging Digital Solar and community solar platforms in India.
               </p>
               <div className={styles.statsGrid}>
                 {STATS.map((s) => (
