@@ -54,8 +54,8 @@ export default function Home() {
 
         <p className={styles.intro}>
           <strong>AY Solar Energy</strong> provides professional solar panel installation in{' '}
-          <strong>Jaipur and Tonk</strong> — rooftop solar, commercial systems, PM Suryaghar subsidy,
-          and our upcoming <strong>Rent A Roof</strong> program.
+          <strong>Jaipur and Tonk</strong> — rooftop solar, <strong>RESCO / OPEX</strong> for businesses, PM Suryaghar
+          subsidy, and our upcoming <strong>Rent A Roof</strong> program.
         </p>
 
         {/* Why Solar */}

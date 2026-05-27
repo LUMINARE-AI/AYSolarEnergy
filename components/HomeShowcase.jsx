@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import styles from '../styles/HomeShowcase.module.css';
 
-const PANEL_COUNT = 4;
+const PANEL_COUNT = 5;
 const AUTO_MS = 5000;
 
 function RoofIcon({ className }) {
@@ -50,6 +50,20 @@ function FarmIcon({ className }) {
       <circle cx="160" cy="30" r="20" fill="#FFC107" />
       <rect x="20" y="40" width="50" height="40" fill="#1976D2" stroke="#0057B8" strokeWidth="2" />
       <rect x="20" y="150" width="160" height="40" fill="#90EE90" stroke="#228B22" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function FactoryIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 200 200" aria-hidden>
+      <rect x="25" y="70" width="150" height="100" rx="4" fill="#1e3a5f" stroke="#0057B8" strokeWidth="2" />
+      <polygon points="25,70 100,35 175,70" fill="#0d2847" stroke="#0057B8" strokeWidth="2" />
+      {[40, 70, 100, 130].map((x) => (
+        <rect key={x} x={x} y="78" width="22" height="14" rx="1" fill="#FFC107" opacity="0.95" />
+      ))}
+      <rect x="70" y="115" width="60" height="45" rx="2" fill="#E3F2FD" stroke="#0057B8" strokeWidth="1.5" />
+      <rect x="88" y="128" width="24" height="32" fill="#5d4037" />
     </svg>
   );
 }
@@ -119,6 +133,28 @@ const PANEL_DATA = [
     cta1: { label: 'Get free quote', href: '/contact', variant: 'primary' },
     cta2: { label: 'Learn more', href: '/services/residential', variant: 'ghost' },
     visual: <HouseIcon className={styles.visualSvg} />,
+  },
+  {
+    id: 'resco',
+    shortTitle: 'C&I RESCO',
+    badge: 'Zero CAPEX',
+    theme: 'resco',
+    heading: 'RESCO solar for commercial & industrial',
+    subheading: 'Go solar with zero upfront investment',
+    description:
+      'AY Solar installs, owns, operates, and maintains the plant at your site; you pay only for solar electricity at a pre-agreed tariff lower than DISCOM — no capital, no O&M burden.',
+    features: [
+      'OPEX / PPA model — widely used for C&I in India',
+      'Lower bills — often 20–40% vs grid, subject to load & tariff',
+      'Long-term PPAs — typically 10–25 years by project',
+    ],
+    cta1: { label: 'Explore RESCO', href: '/services/commercial', variant: 'primary' },
+    cta2: { label: 'Get quote', href: '/contact', variant: 'ghost' },
+    visual: <FactoryIcon className={styles.visualSvg} />,
+    stats: [
+      { value: '0', label: 'Upfront CAPEX' },
+      { value: 'PPA', label: 'Solar power purchase' },
+    ],
   },
   {
     id: 'kusum',
