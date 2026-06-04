@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import HomeShowcase from './HomeShowcase';
+import PremiumSchemeShowcase from './PremiumSchemeShowcase';
 import styles from '../styles/Hero.module.css';
 
 export default function Hero({
@@ -14,7 +14,7 @@ export default function Hero({
   if (homeShowcase && !pageHero) {
     return (
       <div className="surya-hero surya-hero-showcase">
-        <HomeShowcase embedded />
+        <PremiumSchemeShowcase embedded />
       </div>
     );
   }
