@@ -3,6 +3,7 @@ import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import SectionHeader from '@/components/layout/SectionHeader';
 import PageIcon from '@/components/icons/PageIcon';
+import RescoProjects from '@/components/services/RescoProjects';
 import sp from '@/styles/sitePage.module.css';
 
 const RESCO_WHAT = [
@@ -142,6 +143,17 @@ export default function Commercial() {
           day one. The RESCO model is widely adopted in India for businesses looking to reduce energy expenses without
           upfront investment.
         </p>
+
+        <section className={sp.section}>
+          <div className={sp.wrapWide}>
+            <SectionHeader
+              eyebrow="Our projects"
+              title="RESCO projects managed by AY Solar"
+              sub="Admin can add/update projects and all visitors can view the latest project listings."
+            />
+            <RescoProjects />
+          </div>
+        </section>
 
         <section className={sp.section}>
           <div className={sp.wrapWide}>
