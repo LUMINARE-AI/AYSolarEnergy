@@ -25,7 +25,7 @@ export default function DigitalSolarCalculator() {
       <div id="calculator" className={`${r.visualCard} ${r.visualCardAccent} ${ds.calcCardWrap}`}>
         <h3 className={ds.calcTitle}>Forecast your bill relief</h3>
         <p className={ds.calcSub}>
-          Illustrative estimate for how reserved Digital Solar capacity could reduce your bill. Final savings depend on
+          Illustrative estimate for how reserved SolarFi capacity could reduce your bill. Final savings depend on
           project output, tenure, contract, DISCOM rules, and which bill components are credited.
         </p>
 
@@ -85,7 +85,7 @@ export default function DigitalSolarCalculator() {
         </div>
 
         <p className={ds.calcDisclaimer}>
-          For <strong>planning only</strong> — not financial advice or a guaranteed return. Digital Solar terms vary by
+          For <strong>planning only</strong> — not financial advice or a guaranteed return. SolarFi terms vary by
           project. AY Solar Energy also offers rooftop (including PM Suryaghar) and{' '}
           <Link href="/rent-a-roof" className={ds.calcInlineLink}>
             Rent A Roof (VNM / GNM)

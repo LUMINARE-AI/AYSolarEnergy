@@ -59,7 +59,21 @@ const SLIDES = [
     color: '#5d4037',
     theme: 'resco',
   },
+  {
+    id: 'digital-solar',
+    title: 'SolarFi',
+    subtitle: 'Own capacity digitally & reduce bills',
+    description:
+      'Reserve solar capacity from large commercial & industrial projects. Get monthly bill savings and digital monitoring over a 10-year tenure, with no rooftop installation.',
+    image: '/images/DigitalSolar.jpeg',
+    badge: 'No Rooftop Required',
+    cta1: { label: 'Explore Solar', href: '/digital-solar', variant: 'primary' },
+    cta2: { label: 'Talk to Us', href: '/contact', variant: 'secondary' },
+    color: '#e65100',
+    theme: 'digital-solar',
+  },
 ];
+
 
 const contentVariants = {
   enter: { opacity: 0, x: -32 },

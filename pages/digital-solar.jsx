@@ -1,12 +1,14 @@
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import Hero from '@/components/Hero';
-import DigitalSolarHero from '@/components/digital-solar/DigitalSolarHero';
-import DigitalSolarCalculator from '@/components/digital-solar/DigitalSolarCalculator';
+import SolarFiHero from '@/components/digital-solar/DigitalSolarHero';
+import SolarFiCalculator from '@/components/digital-solar/DigitalSolarCalculator';
+import SolarFiProjects from '@/components/digital-solar/DigitalSolarProjects';
 import RentSwipeTrack from '@/components/rent-a-roof/RentSwipeTrack';
 import RentIcon from '@/components/rent-a-roof/RentIcon';
 import r from '@/styles/rentARoof.module.css';
-import { whatsappUrl, WA_DIGITAL_SOLAR_CONSULT } from '@/lib/whatsapp';
+import { whatsappUrl, WA_SOLARFI_CONSULT } from '@/lib/whatsapp';
+
 
 function WaOrLink({ href, className, children }) {
   if (typeof href === 'string' && /^https?:\/\//.test(href)) {
@@ -31,7 +33,7 @@ const HOW_IT_WORKS = [
       'Long-term clean energy benefits',
     ],
     href: whatsappUrl(
-      'Hi AY Solar Energy, I want to know more about your commercial solar projects for Digital Solar.',
+      'Hi AY Solar Energy, I want to know more about your commercial solar projects for SolarFi.',
     ),
     linkText: 'Enquire on WhatsApp',
   },
@@ -47,7 +49,7 @@ const HOW_IT_WORKS = [
       'Start receiving monthly bill savings',
       'No rooftop installation required',
     ],
-    href: whatsappUrl(WA_DIGITAL_SOLAR_CONSULT),
+    href: whatsappUrl(WA_SOLARFI_CONSULT),
     linkText: 'Reserve via WhatsApp',
   },
 ];
@@ -55,9 +57,9 @@ const HOW_IT_WORKS = [
 const TENURE_SAVINGS = [
   {
     icon: 'vnm',
-    title: '10-year Digital Solar tenure',
+    title: '10-year SolarFi tenure',
     text:
-      'Each Digital Solar project comes with a fixed tenure of 10 years. During this tenure, your reserved solar capacity continuously generates clean energy; monthly credits or savings are linked to that generation and can be adjusted against your electricity bills. Many Digital Solar platforms in India commonly operate between 10–15 year project tenures depending on project structure and economics.',
+      'Each SolarFi project comes with a fixed tenure of 10 years. During this tenure, your reserved solar capacity continuously generates clean energy; monthly credits or savings are linked to that generation and can be adjusted against your electricity bills. Many SolarFi platforms in India commonly operate between 10–15 year project tenures depending on project structure and economics.',
   },
   {
     icon: 'subscription',
@@ -74,7 +76,7 @@ const WHO_CAN_USE = [
   },
   {
     title: 'Tenants & rental homes',
-    text: 'Continue using Digital Solar benefits even if you shift locations.',
+    text: 'Continue using SolarFi benefits even if you shift locations.',
   },
   {
     title: 'Small businesses & shops',
@@ -95,7 +97,7 @@ const WHY_CHOOSE = [
   { title: 'Sustainable energy', text: 'Support clean power generation and carbon reduction.' },
   {
     title: 'Project transparency',
-    text: 'Location, installed capacity, expected generation, tenure, estimated savings, and live monitoring — similar to modern Digital Solar listings.',
+    text: 'Location, installed capacity, expected generation, tenure, estimated savings, and live monitoring — similar to modern SolarFi listings.',
   },
 ];
 
@@ -118,7 +120,7 @@ const WHY_MATTERS_BULLETS = [
 
 const FAQ = [
   {
-    q: 'What is Digital Solar at AY Solar Energy?',
+    q: 'What is SolarFi at AY Solar Energy?',
     a: 'A way to reserve capacity from large commercial & industrial solar projects we install and operate. The energy from your share is converted into bill savings or credits over a fixed tenure — without panels on your own roof.',
   },
   {
@@ -127,7 +129,7 @@ const FAQ = [
   },
   {
     q: 'How long is the programme?',
-    a: 'We describe a 10-year Digital Solar tenure for listed projects; actual tenure may vary by project and contract, in line with how many Indian Digital Solar programmes operate in the 10–15 year range.',
+    a: 'We describe a 10-year SolarFi tenure for listed projects; actual tenure may vary by project and contract, in line with how many Indian SolarFi programmes operate in the 10–15 year range.',
   },
   {
     q: 'Can you guarantee the calculator numbers?',
@@ -135,23 +137,23 @@ const FAQ = [
   },
 ];
 
-export default function DigitalSolarPage() {
+export default function SolarFiPage() {
   return (
     <>
       <NextSeo
-        title="Digital Solar — Own capacity digitally & save on bills | AY Solar Energy"
-        description="Reserve solar capacity from AY Solar commercial & industrial projects. Bill savings, 10-year tenure, digital monitoring — no rooftop required. Jaipur, Tonk & Rajasthan."
+        title="SolarFi — Own capacity digitally & save on bills | AY Solar Energy"
+        description="Reserve solar capacity from AY Solar commercial & industrial projects through SolarFi. Bill savings, 10-year tenure, digital monitoring — no rooftop required. Jaipur, Tonk & Rajasthan."
       />
 
       <div className={r.root}>
         <Hero
-          title="Digital Solar"
+          title="SolarFi"
           subtitle="Own Solar Capacity Digitally & Reduce Your Electricity Bills"
           pageHero
           cta={false}
         />
 
-        <DigitalSolarHero />
+        <SolarFiHero />
 
         <section className={r.section} aria-labelledby="ds-overview-title">
           <div className={r.wrapWide}>
@@ -165,17 +167,17 @@ export default function DigitalSolarPage() {
             </div>
             <div style={{ maxWidth: '52rem', margin: '0 auto' }}>
               <p className={r.introText}>
-                With Digital Solar, you can reserve capacity from large commercial & industrial solar projects installed
+                With SolarFi, you can reserve capacity from large commercial & industrial solar projects installed
                 and managed by AY Solar Energy. The clean energy generated from your reserved capacity is converted into
                 electricity bill savings over a fixed tenure.
               </p>
               <p className={r.introText}>
                 We install solar systems on factories, warehouses, schools, hospitals, hotels, and other commercial
-                buildings. Businesses receive cheaper solar power, while users participating in Digital Solar receive
+                buildings. Businesses receive cheaper solar power, while users participating in SolarFi receive
                 monthly energy credits linked to their reserved solar capacity.
               </p>
               <p className={r.introText} style={{ marginBottom: 0 }}>
-                This model is inspired by emerging Digital Solar and community solar platforms in India. For VNM/GNM
+                This model is inspired by emerging SolarFi and community solar platforms in India. For VNM/GNM
                 and rooftop options in Rajasthan, see{' '}
                 <Link href="/rent-a-roof" style={{ fontWeight: 700, color: 'var(--rent-blue)', textDecoration: 'underline' }}>
                   Rent A Roof
@@ -194,7 +196,7 @@ export default function DigitalSolarPage() {
               <p>Commercial hosts benefit; you reserve capacity and receive savings linked to generation.</p>
               <div className={r.titleAccent} aria-hidden />
             </div>
-            <RentSwipeTrack gridClassName={r.pathwayGrid} ariaLabel="How Digital Solar works">
+            <RentSwipeTrack gridClassName={r.pathwayGrid} ariaLabel="How SolarFi works">
               {HOW_IT_WORKS.map((step) => (
                 <article key={step.title} className={r.pathwayCard}>
                   <div className={r.pathwayIcon}>
@@ -245,7 +247,7 @@ export default function DigitalSolarPage() {
           <div className={r.wrapWide}>
             <div className={r.sectionTitle}>
               <span className={r.eyebrow}>Who can use</span>
-              <h2 id="ds-who-title">Who can use Digital Solar?</h2>
+              <h2 id="ds-who-title">Who can use SolarFi?</h2>
               <p>Built for users who cannot or prefer not to install rooftop PV at their premises.</p>
               <div className={r.titleAccent} aria-hidden />
             </div>
@@ -267,7 +269,7 @@ export default function DigitalSolarPage() {
           <div className={r.wrapWide}>
             <div className={r.sectionTitle}>
               <span className={r.eyebrow}>Why AY</span>
-              <h2 id="ds-why-title">Why choose AY Digital Solar?</h2>
+              <h2 id="ds-why-title">Why choose AY SolarFi?</h2>
               <p>End-to-end delivery, transparency, and savings without rooftop installation.</p>
               <div className={r.titleAccent} aria-hidden />
             </div>
@@ -290,7 +292,7 @@ export default function DigitalSolarPage() {
             <div className={r.sectionTitle}>
               <span className={r.eyebrow}>Transparency</span>
               <h2 id="ds-transparency-title">What every listed project includes</h2>
-              <p>Users can explore and reserve available capacity similar to modern Digital Solar platforms.</p>
+              <p>Users can explore and reserve available capacity similar to modern SolarFi platforms.</p>
               <div className={r.titleAccent} aria-hidden />
             </div>
             <article className={r.modelCard} style={{ maxWidth: '640px', margin: '0 auto' }}>
@@ -299,7 +301,7 @@ export default function DigitalSolarPage() {
               </div>
               <h3>Project transparency</h3>
               <p className={r.modelDesc}>
-                Every Digital Solar project listed by AY Solar Energy is presented with the information you need to
+                Every SolarFi project listed by AY Solar Energy is presented with the information you need to
                 decide:
               </p>
               <ul className={r.modelBenefits}>
@@ -307,7 +309,7 @@ export default function DigitalSolarPage() {
                   <li key={line}>{line}</li>
                 ))}
               </ul>
-              <WaOrLink href={whatsappUrl(WA_DIGITAL_SOLAR_CONSULT)} className={r.linkMore}>
+              <WaOrLink href={whatsappUrl(WA_SOLARFI_CONSULT)} className={r.linkMore}>
                 Ask which projects are open
                 <span aria-hidden> →</span>
               </WaOrLink>
@@ -319,12 +321,12 @@ export default function DigitalSolarPage() {
           <div className={r.wrapWide}>
             <div className={r.sectionTitle}>
               <span className={r.eyebrow}>Impact</span>
-              <h2 id="ds-matters-title">Why Digital Solar matters</h2>
-              <p>Millions of people cannot install rooftop solar because of common barriers — Digital Solar helps bridge the gap.</p>
+              <h2 id="ds-matters-title">Why SolarFi matters</h2>
+              <p>Millions of people cannot install rooftop solar because of common barriers — SolarFi helps bridge the gap.</p>
               <div className={r.titleAccent} aria-hidden />
             </div>
             <p className={r.introText} style={{ maxWidth: '48rem', margin: '0 auto 20px', textAlign: 'center' }}>
-              Digital Solar makes clean energy accessible without these barriers by connecting users directly to larger
+              SolarFi makes clean energy accessible without these barriers by connecting users directly to larger
               solar projects remotely.
             </p>
             <ul className={r.modelBenefits} style={{ maxWidth: '480px', margin: '0 auto', listStyle: 'none', padding: 0 }}>
@@ -343,9 +345,11 @@ export default function DigitalSolarPage() {
               <p>Illustrative only — final numbers depend on your project, tenure, and electricity account.</p>
               <div className={r.titleAccent} aria-hidden />
             </div>
-            <DigitalSolarCalculator />
+            <SolarFiCalculator />
           </div>
         </section>
+
+        <SolarFiProjects />
 
         <section className={`${r.section} ${r.sectionMuted}`} aria-labelledby="ds-faq-title">
           <div className={r.wrapWide}>
@@ -373,7 +377,7 @@ export default function DigitalSolarPage() {
             <div className={r.ctaSplit}>
               <div className={r.ctaCopy}>
                 <span className={r.ctaEyebrow}>Start your journey</span>
-                <h2 id="ds-cta-title">Start your Digital Solar journey</h2>
+                <h2 id="ds-cta-title">Start your SolarFi journey</h2>
                 <p>
                   Reserve solar capacity from AY Solar Energy projects and start reducing your electricity bills through
                   clean energy.
@@ -381,7 +385,7 @@ export default function DigitalSolarPage() {
                 <p className={r.ctaNote}>Solar power — without rooftop hassles.</p>
                 <div className={r.introActions} style={{ marginTop: 20 }}>
                   <a
-                    href={whatsappUrl(WA_DIGITAL_SOLAR_CONSULT)}
+                    href={whatsappUrl(WA_SOLARFI_CONSULT)}
                     className={r.btnPrimary}
                     target="_blank"
                     rel="noopener noreferrer"

@@ -1556,3 +1556,77 @@
   }
 
 }
+
+/* —— Add a Roof Form — File Upload Styling —— */
+.fileUploadContainer {
+  position: relative;
+  width: 100%;
+}
+
+.fileInputHidden {
+  display: none;
+}
+
+.fileUploadLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 120px;
+  border: 2px dashed #dde4ec;
+  border-radius: 8px;
+  background: #fafbfc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.fileUploadLabel:hover {
+  border-color: var(--rent-blue);
+  background: #f4f8fd;
+}
+
+.uploadPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.uploadIcon {
+  width: 32px;
+  height: 32px;
+  color: var(--rent-blue);
+}
+
+.previewContainer {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.changeText {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 4px 0;
+}
+

@@ -164,7 +164,7 @@ export default function Header() {
               </li>
               <li className={styles.digitalSolarNavOnly}>
                 <Link href="/digital-solar" onClick={closeMenu}>
-                  Digital Solar
+                  SolarFi
                 </Link>
               </li>
               <li>
@@ -192,7 +192,7 @@ export default function Header() {
           <div className={styles.headerActions}>
             <Link href="/digital-solar" className={styles.digitalSolarLink} onClick={closeMenu}>
               <DigitalSolarIcon />
-              <span>Digital Solar</span>
+              <span>SolarFi</span>
             </Link>
             <Link href="/rent-a-roof" className={styles.rentRoofBtn}>
               <RoofIcon />

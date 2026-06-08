@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { NextSeo } from "next-seo";
 import styles from "@/styles/rentARoof.module.css";
 import Hero from "@/components/Hero";
@@ -7,8 +8,18 @@ import RentBenefits from "@/components/rent-a-roof/RentBenefits";
 import RentPolicyNews from "@/components/rent-a-roof/RentPolicyNews";
 import RentBusinessModels from "@/components/rent-a-roof/RentBusinessModels";
 import RentWaitlist from "@/components/rent-a-roof/RentWaitlist";
+import AddRoofForm from "@/components/rent-a-roof/AddRoofForm";
+import RoofSubmissionsList from "@/components/rent-a-roof/RoofSubmissionsList";
 
 export default function RentARoofPage() {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsAdmin(!!localStorage.getItem("token")?.trim());
+    }
+  }, []);
+
   return (
     <>
       <NextSeo
@@ -23,13 +34,17 @@ export default function RentARoofPage() {
           pageHero
           cta={false}
         />
+        {isAdmin && <RoofSubmissionsList />}
         <RentHero />
         <RentPathways />
         <RentBenefits />
         <RentPolicyNews />
         <RentBusinessModels />
+        <AddRoofForm />
         <RentWaitlist />
       </div>
     </>
   );
 }
+
+

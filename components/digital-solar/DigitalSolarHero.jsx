@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from '@/styles/rentARoof.module.css';
-import { whatsappUrl, WA_DIGITAL_SOLAR_CONSULT } from '@/lib/whatsapp';
+import { whatsappUrl, WA_SOLARFI_CONSULT } from '@/lib/whatsapp';
 
 const STATS = [
   { value: '10 yr', label: 'Typical tenure' },
@@ -14,7 +14,7 @@ export default function DigitalSolarHero() {
       <div className={styles.wrapWide}>
         <div className={styles.featureHeroGrid}>
           <div>
-            <span className={styles.eyebrow}>Digital Solar</span>
+            <span className={styles.eyebrow}>SolarFi</span>
             <h2 id="ds-feature-title" className={styles.featureTitle}>
               Own solar capacity digitally &amp;{' '}
               <span className={styles.goldText}>reduce your electricity bills</span>
@@ -29,7 +29,7 @@ export default function DigitalSolarHero() {
                 Try calculator
               </Link>
               <a
-                href={whatsappUrl(WA_DIGITAL_SOLAR_CONSULT)}
+                href={whatsappUrl(WA_SOLARFI_CONSULT)}
                 className={styles.btnOutline}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -49,7 +49,7 @@ export default function DigitalSolarHero() {
                 AY Solar Energy
               </span>
               <p className={styles.visualTagline}>
-                Inspired by emerging Digital Solar and community solar platforms in India.
+                Inspired by emerging SolarFi and community solar platforms in India.
               </p>
               <div className={styles.statsGrid}>
                 {STATS.map((s) => (
