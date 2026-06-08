@@ -149,7 +149,6 @@ export default function Commercial() {
             <SectionHeader
               eyebrow="Our projects"
               title="RESCO projects managed by AY Solar"
-              sub="Admin can add/update projects and all visitors can view the latest project listings."
             />
             <RescoProjects />
           </div>
